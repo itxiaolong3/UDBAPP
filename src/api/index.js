@@ -172,6 +172,26 @@ class API {
     getchardata = params => {
         return http.post("PublicApi/chardata", params);
     };
+    //获取汽车管家列表
+    getcatlist = params => {
+        return http.post("PublicApi/catlist", params);
+    };
+    //获取房产分类列表
+    gethousetype = params => {
+        return http.post("PublicApi/housetype", params);
+    };
+    //获取房产列表
+    gethouselist = params => {
+        return http.post("PublicApi/houselist", params);
+    };
+    //汽车/房产详细
+    gethousedetail = params => {
+        return http.post("PublicApi/housedetail", params);
+    };
+    //提交申请
+    postaskinfo = params => {
+        return http.post("MyApi/postaskinfo", params);
+    };
 }
 
 export default new API();

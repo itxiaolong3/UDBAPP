@@ -14,6 +14,7 @@
   },
   "dependencies": {
     "axios": "^0.18.0",
+    "better-scroll": "^1.15.2",
     "echarts": "^4.2.1",
     "element-ui": "^2.5.3",
     "vant": "^1.5.1",
