@@ -52,7 +52,7 @@ export default {
   },
   methods: {
     chooseName() {
-      this.$router.push({ path: "/chooseName" });
+      this.$router.push({ path: "/chooseName",name:'chooseName',params:{nickname:this.myInfo.username}});
 
     },
     init() {

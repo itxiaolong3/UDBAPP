@@ -48,6 +48,7 @@ export default {
   mounted() {
     document.title = "设置";
     this.init();
+    this.content=this.$route.params.nickname;
   }
 };
 </script>

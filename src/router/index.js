@@ -63,9 +63,13 @@ import share from '@/pages/share' //分享
 import task from '@/pages/task' //反馈 taskDetail
 import taskDetail from '@/pages/taskDetail' //反馈 taskDetail
 import old from '@/pages/old' //反馈 taskDetail
+import morecatlist from '@/pages/morecatlist' //汽车列表
+import houselist from '@/pages/houselist' //民宿列表
+import gooddetail from '@/pages/gooddetail' //详细信息
+import shenqing from '@/pages/shenqing' //提交申请
 Vue.use(Router)
 
-export default new Router({
+const router =new Router({
   
   routes: [{
       path: '/',
@@ -170,7 +174,10 @@ export default new Router({
     {
       path: '/shopCenter',
       name: 'shopCenter',
-      component: shopCenter
+      component: shopCenter,
+        meta:{
+        keepAlive:true
+        }
     },
     {
       path: '/my',
@@ -388,8 +395,31 @@ export default new Router({
       path: '/old',
       name: 'old',
       component: old
-    }
-  ]
-  
+    },
+    {
+      path: '/morecatlist',
+      name: 'morecatlist',
+      component: morecatlist
+    },
+    {
+      path: '/houselist',
+      name: 'houselist',
+      component: houselist,
+        // meta:{
+        // keepAlive:true
+        // }
+    },
+      {
+          path: '/gooddetail',
+          name: 'gooddetail',
+          component: gooddetail
+      }
+      ,
+      {
+          path: '/shenqing',
+          name: 'shenqing',
+          component: shenqing
+      }
+  ],
 })
-
+export default router

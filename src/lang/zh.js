@@ -210,7 +210,10 @@ module.exports = {
       futou:'复投',
       topup:'充值',
       old:'旧数据',
-      shopcenter:'购物中心'
+      shopcenter:'购物中心',
+      morecatlist:'汽车管家',
+      houselist:'民宿',
+      detail:'详细',
     },
     udb:{
         list: [
@@ -349,5 +352,35 @@ module.exports = {
       tipiispass:'已通过',
       tipisrefuse:'已拒绝，请重新提交',
 
+    },
+    morecatlist:{
+      golook:'去看看',
+      looknum:'浏览量',
+      nodata:'暂无数据',
+    },
+    gooddetail:{
+      topost:'立即申请',
+      catinfo:'车辆信息',
+      suiprice:'新车含税价',
+      canprice:'参考价',
+      fdj:'发动机',
+      bsx:'变速箱',
+      yh:'油耗',
+      tj:'长*宽*高',
+      csjg:'车身结构',
+      fqinfo:'分期信息',
+      nobao:'不包含过户费',
+      price:'售价',
+      house_type:'房型',
+      area:'建筑面积',
+      houseinfo:'房子信息',
+      oneprice:'单价',
+        toward:'朝向',
+        floor:'楼层',
+        elevator:'电梯',
+        howold:'产权年限',
+        useto:'用途',
+        inwhere:'小区',
+        decorate:'装修',
     }
 }

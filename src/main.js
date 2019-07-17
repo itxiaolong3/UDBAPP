@@ -176,6 +176,23 @@ router.beforeEach((to, from, next) => {
     console.log('已登陆');
     
     next()
+      // const toDepth = to.path.substring(to.path.length - 2, to.path.length)
+      // const fromDepth = from.path.substring(from.path.length - 2, from.path.length)
+      // console.log(to.path,'to的路径')
+      // console.log(from.path,'from的路径')
+      // if (from.path !== '/' && toDepth < fromDepth) {
+      //     // 有tab界面时需要添加此判断 from的KeepAlive不需要置为false
+      //     if (to.path=='/gooddetail') {
+      //         from.meta.KeepAlive = true
+      //         console.log(from.path,'from的路径1')
+      //         console.log(from.meta.KeepAlive,'to的状态')
+      //     }else{
+      //         to.meta.KeepAlive = false
+      //         console.log(to.meta.KeepAlive,'to的状态2')
+      //     }
+      //
+      // }
+      // next()
   } 
 
     // else if(to.name == 'register') {
@@ -193,5 +210,5 @@ router.beforeEach((to, from, next) => {
     next({ name : 'login'})
     return
   }
-  // next()
+
 })

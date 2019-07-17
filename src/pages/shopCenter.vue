@@ -3,7 +3,7 @@
     <div class="select-person">
       <div class="toptitle">
         <span class="select-h1">汽车管家</span>
-        <span>更多</span>
+        <span @click="tomore()">更多</span>
       </div>
 
       <div class="person-wrap" ref="personWrap" style="touch-action: none;">
@@ -71,8 +71,12 @@
             this.gethousetype(0);
         },
         methods: {
+            tomore(){
+                this.$router.push({ path: "/morecatlist"});
+            },
             go(id) {
                 console.log(id,'点击得到')
+                this.$router.push({ path: "/gooddetail",name:'gooddetail',params:{id:id,type:0,showtype:0}});
             },
             check(code){
                 this.ischeck = code;
@@ -128,6 +132,7 @@
             },
             gethouselist(id){
                 console.log(id,'得到ID')
+                this.$router.push({ path: "/houselist",name:'houselist',params:{cid:id}});
             }
         },
         mounted() {
@@ -218,7 +223,7 @@
     .main{
       margin-top: 0.31rem;
       .main_name{
-        position: absolute; top: 80%; left: 33%;
+        position: absolute; top: 80%; left: 40%;
         color: white;
       }
       .main_item{

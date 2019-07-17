@@ -191,6 +191,9 @@ module.exports = {
         topup:'top-up',
         old:'old data',
         shopcenter:'shop center',
+        morecatlist:'Running Cars',
+        houselist:'house',
+        detail:'详细',
     },
     exchange:{
         list: [
@@ -342,5 +345,35 @@ module.exports = {
       tipisrefuse:'NO,please commint again',
       checkphone:'The cell phone number is illegal',
 
+    },
+    morecatlist:{
+        golook:'Go',
+        looknum:'page view',
+        nodata:'No data',
+    },
+    gooddetail:{
+        topost:'Apply Now',
+        catinfo:'cat info',
+        suiprice:'Tax price',
+        canprice:'Reference price',
+        fdj:'engine',
+        bsx:'transmission',
+        yh:'Fuel consumption',
+        tj:'volume',
+        csjg:'Body structure',
+        fqinfo:'Staging information',
+        nobao:'Transfer fee is not included',
+        price:'price',
+        house_type:'house_type',
+        area:'Construction area of',
+        houseinfo:'houseinfo',
+        oneprice:'oneprice',
+        toward:'toward',
+        floor:'floor',
+        elevator:'elevator',
+        howold:'term',
+        useto:'use',
+        inwhere:'area',
+        decorate:'decorate',
     }
 }
