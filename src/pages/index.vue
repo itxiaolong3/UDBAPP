@@ -152,7 +152,7 @@ export default {
       } else if(index == 3) {
         this.$router.push({ path: "/chongzhiNote" });
       } else if(index == 4 ) {
-        this.$router.push({ path: "/house" });
+        this.$router.push({ path: "/shopcenter" });
 
       } else if(index == 5) {
          this.$router.push({ path: "/share" });

@@ -2,8 +2,8 @@
   <div class="content">
     <div class="select-person">
       <div class="toptitle">
-        <span class="select-h1">汽车管家</span>
-        <span @click="tomore()">更多</span>
+        <span class="select-h1">{{$t('shopcenter.cathome')}}</span>
+        <span @click="tomore()">{{$t('shopcenter.more')}}</span>
       </div>
 
       <div class="person-wrap" ref="personWrap" style="touch-action: none;">
@@ -23,11 +23,11 @@
         </ul>
       </div>
       <div class="title2">
-        <span>房产资讯</span>
+        <span>{{$t('shopcenter.houseask')}}</span>
       </div>
       <div>
-        <span class="topone" :class="{ischeck:ischeck==0}" @click="check(0)">国内房产</span>
-        <span class="toptwo" :class="{ischeck:ischeck==1}" @click="check(1)">国外房产</span>
+        <span class="topone" :class="{ischeck:ischeck==0}" @click="check(0)">{{$t('shopcenter.inhouse')}}</span>
+        <span class="toptwo" :class="{ischeck:ischeck==1}" @click="check(1)">{{$t('shopcenter.outhouse')}}</span>
       </div>
       <div class="main">
         <ul>

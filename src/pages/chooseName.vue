@@ -1,10 +1,10 @@
 <template>
   <div class="login">
     <div class="content">
-      <input type="text" placeholder="请输入新昵称" v-model="content">
+      <input type="text" :placeholder="$t('reg.tip1')" v-model="content">
       <img src="@/assets/image/delName.png" alt v-if="content!=''" @click="del">
     </div>
-    <div class="btn df" @click="btn" :class="[kong == true && 'active']">确认</div>
+    <div class="btn df" @click="btn" :class="[kong == true && 'active']">{{$t('task.task')}}</div>
   </div>
 </template>
 <script>

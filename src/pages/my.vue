@@ -86,20 +86,38 @@
     <div class="contents">
       <div
         class="item"
-        @click='cart'
+        @click='zxlist'
       >
         <div class="itemContent">
           <div class="lt">
             <img
-              src="@/assets/image/qianbao.png"
+              src="@/assets/image/sqicon.png"
               alt=""
             >
-            <span> {{$t('my.txaddress')}}</span>
+            <span> {{$t('my.zxlist')}}</span>
           </div>
           <div class="rt"><img
               src="@/assets/image/jiantou.png"
               alt=""
             ></div>
+        </div>
+      </div>
+      <div
+              class="item"
+              @click='cart'
+      >
+        <div class="itemContent">
+          <div class="lt">
+            <img
+                    src="@/assets/image/qianbao.png"
+                    alt=""
+            >
+            <span> {{$t('my.txaddress')}}</span>
+          </div>
+          <div class="rt"><img
+                  src="@/assets/image/jiantou.png"
+                  alt=""
+          ></div>
         </div>
       </div>
       <div
@@ -270,6 +288,9 @@ export default {
     tixian() {
       this.$router.push({ path: "/tixiannote" });
     },
+      zxlist() {
+          this.$router.push({ path: "/zxlist" });
+      },
     cart() {
       console.log(1);
 
@@ -303,7 +324,7 @@ export default {
     }
   },
   mounted() {
-    document.title = "个人中心";
+      document.title = this.$t('alltitle.Person');
     this.http = localStorage.getItem("http");
     this.init();
     // this.$api.myInfo({

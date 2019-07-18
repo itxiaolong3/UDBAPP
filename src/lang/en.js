@@ -194,6 +194,8 @@ module.exports = {
         morecatlist:'Running Cars',
         houselist:'house',
         detail:'详细',
+        Person:'Person',
+        Record:'Record',
     },
     exchange:{
         list: [
@@ -267,13 +269,14 @@ module.exports = {
         upload:'Upload vouchers'
     },
     my:{
+        zxlist:'ask record',
         txaddress:'Withdrawal address',
         paypsw:'pay password',
         txmanagement:'Withdrawal management',
         topupupload:'top-up upload',
         myteam:'my team',
         setting:'setting',
-      task:'Feedback',
+        task:'Feedback',
         old:'Submitting old data'
     },
     cartAddress:{
@@ -351,6 +354,13 @@ module.exports = {
         looknum:'page view',
         nodata:'No data',
     },
+    shopcenter:{
+        more:'more',
+        cathome:'Running Cars',
+        houseask:'Real estate information',
+        inhouse:'Domestic house property',
+        outhouse:'Foreign house',
+    },
     gooddetail:{
         topost:'Apply Now',
         catinfo:'cat info',
@@ -375,5 +385,33 @@ module.exports = {
         useto:'use',
         inwhere:'area',
         decorate:'decorate',
+    },
+    shenqing:{
+        baseinfo:'baseinfo',
+        tip:'Make sure the picture is not obscured',
+        name:'name',
+        tipname:'real name',
+        phone:'phone',
+        tipphone:'Have real name',
+        need:'need',
+        tipneed:'Required vehicle type',
+        tipsfz:'ID card',
+        tipsfztrue:'the front of ID card',
+        tipsfzfalse:'Reverse of id card',
+        tipjsz:'driving licenc',
+        tipjsztrue:'the front of driving licenc',
+        tipjszfalse:'Reverse of driving licen',
+        tipyhk:'bank card',
+        tipyhktrue:'the front of bank card',
+        tipyhkfalse:'Reverse of bank card',
+        tippassport:'passport/id card',
+        tiphz:'Hold identification card or passport',
+        tipssfzorhz:'Holding a certificate',
+        post:'post',
+    },
+    postcg:{
+        title:'result',
+        tip:'Congratulations on your successful submission. The staff will attend the meeting within 2 working days. Please keep your mobile phone open畅',
+        bt:'Ok',
     }
 }

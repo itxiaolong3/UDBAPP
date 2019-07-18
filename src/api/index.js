@@ -192,6 +192,10 @@ class API {
     postaskinfo = params => {
         return http.post("MyApi/postaskinfo", params);
     };
+    //提交申请记录
+    zxrecordlist = params => {
+        return http.post("MyApi/zxrecordlist", params);
+    };
 }
 
 export default new API();

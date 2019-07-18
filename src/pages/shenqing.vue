@@ -1,157 +1,245 @@
 <template>
   <div class="login">
-    <div class="title">基本信息</div>
+    <div class="title">{{$t('shenqing.baseinfo')}}</div>
     <div class="item">
-      <div class="left">姓名</div>
+      <div class="left">{{$t('shenqing.name')}}</div>
       <div class="right">
-        <input type="text" placeholder="您的真实姓名" v-model="username">
+        <input type="text" :placeholder="$t('shenqing.tipname')" v-model="username">
       </div>
     </div>
     <div class="item">
-      <div class="left">手机号</div>
+      <div class="left">{{$t('shenqing.phone')}}</div>
       <div class="right">
-        <input type="text" placeholder="实名认证半年以上" v-model="phone">
+        <input type="text" :placeholder="$t('shenqing.tipphone')" v-model="phone">
       </div>
     </div>
-    <div class="item">
-      <div class="left">车型需求</div>
+    <div class="item" v-if="posttype==0">
+      <div class="left">{{$t('shenqing.need')}}</div>
       <div class="right">
-        <input type="text" placeholder="请输入您的需要的车型" v-model="catneed">
+        <input type="text" :placeholder="$t('shenqing.tipneed')" v-model="catneed">
       </div>
     </div>
 
     <div class="duihuan">
-      <div class="tipitem">
-        <div>
-          <span class="item_style">1</span>
-          <span class="left">上传身份证</span>
-        </div>
-        <div class="item_rig">
-          <span class="item_img"><img src="@/assets/image/tishi.png"></span>
-          <span class="item_tip">保证图片不被遮挡、高清上传</span>
-        </div>
-      </div>
-      <div class="uploadarea">
-      <div class="contentAdd">
-        <div class="imgUrl" v-if="imgUrl.length!=0">
-          <div class="imgs df">
-            <div class="del">
-              <img src="@/assets/image/close.png" class="close" alt @click="del(index)">
-            </div>
-            <img :src="item" v-for="(item,index) in imgUrl" :key="index" alt>
-          </div>
-        </div>
-        <div class="add" v-if="imgUrl.length<1">
-          <input type="file" accept="image/*" ref="avatarInput" @change="changeImage($event)">
-          <img src="@/assets/image/upimg.png" alt>
-          <span>{{$t('topup.upload')}}</span>
-        </div>
-      </div>
-      <div class="contentAdd">
-        <div class="imgUrl" v-if="imgUrl.length!=0">
-          <div class="imgs df">
-            <div class="del">
-              <img src="@/assets/image/close.png" class="close" alt @click="del(index)">
-            </div>
-            <img :src="item" v-for="(item,index) in imgUrl" :key="index" alt>
-          </div>
-        </div>
-        <div class="add" v-if="imgUrl.length<1">
-          <input type="file" accept="image/*" ref="avatarInput" @change="changeImage($event)">
-          <img src="@/assets/image/upimg.png" alt>
-          <span>{{$t('topup.upload')}}</span>
-        </div>
-      </div>
-      </div>
 
-      <div class="tipitem">
+      <div class="tipitem" v-if="posttype==0">
         <div>
           <span class="item_style">1</span>
-          <span class="left">上传身份证</span>
+          <span class="left">{{$t('shenqing.tipsfz')}}</span>
         </div>
         <div class="item_rig">
           <span class="item_img"><img src="@/assets/image/tishi.png"></span>
-          <span class="item_tip">保证图片不被遮挡、高清上传</span>
+          <span class="item_tip">{{$t('shenqing.tip')}}</span>
         </div>
       </div>
-      <div class="uploadarea">
-        <div class="contentAdd">
-          <div class="imgUrl" v-if="imgUrl.length!=0">
-            <div class="imgs df">
-              <div class="del">
-                <img src="@/assets/image/close.png" class="close" alt @click="del(index)">
-              </div>
-              <img :src="item" v-for="(item,index) in imgUrl" :key="index" alt>
+      <div class="uploadarea" v-if="posttype==0">
+      <div class="contentAdd">
+        <div class="imgUrl" v-if="allimg[0].length!=0">
+          <div class="imgs df">
+            <div class="del">
+              <img src="@/assets/image/close.png" class="close" alt @click="del(index,0)">
             </div>
-          </div>
-          <div class="add" v-if="imgUrl.length<1">
-            <input type="file" accept="image/*" ref="avatarInput" @change="changeImage($event)">
-            <img src="@/assets/image/upimg.png" alt>
-            <span>{{$t('topup.upload')}}</span>
+            <img :src="item" v-for="(item,index) in allimg[0]" :key="index" alt>
           </div>
         </div>
-        <div class="contentAdd">
-          <div class="imgUrl" v-if="imgUrl.length!=0">
-            <div class="imgs df">
-              <div class="del">
-                <img src="@/assets/image/close.png" class="close" alt @click="del(index)">
-              </div>
-              <img :src="item" v-for="(item,index) in imgUrl" :key="index" alt>
-            </div>
-          </div>
-          <div class="add" v-if="imgUrl.length<1">
-            <input type="file" accept="image/*" ref="avatarInput" @change="changeImage($event)">
-            <img src="@/assets/image/upimg.png" alt>
-            <span>{{$t('topup.upload')}}</span>
-          </div>
+        <div class="add" v-if="allimg[0].length<1">
+          <input type="file" accept="image/*" ref="avatarInput" @change="changeImage($event,0)">
+          <img src="@/assets/image/upimg.png" alt>
+          <span>{{$t('shenqing.tipsfztrue')}}</span>
         </div>
       </div>
 
-      <div class="tipitem">
+      <div class="contentAdd">
+        <div class="imgUrl" v-if="allimg[1].length!=0">
+          <div class="imgs df">
+            <div class="del">
+              <img src="@/assets/image/close.png" class="close" alt @click="del(index,1)">
+            </div>
+            <img :src="item" v-for="(item,index) in allimg[1]" :key="index" alt>
+          </div>
+        </div>
+        <div class="add" v-if="allimg[1].length<1">
+          <input type="file" accept="image/*" ref="avatarInput" @change="changeImage($event,1)">
+          <img src="@/assets/image/upimg.png" alt>
+          <span>{{$t('shenqing.tipsfzfalse')}}</span>
+        </div>
+      </div>
+      </div>
+      <div class="tipitem" v-if="posttype==1">
         <div>
           <span class="item_style">1</span>
-          <span class="left">上传身份证</span>
+          <span class="left">{{$t('shenqing.tippassport')}}</span>
         </div>
         <div class="item_rig">
           <span class="item_img"><img src="@/assets/image/tishi.png"></span>
-          <span class="item_tip">保证图片不被遮挡、高清上传</span>
+          <span class="item_tip">{{$t('shenqing.tip')}}</span>
         </div>
       </div>
-      <div class="uploadarea">
+      <div class="uploadarea" v-if="posttype==1">
         <div class="contentAdd">
-          <div class="imgUrl" v-if="imgUrl.length!=0">
+          <div class="imgUrl" v-if="allimg[0].length!=0">
             <div class="imgs df">
               <div class="del">
-                <img src="@/assets/image/close.png" class="close" alt @click="del(index)">
+                <img src="@/assets/image/close.png" class="close" alt @click="del(index,0)">
               </div>
-              <img :src="item" v-for="(item,index) in imgUrl" :key="index" alt>
+              <img :src="item" v-for="(item,index) in allimg[0]" :key="index" alt>
             </div>
           </div>
-          <div class="add" v-if="imgUrl.length<1">
-            <input type="file" accept="image/*" ref="avatarInput" @change="changeImage($event)">
+          <div class="add" v-if="allimg[0].length<1">
+            <input type="file" accept="image/*" ref="avatarInput" @change="changeImage($event,0)">
             <img src="@/assets/image/upimg.png" alt>
-            <span>{{$t('topup.upload')}}</span>
+            <span>{{$t('shenqing.tippassport')}}</span>
           </div>
         </div>
+
         <div class="contentAdd">
-          <div class="imgUrl" v-if="imgUrl.length!=0">
+          <div class="imgUrl" v-if="allimg[1].length!=0">
             <div class="imgs df">
               <div class="del">
-                <img src="@/assets/image/close.png" class="close" alt @click="del(index)">
+                <img src="@/assets/image/close.png" class="close" alt @click="del(index,1)">
               </div>
-              <img :src="item" v-for="(item,index) in imgUrl" :key="index" alt>
+              <img :src="item" v-for="(item,index) in allimg[1]" :key="index" alt>
             </div>
           </div>
-          <div class="add" v-if="imgUrl.length<1">
-            <input type="file" accept="image/*" ref="avatarInput" @change="changeImage($event)">
+          <div class="add" v-if="allimg[1].length<1">
+            <input type="file" accept="image/*" ref="avatarInput" @change="changeImage($event,1)">
             <img src="@/assets/image/upimg.png" alt>
-            <span>{{$t('topup.upload')}}</span>
+            <span>{{$t('shenqing.tippassport')}}</span>
           </div>
         </div>
       </div>
-      
+
+      <div class="tipitem" v-if="posttype==0">
+        <div>
+          <span class="item_style">1</span>
+          <span class="left">{{$t('shenqing.tipjsz')}}</span>
+        </div>
+        <div class="item_rig">
+          <span class="item_img"><img src="@/assets/image/tishi.png"></span>
+          <span class="item_tip">{{$t('shenqing.tip')}}</span>
+        </div>
+      </div>
+      <div class="uploadarea" v-if="posttype==0">
+        <div class="contentAdd">
+          <div class="imgUrl" v-if="allimg[2].length!=0">
+            <div class="imgs df">
+              <div class="del">
+                <img src="@/assets/image/close.png" class="close" alt @click="del(index,2)">
+              </div>
+              <img :src="item" v-for="(item,index) in allimg[2]" :key="index" alt>
+            </div>
+          </div>
+          <div class="add" v-if="allimg[2].length<1">
+            <input type="file" accept="image/*" ref="avatarInput" @change="changeImage($event,2)">
+            <img src="@/assets/image/upimg.png" alt>
+            <span>{{$t('shenqing.tipjsztrue')}}</span>
+          </div>
+        </div>
+        <div class="contentAdd">
+          <div class="imgUrl" v-if="allimg[3].length!=0">
+            <div class="imgs df">
+              <div class="del">
+                <img src="@/assets/image/close.png" class="close" alt @click="del(index,3)">
+              </div>
+              <img :src="item" v-for="(item,index) in allimg[3]" :key="index" alt>
+            </div>
+          </div>
+          <div class="add" v-if="allimg[3].length<1">
+            <input type="file" accept="image/*" ref="avatarInput" @change="changeImage($event,3)">
+            <img src="@/assets/image/upimg.png" alt>
+            <span>{{$t('shenqing.tipjszfalse')}}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="tipitem" v-if="posttype==0">
+        <div>
+          <span class="item_style">1</span>
+          <span class="left">{{$t('shenqing.tipyhk')}}</span>
+        </div>
+        <div class="item_rig">
+          <span class="item_img"><img src="@/assets/image/tishi.png"></span>
+          <span class="item_tip">{{$t('shenqing.tip')}}</span>
+        </div>
+      </div>
+      <div class="uploadarea" v-if="posttype==0">
+        <div class="contentAdd">
+          <div class="imgUrl" v-if="allimg[4].length!=0">
+            <div class="imgs df">
+              <div class="del">
+                <img src="@/assets/image/close.png" class="close" alt @click="del(index,4)">
+              </div>
+              <img :src="item" v-for="(item,index) in allimg[4]" :key="index" alt>
+            </div>
+          </div>
+          <div class="add" v-if="allimg[4].length<1">
+            <input type="file" accept="image/*" ref="avatarInput" @change="changeImage($event,4)">
+            <img src="@/assets/image/upimg.png" alt>
+            <span>{{$t('shenqing.tipyhktrue')}}</span>
+          </div>
+        </div>
+        <div class="contentAdd">
+          <div class="imgUrl" v-if="allimg[5].length!=0">
+            <div class="imgs df">
+              <div class="del">
+                <img src="@/assets/image/close.png" class="close" alt @click="del(index,5)">
+              </div>
+              <img :src="item" v-for="(item,index) in allimg[5]" :key="index" alt>
+            </div>
+          </div>
+          <div class="add" v-if="allimg[5].length<1">
+            <input type="file" accept="image/*" ref="avatarInput" @change="changeImage($event,5)">
+            <img src="@/assets/image/upimg.png" alt>
+            <span>{{$t('shenqing.tipyhkfalse')}}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="tipitem" v-if="posttype==1">
+        <div>
+          <span class="item_style">1</span>
+          <span class="left">{{$t('shenqing.tipssfzorhz')}}</span>
+        </div>
+        <div class="item_rig">
+          <span class="item_img"><img src="@/assets/image/tishi.png"></span>
+          <span class="item_tip">{{$t('shenqing.tip')}}</span>
+        </div>
+      </div>
+      <div class="uploadarea" v-if="posttype==1">
+        <div class="contentAdd">
+          <div class="imgUrl" v-if="allimg[6].length!=0">
+            <div class="imgs df">
+              <div class="del">
+                <img src="@/assets/image/close.png" class="close" alt @click="del(index,6)">
+              </div>
+              <img :src="item" v-for="(item,index) in allimg[6]" :key="index" alt>
+            </div>
+          </div>
+          <div class="add" v-if="allimg[6].length<1">
+            <input type="file" accept="image/*" ref="avatarInput" @change="changeImage($event,6)">
+            <img src="@/assets/image/upimg.png" alt>
+            <span>{{$t('shenqing.tiphz')}}</span>
+          </div>
+        </div>
+        <div class="contentAdd">
+          <div class="imgUrl" v-if="allimg[7].length!=0">
+            <div class="imgs df">
+              <div class="del">
+                <img src="@/assets/image/close.png" class="close" alt @click="del(index,7)">
+              </div>
+              <img :src="item" v-for="(item,index) in allimg[7]" :key="index" alt>
+            </div>
+          </div>
+          <div class="add" v-if="allimg[7].length<1">
+            <input type="file" accept="image/*" ref="avatarInput" @change="changeImage($event,7)">
+            <img src="@/assets/image/upimg.png" alt>
+            <span>{{$t('shenqing.tiphz')}}</span>
+          </div>
+        </div>
+      </div>
+
       <div class="btnContent">
-        <div class="btn df" @click="submit" :class="[kong == true && 'active']">{{$t('alltitle.topup')}}</div>
+        <div class="btn df" @click="submit" :class="[kong == true && 'active']">{{$t('shenqing.post')}}</div>
       </div>
     </div>
   </div>
@@ -170,7 +258,28 @@ export default {
       username: "",
       phone: "",
       imgUrl: [],
-      imgInfo: [],
+        allimg:{
+          0:[],
+          1:[],
+          2:[],
+          3:[],
+          4:[],
+          5:[],
+          6:[],
+          7:[],
+        },
+        savaimg:{
+            0:[],
+            1:[],
+            2:[],
+            3:[],
+            4:[],
+            5:[],
+            6:[],
+            7:[],
+        },
+        objid:0,
+        posttype:0
     };
   },
   created() {},
@@ -186,23 +295,32 @@ export default {
   methods: {
     submit() {
         console.log(this.username,'de')
-      // this.$api
-      //   .postaskinfo({
-      //     pzimg: this.imgString.toString(),
-      //   })
-      //   .then(res => {
-      //     if (res.status == 1) {
-      //       this.$toast("提交成功");
-      //     }
-      //   });
+      this.$api
+        .postaskinfo({
+          type:this.posttype,askid:this.objid,
+            username:this.username,phone:this.phone,catneed:this.catneed,
+            idcardtrue:this.savaimg[0].toString(),
+            idcardfalse:this.savaimg[1].toString(),
+            driving_license_true:this.savaimg[2].toString(),
+            driving_license_false:this.savaimg[3].toString(),
+            bank_card_true:this.savaimg[4].toString(),
+            bank_card_false:this.savaimg[5].toString(),
+            passporttrue:this.savaimg[6].toString(),
+            passportfalse:this.savaimg[7].toString(),
+        })
+        .then(res => {
+          if (res.status == 1) {
+            this.$router.push({ path: "/postcg" });
+          }
+        });
     },
     // 删除图片
-    del(index) {
-      this.imgUrl.shift(index);
-      this.imgInfo.shift(index);
+    del(index,op) {
+      this.allimg[op].shift(index);
+      this.savaimg[op].shift(index);
     },
-    changeImage(e) {
-      console.log(1);
+    changeImage(e,type) {
+      console.log(type,'得到类型');
 
       this.file = e.target.files[0];
       // this.form = new FormData();
@@ -210,13 +328,14 @@ export default {
       // form.append("head", file);
       var reader = new FileReader();
       var that = this;
+      that.imgInfo=[];
       that.imgInfo.push(e.target.files[0]);
 
       reader.readAsDataURL(that.file);
       reader.onload = function(e) {
-        that.imgUrl = that.imgUrl.concat(this.result);
+        that.allimg[type] = that.allimg[type].concat(this.result);
         console.log(this.result);
-        console.log(that.imgUrl, that.imgInfo);
+        console.log(that.allimg[type], that.imgInfo);
         const formd = new FormData();
         formd.append("uploadfile", that.imgInfo[that.imgInfo.length - 1]);
         that
@@ -231,8 +350,9 @@ export default {
           //then里面跟一个成功回调函数
           .then(function(resp) {
             if (resp.data.status == 1) {
-              that.imgString.push(resp.data.result);
-              console.log(that.imgString,'图片地址');
+              that.savaimg[type].push(resp.data.result);
+              console.log(that.savaimg[type],'图片地址');
+              console.log(that.savaimg,'保存所有图片');
             } else {
                //$.toast("上传失败", "text");
             }
@@ -248,21 +368,12 @@ export default {
       // console.log(1);
       ImagePreview(arr);
     },
-
-    init() {
-      this.$api.getmoneyaddress().then(res=> {
-        if(res.status == 1) {
-          this.address = res.result
-        }
-      })
-    }
   },
   mounted() {
-    document.title = this.$t('alltitle.topup');
+    document.title = this.$t('shenqing.post');
       this.objid=this.$route.params.id
-      this.type=this.$route.params.type
-      console.log('传来id：'+this.objid+'--传来类型'+this.type+'')
-    this.init()
+      this.posttype=this.$route.params.type
+      console.log('传来id：'+this.objid+'--传来类型'+this.posttype+'')
   }
 };
 </script>
@@ -328,12 +439,13 @@ export default {
 
   }
   .tipitem{
-    height: 0.45rem;
+    height: 0.40rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
     border-bottom: 0.01rem solid #eeeeee;
     position: relative;
+    padding: 0.28rem 0;
     .item_rig{
       line-height: 0.15rem;
       width: 70%;
@@ -349,6 +461,7 @@ export default {
       width:0.08rem;
       background-color:blue;
       color: blue;
+      padding: 0.101rem 0;
     }
     .item_img{
       img{
@@ -409,7 +522,7 @@ export default {
         border-radius:10px;
 
         img {
-          width: 0.27rem;
+          width: 0.35rem;
         }
         span {
           margin-top: 0.16rem;

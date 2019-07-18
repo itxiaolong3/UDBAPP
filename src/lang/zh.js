@@ -214,6 +214,8 @@ module.exports = {
       morecatlist:'汽车管家',
       houselist:'民宿',
       detail:'详细',
+      Person:'个人中心',
+      Record:'记录',
     },
     udb:{
         list: [
@@ -272,6 +274,7 @@ module.exports = {
         upload:'上传凭证'
     },
     my:{
+      zxlist:'申请记录',
       txaddress:'提现地址',
       Feedback:'反馈',
       paypsw:'支付密码',
@@ -358,6 +361,13 @@ module.exports = {
       looknum:'浏览量',
       nodata:'暂无数据',
     },
+    shopcenter:{
+      more:'更多',
+      cathome:'汽车管家',
+      houseask:'房产资讯',
+      inhouse:'国内房产',
+      outhouse:'国外房产',
+    },
     gooddetail:{
       topost:'立即申请',
       catinfo:'车辆信息',
@@ -382,5 +392,33 @@ module.exports = {
         useto:'用途',
         inwhere:'小区',
         decorate:'装修',
+    },
+    shenqing:{
+        baseinfo:'基本信息',
+        tip:'保证图片不被遮挡、高清上传',
+        name:'姓名',
+        tipname:'您的真实姓名',
+        phone:'手机号',
+        tipphone:'实名认证半年以上',
+        need:'车型需求',
+        tipneed:'请输入您的需要的车型',
+        tipsfz:'上传身份证',
+        tipsfztrue:'上传身份证正面',
+        tipsfzfalse:'上传身份证反面',
+        tipjsz:'上传驾驶证',
+        tipjsztrue:'上传驾驶证正面',
+        tipjszfalse:'上传驾驶证反面',
+        tipyhk:'上传银行卡',
+        tipyhktrue:'上传银行卡正面',
+        tipyhkfalse:'上传银行卡反面',
+        tippassport:'护照/身份证',
+        tiphz:'手持身份证或护照',
+        tipssfzorhz:'手持证件',
+        post:'提交申请',
+    },
+    postcg:{
+      title:'提交结果',
+        tip:'恭喜您提交成功，工作人员与会在2个工作日内您联系，请保持手机通畅',
+        bt:'确认',
     }
 }

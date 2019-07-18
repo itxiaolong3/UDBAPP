@@ -67,6 +67,8 @@ import morecatlist from '@/pages/morecatlist' //汽车列表
 import houselist from '@/pages/houselist' //民宿列表
 import gooddetail from '@/pages/gooddetail' //详细信息
 import shenqing from '@/pages/shenqing' //提交申请
+import postcg from '@/pages/postcg' //提交成功
+import zxlist from '@/pages/zxlist' //申请列表
 Vue.use(Router)
 
 const router =new Router({
@@ -419,6 +421,16 @@ const router =new Router({
           path: '/shenqing',
           name: 'shenqing',
           component: shenqing
+      },
+      {
+          path: '/postcg',
+          name: 'postcg',
+          component: postcg
+      },
+      {
+          path: '/zxlist',
+          name: 'zxlist',
+          component: zxlist
       }
   ],
 })
