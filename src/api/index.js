@@ -176,6 +176,10 @@ class API {
     getcatlist = params => {
         return http.post("PublicApi/catlist", params);
     };
+    //获取精品管家列表
+    jplist = params => {
+        return http.post("PublicApi/jplist", params);
+    };
     //获取房产分类列表
     gethousetype = params => {
         return http.post("PublicApi/housetype", params);
@@ -195,6 +199,10 @@ class API {
     //提交申请记录
     zxrecordlist = params => {
         return http.post("MyApi/zxrecordlist", params);
+    };
+    //闪兑奖励提现
+    postsdui = params => {
+        return http.post("User/sduitx", params);
     };
 }
 

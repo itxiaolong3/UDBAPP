@@ -72,6 +72,7 @@ export default {
       display: flex;
       img {
         width: 0.5rem;
+        height: 0.5rem;
       }
       .top {
         margin-left: 0.13rem;

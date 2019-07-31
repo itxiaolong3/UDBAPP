@@ -65,7 +65,7 @@ module.exports = {
   tabbar: {
     index: 'index',
     zheng: 'Pass card',
-    shop: 'shop',
+    shop: 'apply',
     my: 'my'
   },
   // Udb
@@ -79,6 +79,7 @@ module.exports = {
   info: {
     yue: 'balance',
     Assets: 'Assets',
+    sandui: 'Rewards',
     level: "level",
     level0: 'Ordinary',
     level1: 'VIP1',
@@ -101,15 +102,18 @@ module.exports = {
     },
   ],
   myShareInfo: {
+      tongztixian: 'UDB withdrawal',
+      sduitixian: 'Reward withdrawal',
     price: 'price',
-    tip1: '(Note: The minimum amount of exchange is 1. Please enter an integer multiple of 1.)',
-    tip2: '(Note: The minimum amount of exchange is 1. Please enter an integer multiple of 1.)',
+    tip1: '(Note: The minimum amount of exchange is 100)',
+    tip2: '(Note: The minimum amount of exchange is 100)',
     ok: 'Confirmation of Exchange',
     p1: 'Please enter the number of UDB passes to be converted',
     p2: 'Please enter the number of AKFL passes to be converted',
     p3: 'Please enter the address of the wallet for withdrawal.',
     tip3: '(Note: Please carefully check the address of the withdrawal wallet and fill in the wrong one.)',
-    p4: 'Please enter the amount of UDB passport withdrawn'
+    p4: 'Please enter the amount of UDB passport withdrawn',
+      p5: 'Please enter all the amount of Reward withdrawal',
   },
   shareNoteTab: [{
       name: "type"
@@ -151,9 +155,9 @@ module.exports = {
         name: "time"
       }
     ],
-    tip1: '（ Please enter an integer multiple of 1.）',
+    tip1: '（ Please enter an integer multiple of 100.）',
     tip2: 'Please enter the user ID',
-    tip3:'Please enter the transfer amount.',
+    tip3:'Please enter a larger amount than 100',
     next:'next',
     ok:'ok'
   },
@@ -193,9 +197,11 @@ module.exports = {
         shopcenter:'shop center',
         morecatlist:'Running Cars',
         houselist:'house',
-        detail:'详细',
+        detail:'detail',
         Person:'Person',
         Record:'Record',
+        protocol:'protocol',
+        application:'application',
     },
     exchange:{
         list: [
@@ -210,7 +216,7 @@ module.exports = {
         tip1:'the number of UDB',
         tip2:'the number of AKFL',
         Confirm:'Confirm',
-        Tip:'Tip: the minimum exchange quantity is 1 and multiple of 1',
+        Tip:'Tip: the minimum exchange multiple of 100',
     },
     udb:{
         list: [
@@ -226,13 +232,14 @@ module.exports = {
         open:'open',
     },
     doubles:{
+        okbt:'OK',
         tip1:'Please enter the amount to be resubmitted',
-        tip2:'Please enter an integer multiple of 11',
-        tip3:'Tip: this operation converts the balance into assets, click to view the rules',
+        tip2:'Please enter an integer',
+        tip3:'Tip: this operation converts the balance into assets',
     },
     topup:{
       title:'Explanation of recharge',
-
+        activationadd:'Activate the top-up',
         list:[
             {
                 name:'Top-up'
@@ -277,7 +284,8 @@ module.exports = {
         myteam:'my team',
         setting:'setting',
         task:'Feedback',
-        old:'Submitting old data'
+        old:'Submitting old data',
+        activation:'activation',
     },
     cartAddress:{
       title:'Transfer only address, fill in the wrong conceit!!!',
@@ -413,5 +421,6 @@ module.exports = {
         title:'result',
         tip:'Congratulations on your successful submission. The staff will attend the meeting within 2 working days. Please keep your mobile phone open畅',
         bt:'Ok',
+        nokf:'wait to do',
     }
 }

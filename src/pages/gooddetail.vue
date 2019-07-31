@@ -81,7 +81,7 @@
           </ul>
         </div>
       </div>
-      <div class="conthree">
+      <div class="conthree" v-if="ishouse != 2">
         <span class="threetitle">{{$t('gooddetail.fqinfo')}}</span>
         <div class="fqinfo">
           <ul>
@@ -90,7 +90,7 @@
         </div>
       </div>
       <div class="box" v-html="about"></div>
-      <div class="btn" @click="btn(info.id,ishouse)">
+      <div class="btn" @click="btn(info.id,ishouse)" v-if="ishouse != 2">
         <img src="@/assets/image/zixun.png" alt="">
         <div>{{$t('gooddetail.topost')}}</div>
       </div>
@@ -115,35 +115,25 @@ export default {
             catinfo:[],
             houseinfo:[],
         },
-        ishouse:0
+        ishouse:0,
+        id:0,
+        ctype:0,
+        isFirstEnter:false,
+        isfromshopCenter:false,
     };
   },
   methods: {
-    infoWe() {
-      this.$api
-        .getxieyi({
-            type: 1
-        })
-        .then(res => {
-          if (res.status == 1) {
-            console.log(res);
-            // this.about = res.result;
-            // this.about = this.about.replace(/white-space: nowrap;/gi, '');
-            console.log(this.about);
-            
-          }
-        });
-    },
     getinfo(id,type){
+        let t=this;
         this.$api.gethousedetail({
                 type: type,id:id
             })
             .then(res => {
-                console.log("返回数据", res.result);
+                //console.log("返回数据", res.result);
                 if (res.status == 1) {
-                    this.info=res.result;
-                    this.about = res.result.content;
-                    this.about = this.about.replace(/white-space: nowrap;/gi, '');
+                    t.info=res.result;
+                    t.about = res.result.content;
+                    //this.about = this.about.replace(/white-space: nowrap;/gi, '');
                 }
             });
     },
@@ -153,15 +143,57 @@ export default {
   },
     created(){
         this.ishouse=this.$route.params.showtype
-      console.log('created'+this.ishouse)
+        this.isFirstEnter = true;
     },
+    // watch: {
+    //     '$route'(to, from) {
+    //         if(to.name === 'gooddetail') {
+    //             this.isfromshopCenter = true;
+    //             console.log(this.isfromshopCenter,'改变了吗')
+    //             this.getinfo(to.params.id,to.params.type)
+    //         }
+    //     }
+    // },
   mounted() {
       console.log('mounted')
       document.title = this.$t('alltitle.detail');
-      this.ishouse=this.$route.params.showtype
+      this.ishouse=this.$route.params.showtype;
+      this.id=this.$route.params.id;
+      this.ctype=this.$route.params.type;
+      console.log(this.ctype,'type是')
       this.getinfo(this.$route.params.id,this.$route.params.type)
-    this.infoWe()
-  }
+  },
+    beforeRouteEnter(to, from, next) {
+
+        if(from.name === 'shenqing') { //判断是从哪个路由过来的，若是detail页面不需要刷新获取新数据，直接用之前缓存的数据即可
+            to.meta.isBack = true;
+        }else if (from.name === 'shopCenter') {
+            //to.meta.keepAlive = false;
+            console.log(to.name,'当前toname')
+        }
+        next();
+    },
+    activated() {
+        console.log(this.$route.meta.isBack,'$route.meta.isBack')
+        console.log(this.isFirstEnter,'this.isFirstEnter')
+        if(!this.$route.meta.isBack|| this.isFirstEnter) {
+            //新增这部分搞定bug，多次进入keep-alive后不走mounted方法了
+            document.title = this.$t('alltitle.detail');
+            this.ishouse=this.$route.params.showtype;
+            this.id=this.$route.params.id;
+            this.ctype=this.$route.params.type;
+
+            // 如果isBack是false，表明需要获取新数据，否则就不再请求，直接使用缓存的数据
+            this.info.catinfo=[];
+            this.info.houseinfo=[];
+            this.getinfo(this.$route.params.id,this.$route.params.type) // ajax获取数据方法
+        }
+        // 恢复成默认的false，避免isBack一直是true，导致下次无法获取数据
+        this.$route.meta.isBack = false
+        this.isFirstEnter=false;
+        //this.$route.meta.keepAlive=true;
+
+    },
 };
 </script>
 <style lang="scss" scoped>
@@ -303,6 +335,7 @@ export default {
     }
     .btn {
       bottom: 0;
+      left: 0;
       display: flex;
       position: fixed;
       justify-content: center;

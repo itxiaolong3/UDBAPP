@@ -68,7 +68,7 @@ module.exports = {
   tabbar: {
     index: '首页',
     zheng: '通证',
-    shop: '商城',
+    shop: '应用场景',
     my: '我的'
   },
   // Udb
@@ -82,6 +82,7 @@ module.exports = {
   info: {
     yue: '余额',
     Assets: '资产',
+    sandui: '闪兑红利',
     level: "级别",
     level0: '普通用户',
     level1: 'VIP1星',
@@ -104,14 +105,17 @@ module.exports = {
     },
   ],
   myShareInfo: {
+    tongztixian: '通证提现',
+    sduitixian: '闪兑奖励提现',
     price: '单价',
-    tip1: '（提示：最低的兑换数量是1，请输入1的整数倍）',
-    tip2: '（提示：最低的兑换数量是1，请输入1的整数倍）',
+    tip1: '（提示：最低的兑换数量是100）',
+    tip2: '（提示：最低的兑换数量是100）',
     ok: '确认兑换',
     p1: '请输入需要兑换的UDB通证数',
     p2: '请输入需要兑换的AKFL通证数',
     p3: '请输入提现的钱包地址',
     p4: '请输入提现的UDB通证数',
+    p5: '请输入全部闪兑奖励金额',
     tip3: '（提示：请认真核对提现的钱包地址，填错自负）'
   },
   shareNoteTab: [{
@@ -129,16 +133,16 @@ module.exports = {
   ],
   retrun: {
     list: [{
-        name: "UDB转出 "
+        name: "UDB互转 "
       },
       {
-        name: "余额转出 "
+        name: "余额互转 "
       },
       {
-        name: "余额互转"
+        name: "余额明细"
       },
       {
-        name: "通证互转"
+        name: "通证明细"
       }
     ],
     noteTab: [{
@@ -154,11 +158,11 @@ module.exports = {
         name: "时间"
       }
     ],
-    tip1: '（提示：最低的兑换数量是1，请输入1的整数倍）',
+    tip1: '（提示：最低的兑换数量是100）',
     tip2: '请输入用户ID',
-    tip3:'请输入转出金额',
+    tip3:'请输入大于100大金额',
     next:'下一步',
-    ok:'确认兑换'
+    ok:'确认提交'
   },
     login:{
       login:'登录',
@@ -198,7 +202,7 @@ module.exports = {
         tip1:'请输入需要兑换的UDB通证数',
         tip2:'请输入需要兑换的AKFL通证数',
         Confirm:'确认兑换',
-        Tip:'提示：最低的兑换数量是1，请输入1的整数倍',
+        Tip:'提示：最低的兑换数量是100',
     },
     alltitle:{
       index:'首页',
@@ -216,6 +220,8 @@ module.exports = {
       detail:'详细',
       Person:'个人中心',
       Record:'记录',
+      protocol:'用户协议',
+      application:'应用场景',
     },
     udb:{
         list: [
@@ -233,11 +239,13 @@ module.exports = {
     ,
     doubles:{
       tip1:'请输入需要复投的金额',
-      tip2:'请输入11的整数倍',
-      tip3:'提示：此操作将余额兑换成资产，点击查看规则',
+      tip2:'请输入整数',
+      tip3:'提示：此操作将余额兑换成资产',
+      okbt:'确定复投'
     },
     topup:{
       title:'充值说明',
+      activationadd:'激活充值',
       list:[
           {
             name:'充值'
@@ -282,7 +290,8 @@ module.exports = {
       topupupload:'充值上传',
       myteam:'我的团队',
       setting:'设置',
-      old:'提交旧数据'
+      old:'提交旧数据',
+      activation:'激活',
     },
     cartAddress:{
       title:'转账唯一地址，填错自负!!!',
@@ -420,5 +429,6 @@ module.exports = {
       title:'提交结果',
         tip:'恭喜您提交成功，工作人员与会在2个工作日内您联系，请保持手机通畅',
         bt:'确认',
+        nokf:'待开发',
     }
 }

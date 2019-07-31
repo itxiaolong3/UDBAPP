@@ -32,9 +32,15 @@
         <span>{{ $t("info.Assets")}}：</span>
         <img src="@/assets/image/logo1.png" alt>
         <span v-if="!myInfo.other">{{zcmoney}}</span>
-
         <span v-else>xxx</span>
       </div>
+      <div v-if="sdui">
+        <span>{{ $t("info.sandui")}}：</span>
+        <img src="@/assets/image/logo1.png" alt>
+        <span v-if="!myInfo.other">{{sdui}}</span>
+        <span v-else>xxx</span>
+      </div>
+
     </div>
   </div>
 </template>
@@ -46,7 +52,8 @@ export default {
       myInfo: {},
 
       yemoney: "",
-      zcmoney: ""
+      zcmoney: "",
+      sdui: 0
     };
   },
   watch: {
@@ -58,6 +65,7 @@ export default {
       this.myInfo.other = this.info.other;
       this.yemoney = this.info.yemoney;
       this.zcmoney = this.info.zcmoney;
+      this.sdui = this.info.sdui;
     }
   },
   methods: {
@@ -69,14 +77,14 @@ export default {
           this.myInfo.other = false;
           this.yemoney = res.result.yemoney;
           this.zcmoney = res.result.zcmoney;
+          this.sdui = res.result.sdui;
+            this.$emit('chlidsdui',this.sdui)
         } else {
         }
       });
     }
   },
   mounted() {
-    console.log("个人信息");
-
     if (this.info == null) {
       console.log(5566);
 
@@ -144,19 +152,24 @@ export default {
     div {
       display: flex;
       align-items: center;
+      justify-content: space-between;
       font-size: 0.15rem;
       font-family: SourceHanSansSC-Regular;
       font-weight: 400;
       color: rgba(255, 255, 255, 1);
       opacity: 1;
       span {
-        margin-left: 0.05rem;
+        margin-left: 0.01rem;
       }
       img {
         width: 0.12rem;
       }
-      &:last-child {
+      &:nth-child(2) {
         margin-left: 0.46rem;
+      }
+      &:nth-child(3) {
+        margin-left: 0.26rem;
+        padding-right: 0.05rem;
       }
     }
   }

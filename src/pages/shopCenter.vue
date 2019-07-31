@@ -1,27 +1,35 @@
 <template lang="html">
-  <div class="content">
+  <div class="content" :class="clearoverflow">
+    <!--<div class="swiper">-->
+      <!--<van-swipe :autoplay="3500" :loop="true" indicator-color="#fff">-->
+        <!--<van-swipe-item v-for="(image, index) in SwiperImg" :key="index">-->
+          <!--<img :src="image" @click="gotogood(index)">-->
+        <!--</van-swipe-item>-->
+      <!--</van-swipe>-->
+    <!--</div>-->
     <div class="select-person">
-      <div class="toptitle">
-        <span class="select-h1">{{$t('shopcenter.cathome')}}</span>
-        <span @click="tomore()">{{$t('shopcenter.more')}}</span>
-      </div>
+        <!--汽车购买前5条滚动结束-->
+      <!--<div class="toptitle">-->
+        <!--<span class="select-h1">{{$t('shopcenter.cathome')}}</span>-->
+        <!--<span @click="tomore()">{{$t('shopcenter.more')}}</span>-->
+      <!--</div>-->
+      <!--<div class="person-wrap" ref="personWrap" style="touch-action: none;">-->
+        <!--<ul class="person-list" ref="personTab">-->
+          <!--<li class="person-item"  v-for="(item,index) in catlist" :key="index">-->
+            <!--<div class="item-con" @click='go(item.id)'>-->
+              <!--<img :src="item.topimg"/>-->
+              <!--<ul>-->
+                <!--<li class="lione">{{item.title}}</li>-->
+                <!--<li class="litwo">{{item.comment}}</li>-->
+                <!--<li class="lithree">{{item.price}}</li>-->
+              <!--</ul>-->
+            <!--</div>-->
+          <!--</li>-->
 
-      <div class="person-wrap" ref="personWrap" style="touch-action: none;">
-        <ul class="person-list" ref="personTab">
-          <li class="person-item"  v-for="(item,index) in catlist" :key="index">
-            <div class="item-con" @click='go(item.id)'>
-              <img :src="item.topimg"/>
-              <ul>
-                <li class="lione">{{item.title}}</li>
-                <li class="litwo">{{item.comment}}</li>
-                <li class="lithree">{{item.price}}</li>
-              </ul>
-            </div>
-          </li>
 
-
-        </ul>
-      </div>
+        <!--</ul>-->
+      <!--</div>-->
+        <!--汽车购买前5条滚动结束-->
       <div class="title2">
         <span>{{$t('shopcenter.houseask')}}</span>
       </div>
@@ -55,6 +63,7 @@
         components: { Tab },
         data() {
             return {
+                clearoverflow:'',
                 active: 0,
                 mask: false,
                 previewImg: "",
@@ -63,14 +72,45 @@
                 ischeck:0,
                 catlist:[],
                 housetypelist:[],
-                catzise:0
+                catzise:0,
+                isFirstEnter:false,
+                SwiperImg: [
+                    "http://t2.hddhhn.com/uploads/tu/201812/661/3.jpg",
+                    "http://t2.hddhhn.com/uploads/tu/201812/661/4.jpg",
+                    "http://t2.hddhhn.com/uploads/tu/201812/661/6.jpg",
+                    "http://t2.hddhhn.com/uploads/tu/201812/661/7.jpg",
+                ],
+                currentIndex: 0,
             };
         },
         created() {
             this.getcat(0);
             this.gethousetype(0);
         },
+        beforeRouteEnter(to, from, next) {
+            console.log(from.name,'from.name')
+            if(from.name === 'gooddetail') {
+                to.meta.isBack = true;
+            }
+            next();
+        },
+        activated() {
+            this.checksys();
+            if(!this.$route.meta.isBack|| this.isFirstEnter) {
+                // 如果isBack是false，表明需要获取新数据，否则就不再请求，直接使用缓存的数据
+                this.catlist=[];
+                this.housetypelist=[];
+                this.getcat(0);
+                this.gethousetype(0);
+            }
+            // 恢复成默认的false，避免isBack一直是true，导致下次无法获取数据
+            this.$route.meta.isBack = false
+            this.isFirstEnter=false;
+        },
         methods: {
+            gotogood(id){
+                console.log(id,'点击得到')
+            },
             tomore(){
                 this.$router.push({ path: "/morecatlist"});
             },
@@ -133,19 +173,78 @@
             gethouselist(id){
                 console.log(id,'得到ID')
                 this.$router.push({ path: "/houselist",name:'houselist',params:{cid:id}});
+            },
+            checksys(){
+                var browser = {
+                    versions: function () {
+                        var u = navigator.userAgent
+                        var app = navigator.appVersion
+                        return {         //移动终端浏览器版本信息
+                            trident: u.indexOf('Trident') > -1, //IE内核
+                            presto: u.indexOf('Presto') > -1, //opera内核
+                            webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+                            gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+                            mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
+                            ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+                            android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或uc浏览器
+                            iPhone: u.indexOf('iPhone') > -1, //是否为iPhone或者QQHD浏览器
+                            iPad: u.indexOf('iPad') > -1, //是否iPad
+                            webApp: u.indexOf('Safari') == -1//是否web应该程序，没有头部与底部
+                        }
+                    }(),
+                    language: (navigator.browserLanguage || navigator.language).toLowerCase()
+                }
+                if (browser.versions.mobile) {//判断是否是移动设备打开。browser代码在下面
+                    var ua = navigator.userAgent.toLowerCase();//获取判断用的对象
+                    if (ua.match(/MicroMessenger/i) === "micromessenger") {
+                        //判断是否在微信打开
+                        this.systemVersion = "wechat";
+                        //setCookie('OS', escape(this.systemVersion))
+                        if (browser.versions.android) {
+                            this.systemVersion = "wehatAndroid";//安卓端微信
+                            this.clearoverflow='clearoverflow';
+                            //setCookie('OS', escape(this.systemVersion))
+                        } else if (browser.versions.ios) {
+                            this.systemVersion = "wechatIOS";//ios端微信
+                            //setCookie('OS', escape(this.systemVersion))
+                        }
+                        // 判断是ios还是安卓
+                    } else if (browser.versions.android) {
+                        this.systemVersion = "Android";//安卓
+                        this.clearoverflow='clearoverflow';
+                        //setCookie('OS', escape(this.systemVersion))
+
+                    } else if (browser.versions.ios) {
+                        this.systemVersion = "ios";//ios
+                        //setCookie('OS', escape(this.systemVersion))
+                    } else {
+                        this.systemVersion = "wp";//WP
+                        this.clearoverflow='clearoverflow';
+                        //setCookie('OS', escape(this.systemVersion))
+                    }
+                } else {
+                    this.systemVersion = "PC";//PC
+                    this.clearoverflow='clearoverflow';
+                    //setCookie('OS', escape(this.systemVersion))
+                }
             }
         },
         mounted() {
             document.title = this.$t('alltitle.shopcenter');
+            //this.checksys();
         }
     };
 </script>
 
 <style lang="scss" scoped>
+  .clearoverflow{
+    overflow:hidden;
+  }
   .content {
     width: 100%;
     background-color: #fff;
     min-height: 100vh;
+
     .toptitle{
       display: flex;
       justify-content: space-between;
@@ -157,7 +256,7 @@
       font-family: PingFangSC-Medium;
       font-weight: 500;
       color: rgba(74, 74, 74, 1);
-      margin-top: 0.39rem;
+      /*margin-top: 0.39rem;*/
       margin-bottom: 0.15rem;
     }
     .item-con{
@@ -320,6 +419,26 @@
             margin-top: 0.20rem;
           }
         }
+      }
+    }
+    .swiper {
+      height: 2rem;
+      .van-swipe{
+        width: 100%;height:100%;
+      }
+      img {
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+      }
+      .custom-indicator {
+        position: absolute;
+        right: 5px;
+        bottom: 5px;
+        padding: 2px 5px;
+        font-size: 12px;
+        color: #fff;
+        background: #fff;
       }
     }
   }

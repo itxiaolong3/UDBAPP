@@ -4,7 +4,7 @@
       {{$t("message.title")}}
     </div>-->
     <div class="top" id="top">
-      <info></info>
+      <info @chlidsdui="chlidsdui" ref="getpersoninfo"></info>
     </div>
     <div class="tab" id="tab">
       <div
@@ -31,8 +31,15 @@
       <div class="btn df" @click="duiHuan">{{$t('myShareInfo.ok')}}</div>
     </div>
     <div class="tixian" v-if="tabIndex==2">
+      <van-radio-group v-model="radio" v-if="sdui">
+        <div style="display: flex;">
+          <van-radio name="1" clickable @click="ischoose(1)" style="margin-right: 0.2rem;">{{$t('myShareInfo.tongztixian')}}</van-radio>
+          <van-radio name="2" clickable @click="ischoose(2)">{{$t('myShareInfo.sduitixian')}}</van-radio>
+        </div>
+      </van-radio-group>
       <input type="text" :placeholder="p3" v-model="address">
-      <input type="text" :placeholder="p4" v-model="money">
+      <input type="text" :placeholder="p4" v-model="money"  v-if="isudbtixian">
+      <input type="text" :placeholder="p5" disabled="disabled" v-model="sduimoney" v-if="!isudbtixian">
       <div class="tip">{{$t('myShareInfo.tip3')}}</div>
       <div class="btn df" @click="txudb">{{$t('myShareInfo.ok')}}</div>
     </div>
@@ -79,9 +86,11 @@ export default {
       p2: this.$t("myShareInfo.p2"),
       p3: this.$t("myShareInfo.p3"),
       p4: this.$t("myShareInfo.p4"),
+      p5: this.$t("myShareInfo.p5"),
       num: 0,
       address: "",
       money: "",
+      sduimoney: "",
       UDB: "",
       AKl: "",
       obj: {
@@ -125,11 +134,27 @@ export default {
       ],
       noteList: [],
       wrapper: "",
-      noteHeight: ""
+      noteHeight: "",
+        radio: "1",
+        sdui:0,
+        isudbtixian:true
     };
   },
   created() {},
   methods: {
+      chlidsdui(sdui){
+          this.sdui=sdui;
+          this.sduimoney=sdui;
+          console.log(sdui,'子件传过来的值')
+      },
+      ischoose(e){
+          this.radio=e;
+          if (e=="1"){
+              this.isudbtixian=true;
+          } else if(e=="2"){
+              this.isudbtixian=false;
+          }
+      },
     toDetail(id) {
       if (index == 3) {
         this.$router.push({ path: "/AKFL" });
@@ -192,17 +217,40 @@ export default {
     },
     // udb提现
     txudb() {
-      this.$api
-        .txudb({
-          zcnum: this.money,
-          moneyadress: this.address
-        })
-        .then(res => {
-          if (res.status == 1) {
-            this.obj = res.result;
-          } else {
+          if (this.radio==1){
+              this.$api
+                  .txudb({
+                      zcnum: this.money,
+                      moneyadress: this.address
+                  })
+                  .then(res => {
+                      if (res.status == 1) {
+                          this.obj = res.result;
+                      } else {
+                      }
+                  });
+          } else{
+              let t=this;
+              this.$api
+                  .postsdui({
+                      zcnum: this.sduimoney,
+                      moneyadress: this.address
+                  })
+                  .then(res => {
+                      if (res.status == 1) {
+                          this.$toast(res.message);
+                          this.obj = res.result;
+                          setTimeout(function () {
+                              t.$refs.getpersoninfo.init();
+                          },600)
+
+                      } else {
+                          this.$toast(res.message);
+                      }
+                  });
+              console.log('闪兑提现')
           }
-        });
+
     },
     //
     getList(num) {

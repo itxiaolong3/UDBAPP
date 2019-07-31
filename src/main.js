@@ -210,13 +210,13 @@ router.beforeEach((to, from, next) => {
     next({ name : 'login'})
     return
   }
-    if(from.path ==='/gooddetail' &&to.path ==='/houselist'){
-        next({path: "/shopcenter"});
-        console.log('路由守卫1')
-    }else {
-        console.log('路由守卫2')
-        next();
-    }
+    // if(from.path ==='/gooddetail' &&to.path ==='/houselist'){
+    //     next({path: "/shopcenter"});
+    //     console.log('路由守卫1')
+    // }else {
+    //     console.log('路由守卫2')
+    //     next();
+    // }
 
 })
 

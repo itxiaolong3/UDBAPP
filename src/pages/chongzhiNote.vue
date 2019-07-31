@@ -10,7 +10,7 @@
     <!-- <div class="title">
       {{$t("message.title")}}
     </div>-->
-    <div class="tab">
+    <div class="tab" v-if="isactive==0">
       <div
         class="item"
         :class="[tabIndex == index && 'active']"
@@ -19,6 +19,12 @@
         @click="tab(index)"
       >
         <span>{{item.name}}</span>
+        <div class="xian"></div>
+      </div>
+    </div>
+    <div class="tab" v-if="isactive==1">
+      <div class="item">
+        <span>{{$t('topup.activationadd')}}</span>
         <div class="xian"></div>
       </div>
     </div>
@@ -123,7 +129,8 @@ export default {
       noteList: [],
       imgUrl: [],
       imgInfo: [],
-      moneynum: ""
+      moneynum: "",
+        isactive:0,
     };
   },
   created() {},
@@ -145,7 +152,8 @@ export default {
         .addmoney({
           pzimg: this.imgString.toString(),
           comment: this.content,
-          moneynum: this.moneynum
+          moneynum: this.moneynum,
+            type:this.isactive
         })
         .then(res => {
           if (res.status == 1) {
@@ -233,7 +241,10 @@ export default {
     }
   },
   mounted() {
-    document.title = this.$t('alltitle.topup');;
+    document.title = this.$t('alltitle.topup');
+      let gettype=this.$route.params.type;
+      this.isactive=gettype;
+      console.log(gettype,'传来到gettype')
     this.init()
   }
 };

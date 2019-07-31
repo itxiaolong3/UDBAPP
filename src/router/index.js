@@ -64,16 +64,19 @@ import task from '@/pages/task' //反馈 taskDetail
 import taskDetail from '@/pages/taskDetail' //反馈 taskDetail
 import old from '@/pages/old' //反馈 taskDetail
 import morecatlist from '@/pages/morecatlist' //汽车列表
+import jplist from '@/pages/jplist' //精品列表
 import houselist from '@/pages/houselist' //民宿列表
 import gooddetail from '@/pages/gooddetail' //详细信息
 import shenqing from '@/pages/shenqing' //提交申请
 import postcg from '@/pages/postcg' //提交成功
 import zxlist from '@/pages/zxlist' //申请列表
+import applicationcenter from '@/pages/applicationcenter' //应用场景
 Vue.use(Router)
 
 const router =new Router({
   
-  routes: [{
+  routes: [
+      {
       path: '/',
       component: login,
       redirect: { name: 'login' }
@@ -88,7 +91,12 @@ const router =new Router({
       name: 'forget',
       component: forget
     },
-    // {
+    {
+      path: '/applicationcenter',
+      name: 'applicationcenter',
+      component: applicationcenter
+    },
+      // {
     //   path: '/del',
     //   name: 'del',
     //   component: del
@@ -178,7 +186,8 @@ const router =new Router({
       name: 'shopCenter',
       component: shopCenter,
         meta:{
-        keepAlive:true
+            keepAlive:true,
+            isBack: false
         }
     },
     {
@@ -407,20 +416,25 @@ const router =new Router({
       path: '/houselist',
       name: 'houselist',
       component: houselist,
-        // meta:{
-        // keepAlive:true
-        // }
+        meta:{
+            keepAlive:true,
+            isBack: false
+        }
     },
       {
           path: '/gooddetail',
           name: 'gooddetail',
-          component: gooddetail
+          component: gooddetail,
+          meta:{
+              keepAlive:true,
+              isBack: false
+          }
       }
       ,
       {
           path: '/shenqing',
           name: 'shenqing',
-          component: shenqing
+          component: shenqing,
       },
       {
           path: '/postcg',
@@ -431,6 +445,11 @@ const router =new Router({
           path: '/zxlist',
           name: 'zxlist',
           component: zxlist
+      },
+      {
+          path: '/jplist',
+          name: 'jplist',
+          component: jplist
       }
   ],
 })

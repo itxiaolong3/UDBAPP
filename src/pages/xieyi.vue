@@ -33,7 +33,7 @@ export default {
     }
   },
   mounted() {
-    document.title = "用户协议";
+    document.title = this.$t("alltitle.protocol");
     this.infoWe()
   }
 };

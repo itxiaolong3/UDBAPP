@@ -10,7 +10,7 @@
       <div class="title">{{$t('doubles.tip1')}}</div>
       <input type="text" class :placeholder="$t('doubles.tip2')" v-model="money">
       <div class="tip">{{$t('doubles.tip3')}}</div>
-      <div class="btn df" @click="duihuan">{{$t('exchange.Confirm')}}</div>
+      <div class="btn df" @click="duihuan">{{$t('doubles.okbt')}}</div>
     </div>
   </div>
 </template>

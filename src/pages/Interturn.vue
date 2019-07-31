@@ -114,6 +114,7 @@ export default {
       num: 0,
       nums: 0,
       p1: this.$t("retrun.tip2"),
+      p2: this.$t("retrun.tip3"),
       info: null,
       udbId: "",
       yueId: "",
@@ -218,7 +219,13 @@ export default {
       }
     },
     next() {
+
       if (this.tabIndex == 0) {
+
+          if (this.udbId==''){
+              this.$toast(this.p1);
+              return false;
+          }
         this.$api
           .getInfo({
             touid: this.udbId
@@ -232,6 +239,11 @@ export default {
             }
           });
       } else {
+
+          if (this.yueId==''){
+              this.$toast(this.p1);
+              return false;
+          }
         this.$api
           .getInfo({
             touid: this.yueId
@@ -249,6 +261,10 @@ export default {
     },
     btn() {
       if (this.tabIndex == 0) {
+          if (this.udbNum<100) {
+              this.$toast(this.p2);
+              return false;
+          }
         this.$api
           .changetz({
             touid: this.udbId,
@@ -263,6 +279,10 @@ export default {
             }
           });
       } else {
+          if (this.yueNum<100) {
+              this.$toast(this.p2);
+              return false;
+          }
         this.$api
           .changemoney({
             touid: this.yueId,

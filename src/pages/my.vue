@@ -47,6 +47,7 @@
               >{{$t('info.level')}}：{{$t('info.level5')}}</div>
 
             </div>
+            <label v-if="myInfo.isactive==0" class="actbt" @click.stop="toactive()">{{$t('my.activation')}}</label>
           </div>
           <div class="rt">
             <img
@@ -80,6 +81,18 @@
         </div>
         <div class="bottoms">
           {{$t('info.Assets')}}
+        </div>
+      </div>
+      <div class="item" v-if="sdui">
+        <div class="tops">
+          <img
+            src="@/assets/image/logo.png"
+            alt=""
+          >
+          <span>{{sdui}}</span>
+        </div>
+        <div class="bottoms">
+          {{$t('info.sandui')}}
         </div>
       </div>
     </div>
@@ -214,24 +227,24 @@
             ></div>
         </div>
       </div>
-      <div
-        class="item"
-        @click='old'
-      >
-        <div class="itemContent">
-          <div class="lt">
-            <img
-              src="@/assets/image/qianbao.png"
-              alt=""
-            >
-            <span> {{$t('my.old')}}</span>
-          </div>
-          <div class="rt"><img
-              src="@/assets/image/jiantou.png"
-              alt=""
-            ></div>
-        </div>
-      </div>
+      <!--<div-->
+        <!--class="item"-->
+        <!--@click='old'-->
+      <!--&gt;-->
+        <!--<div class="itemContent">-->
+          <!--<div class="lt">-->
+            <!--<img-->
+              <!--src="@/assets/image/qianbao.png"-->
+              <!--alt=""-->
+            <!--&gt;-->
+            <!--<span> {{$t('my.old')}}</span>-->
+          <!--</div>-->
+          <!--<div class="rt"><img-->
+              <!--src="@/assets/image/jiantou.png"-->
+              <!--alt=""-->
+            <!--&gt;</div>-->
+        <!--</div>-->
+      <!--</div>-->
       <div
               class="item"
               @click='setting'
@@ -268,7 +281,8 @@ export default {
       browsePages: [],
       http: "",
       yemoney: "",
-      zcmoney: ""
+      zcmoney: "",
+      sdui: 0
     };
   },
   created() {
@@ -278,6 +292,9 @@ export default {
     //页面销毁时关闭长连接
   },
   methods: {
+      toactive(){
+          this.$router.push({ path: "/chongzhiNote",name:'chongzhiNote',params:{type:1} });
+      },
     toInfo() {
       this.$router.push({ path: "/myInfo" });
 
@@ -297,7 +314,7 @@ export default {
       this.$router.push({ path: "/cartAddress" });
     },
     chongzhi() {
-      this.$router.push({ path: "/chongzhiNote" });
+        this.$router.push({ path: "/chongzhiNote",name:'chongzhiNote',params:{type:0} });
     },
     myTeam() {
       this.$router.push({ path: "/team" });
@@ -318,6 +335,7 @@ export default {
           this.myInfo = res.result.userinfo;
           this.yemoney = res.result.yemoney;
           this.zcmoney = res.result.zcmoney;
+          this.sdui = res.result.sdui;
         } else {
         }
       });
@@ -377,6 +395,14 @@ export default {
           font-family: PingFang-SC-Bold;
           font-weight: bold;
           color: rgba(255, 255, 255, 1);
+        }
+        .actbt{
+          margin-top: 0.1rem;
+          width: 0.75rem;
+          border: 1px white solid;
+          border-radius: 0.07rem;
+          text-align: center;
+          color: white;
         }
         // justify-content: space-between;
         .bottom {
@@ -438,9 +464,13 @@ export default {
         color: rgba(84, 88, 92, 1);
       }
     }
-    &:first-child {
+    &:first-child{
       border-right: 0.01rem solid #e2e2e2;
     }
+      &:nth-child(3) {
+          border-left: 0.01rem solid #e2e2e2;
+      }
+
   }
 }
 .contents {

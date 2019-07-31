@@ -13,14 +13,10 @@
                 <img :src="item.topimg" alt>
                 <div class="info">
                     <div class="nick">{{item.title}}</div>
-                    <div class="ids">{{item.price}}<span class="oneprice">{{item.oneprice}}</span></div>
-                    <div class="shownum">{{item.comment}}</div>
+                    <div class="ids">{{item.price}}</div>
+                    <div class="shownum">{{item.looknum}}{{$t('morecatlist.looknum')}}</div>
                 </div>
                 <div class="date" @click="go(item.id)">{{$t('morecatlist.golook')}}</div>
-            </div>
-            <div class="no df" v-if='list.length == 0'>
-                <img src="@/assets/image/kong.png" alt="">
-                <span>{{$t('morecatlist.nodata')}}</span>
             </div>
         </div>
         </van-list>
@@ -35,24 +31,22 @@
                 loading: false,
                 myInfo: "",
                 list: [],
-                pagenum: 0,
-                cid:0,
-                isFirstEnter:false
+                pagenum: 0
             };
         },
         methods: {
             go(id) {
                 console.log(id, 'getid')
-                this.$router.push({ path: "/gooddetail",name:'gooddetail',params:{id:id,type:1,showtype:1}});
+                this.$router.push({ path: "/gooddetail",name:'gooddetail',params:{id:id,type:0,showtype:2}});
+                //this.$router.push({ path: "/chooseName",name:'chooseName',params:{nickname:this.myInfo.username}});
             },
             getMore: function() {
                 this.finished = false;
-                this.getlist(++this.pagenum,this.cid);
+                this.getlist(++this.pagenum);
             },
-            getlist(pnum,cid) {
-                this.$api.gethouselist({id: cid, page: pnum}).then(res => {
+            getlist(pnum) {
+                this.$api.jplist({type: 1, page: pnum}).then(res => {
                     if (res.status == 1) {
-                        console.log(res.result)
                         if (res.result.length <= 0) {
                             this.loading = false;
                             this.finished = true; // 没有数据了暂停
@@ -69,35 +63,9 @@
             }
         },
         mounted() {
-            document.title = this.$t('alltitle.houselist');
-            this.cid=this.$route.params.cid;
-            //
-        },
-        created(){
-            this.isFirstEnter = true;
-            this.getlist(0,this.cid);
-        },
-        beforeRouteEnter(to, from, next) {
-            console.log(from.name,'from.name')
-            console.log(to.name,'to.name')
-            console.log(to.meta.isBack,'isBack')
-            if(from.name === 'gooddetail') {
-                to.meta.isBack = true;
-                console.log(to.meta.isBack,'to.meta.isBack')
-            }
-            next();
-        },
-        activated() {
-            console.log(this.$route.params,'houselist参数')
-            if(!this.$route.meta.isBack|| this.isFirstEnter) {
-                // 如果isBack是false，表明需要获取新数据，否则就不再请求，直接使用缓存的数据
-                this.list=[];
-                this.getlist(0,this.$route.params.cid);
-            }
-            // 恢复成默认的false，避免isBack一直是true，导致下次无法获取数据
-            this.$route.meta.isBack = false
-            this.isFirstEnter=false;
-        },
+            document.title = this.$t('alltitle.morecatlist');
+            this.getlist();
+        }
     };
 </script>
 <style lang="scss" scoped>
@@ -149,7 +117,7 @@
                 img {
                     width: 0.91rem;
                     height: 0.72rem;
-                    border-radius: 0.03rem;
+                    border-radius: 0.3rem;
                 }
                 .date {
                     font-size: 0.11rem;
@@ -190,32 +158,8 @@
                         margin-bottom: 0.1rem;
                         margin-top: 0.03rem;
                     }
-                    .oneprice{
-                        font-size:0.11rem;
-                        font-family:SourceHanSansSC-Light;
-                        font-weight:300;
-                        color:rgba(102,102,102,1);
-                    }
                 }
 
-            }
-            .no {
-                width: 100%;
-                display: flex;
-                flex-direction: column;
-                justify-content: flex-start;
-                img {
-                    margin-top: 1.52rem;
-                    width: 1rem;
-                }
-                span {
-                    display: block;
-                    margin-top: .18rem;
-                    font-size: 0.14rem;
-                    font-family: SourceHanSansSC-Regular;
-                    font-weight: 400;
-                    color: rgba(153, 153, 153, 1);
-                }
             }
         }
     }

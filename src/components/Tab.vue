@@ -10,7 +10,7 @@
       <img class="tab-icon" v-else src="@/assets/img/icon_a02.png" alt="">
       <span class="tab-text" :class="[tabIndex==1 && 'tab-text-sel']">{{$t("tabbar.zheng") }}</span>
     </router-link>
-    <router-link to="/shopCenter" tag="div" class="tab-item">
+    <router-link to="/applicationcenter" tag="div" class="tab-item">
       <img class="tab-icon" v-if="tabIndex==2" src="@/assets/img/tab_poster_pre.png" alt="">
       <img class="tab-icon" v-else src="@/assets/img/tab_poster.png" alt="">
       <span class="tab-text" :class="[tabIndex==2 && 'tab-text-sel']">{{$t("tabbar.shop")}}</span>
