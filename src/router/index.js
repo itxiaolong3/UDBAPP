@@ -71,6 +71,12 @@ import shenqing from '@/pages/shenqing' //提交申请
 import postcg from '@/pages/postcg' //提交成功
 import zxlist from '@/pages/zxlist' //申请列表
 import applicationcenter from '@/pages/applicationcenter' //应用场景
+import natifilist from '@/pages/natifilist' //公告列表
+import addresslist from '@/pages/addresslist' //地址列表
+import editaddress from '@/pages/editaddress' //编辑地址
+import ztlist from '@/pages/ztlist' //直推奖励记录列表
+import dowithdraw from '@/pages/dowithdraw' //提现直推奖励
+import futoulist from '@/pages/futoulist' //复投记录列表
 Vue.use(Router)
 
 const router =new Router({
@@ -85,6 +91,36 @@ const router =new Router({
       path: '/login',
       name: 'login',
       component: login
+    },
+    {
+      path: '/dowithdraw',
+      name: 'dowithdraw',
+      component: dowithdraw
+    },
+    {
+      path: '/natifilist',
+      name: 'natifilist',
+      component: natifilist
+    },
+    {
+      path: '/futoulist',
+      name: 'futoulist',
+      component: futoulist
+    },
+      {
+      path: '/editaddress',
+      name: 'editaddress',
+      component: editaddress
+    },
+    {
+      path: '/addresslist',
+      name: 'addresslist',
+      component: addresslist
+    },
+    {
+      path: '/ztlist',
+      name: 'ztlist',
+      component: ztlist
     },
     {
       path: '/forget',

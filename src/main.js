@@ -77,6 +77,12 @@ import {
   Area
 } from 'vant';
 Vue.use(Area);
+//地址列表
+import { AddressList } from 'vant';
+Vue.use(AddressList);
+//编辑地址
+import { AddressEdit } from 'vant';
+Vue.use(AddressEdit);
 // 弹出层
 import {
   Popup
@@ -140,7 +146,12 @@ import VueI18n from 'vue-i18n'
 Vue.use(VueI18n)
 import LangEn from '@/lang/en.js'
 import LangZhCHS from '@/lang/zh.js'
-
+//公告
+import { NoticeBar } from 'vant';
+Vue.use(NoticeBar);
+//标题拦
+import { NavBar } from 'vant';
+Vue.use(NavBar);
 // import {getCookie,name} from '@/lang/language.js'
 // console.log(getCookie('PLAY_LANG','zh'),'语言');
 // let lang = localStorage.getItem("locale");

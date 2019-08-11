@@ -1,6 +1,23 @@
 <template>
   <div class="login">
     <div class="title">{{$t('shenqing.baseinfo')}}</div>
+    <!--地址-->
+    <!--<div class="noaddress" v-if="addressinfo==''">-->
+      <!--<span>{{$t('shenqing.addaddress')}}</span>-->
+    <!--</div>-->
+    <!--<div class="address" v-if="addressinfo" @click="gotoaddresslist">-->
+      <!--<span class="nameandphone">收货人：{{addressinfo.name}}&nbsp;&nbsp;&nbsp;&nbsp;手机号：{{addressinfo.tel}}</span>-->
+      <!--<div class="addre">地址：{{addressinfo.province}}&nbsp;{{addressinfo.city}}&nbsp;{{addressinfo.county}}&nbsp;{{addressinfo.addressDetail}}</div>-->
+      <!--<img src="@/assets/image/addbottom.png" alt="" class="bottimg">-->
+      <!--<div class="leftimg"><img src="@/assets/image/jiantou.png" alt=""></div>-->
+    <!--</div>-->
+
+    <div class="item">
+      <div class="left">{{$t('shenqing.address')}}</div>
+      <div class="right">
+        <input type="text" :placeholder="$t('shenqing.address')" v-model="address">
+      </div>
+    </div>
     <div class="item">
       <div class="left">{{$t('shenqing.name')}}</div>
       <div class="right">
@@ -253,10 +270,12 @@ export default {
   name: "login",
   data() {
     return {
+        addressinfo:'',
       catneed:'',
       imgString: [],
       username: "",
       phone: "",
+      address:'',
       imgUrl: [],
         allimg:{
           0:[],
@@ -279,7 +298,8 @@ export default {
             7:[],
         },
         objid:0,
-        posttype:0
+        posttype:0,
+        addressid:0
     };
   },
   created() {},
@@ -293,11 +313,14 @@ export default {
         }
     },
   methods: {
+      gotoaddresslist(){
+          this.$router.push({ path: "/addresslist" });
+      },
     submit() {
         console.log(this.username,'de')
       this.$api
         .postaskinfo({
-          type:this.posttype,askid:this.objid,
+          type:this.posttype,address:this.address,askid:this.objid,
             username:this.username,phone:this.phone,catneed:this.catneed,
             idcardtrue:this.savaimg[0].toString(),
             idcardfalse:this.savaimg[1].toString(),
@@ -368,11 +391,49 @@ export default {
       // console.log(1);
       ImagePreview(arr);
     },
+    getinfo(id){
+        let t=this;
+        if (id>0){
+            this.$api.getdetailaddress({id:id}).then(res => {
+                if (res.status == 1) {
+                    if (res.result){
+                        this.addressinfo=res.result;
+                        this.addressid=res.result.id;
+                    }
+                    console.log(res.result,'指定单一返回');
+                }
+            });
+        } else{
+            this.$api.getdefaultaddress().then(res => {
+                if (res.status == 1) {
+                    if (res.result){
+                        this.addressinfo=res.result;
+                        this.addressid=res.result.id;
+                    }
+                    console.log(res.result,'默认地址返回');
+                }
+            });
+        }
+
+    }
   },
   mounted() {
     document.title = this.$t('shenqing.post');
-      this.objid=this.$route.params.id
-      this.posttype=this.$route.params.type
+      this.objid=this.$route.params.id?this.$route.params.id:-1
+      this.posttype=this.$route.params.type>=0?this.$route.params.type:-1
+      this.getinfo(this.$route.params.aid?this.$route.params.aid:0)
+      console.log(this.addressid,'当前地址')
+      if (this.objid<0){
+          let getobjid=localStorage.getItem('objid')
+          let gettype=localStorage.getItem('posttype')
+          this.objid=getobjid;
+          this.posttype=gettype;
+          console.log('当前ID='+getobjid+'--type='+gettype,'当前值')
+      }
+      if (this.objid>0){
+          localStorage.setItem('objid',this.objid)
+          localStorage.setItem('posttype',this.posttype)
+      }
       console.log('传来id：'+this.objid+'--传来类型'+this.posttype+'')
   }
 };
@@ -608,6 +669,42 @@ export default {
     color: rgba(255, 255, 255, 1);
     opacity: 1;
     pointer-events: auto;
+  }
+  .noaddress{
+    height: 0.7rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-top: rgba(153, 153, 153, 1) 0.005rem solid;
+    border-bottom: 0.01rem solid #eeeeee;
+    span{
+      background-color: rgba(153, 153, 153, 1);
+      color: white;
+      padding: 0.05rem 0.2rem;
+      border-radius: 0.06rem;
+    }
+  }
+  .address{
+    padding: 0.15rem 0rem;
+    border-top: rgba(153, 153, 153, 1) 0.005rem solid;
+    padding-left:0.1rem;
+    color: gray;
+    .addre{
+      margin-top: 0.1rem;
+    }
+    .bottimg{
+      margin-top: 0.1rem;
+      margin-left: -0.05rem;
+    }
+    .leftimg{
+      img{
+        position: absolute;
+        top:0.69rem;
+        right: 0.20rem;
+        width: 0.1rem;
+      }
+    }
+
   }
 
 }

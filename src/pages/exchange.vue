@@ -1,5 +1,10 @@
 <template>
     <div class="login">
+        <van-nav-bar
+                :left-text="$t('alltitle.back')"
+                left-arrow
+                @click-left="onClickLeft"
+        />
         <div class="top">
             <div id="myChart" :style="{width: '100%', height: '300px'}"></div>
         </div>
@@ -96,6 +101,10 @@
 
         },
         methods: {
+            onClickLeft() {
+                //this.$toast('返回');
+                this.$router.go(-1)
+            },
             getchardata() {
                 this.$api
                     .getchardata({})
@@ -401,7 +410,7 @@
                 }
             }
             .duihuan {
-                padding-top: 0.6rem;
+                padding-top: 0.2rem;
                 .title {
                     text-align: center;
                     font-size: 0.14rem;
@@ -447,7 +456,7 @@
                                     rgba(65, 104, 238, 1)
                     );
                     border-radius: 0.2rem;
-                    margin-top: 0.65rem;
+                    margin-top: 0.45rem;
                     font-size: 0.14rem;
                     font-family: SourceHanSansSC-Regular;
                     font-weight: 400;

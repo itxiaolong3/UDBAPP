@@ -64,7 +64,7 @@ class API {
   udbcloselist = params => {
     return http.post("myApi/udbcloselist", params);
   };
-  // 痛症互转
+  // 通证互转
   changetz = params => {
     return http.post("user/changetz", params);
   };
@@ -203,6 +203,46 @@ class API {
     //闪兑奖励提现
     postsdui = params => {
         return http.post("User/sduitx", params);
+    };
+    //公告列表
+    navifilist = params => {
+        return http.post("PublicApi/navifilist", params);
+    };
+    //公告详细
+    navidetail = params => {
+        return http.post("PublicApi/navidetail", params);
+    };
+    //直推奖励列表
+    ztrecordlist = params => {
+        return http.post("MyApi/ztrecordlist", params);
+    };
+    //直推奖励转余额
+    ztturnmoney= params => {
+        return http.post("MyApi/ztturnmoney", params);
+    };
+    //直推奖励提现
+    ztuitx= params => {
+        return http.post("User/ztuitx", params);
+    };
+    //编辑/新增收货地址
+    doaddress=params => {
+        return http.post("MyApi/doaddress", params);
+    };
+    //地址列表
+    getaddresslist=params => {
+        return http.post("MyApi/getaddresslist", params);
+    };
+    //单一详细地址
+    getdetailaddress=params => {
+        return http.post("MyApi/getdetailaddress", params);
+    };
+    //删除收货地址
+    deladdress=params => {
+        return http.post("MyApi/deladdress", params);
+    };
+    //获取默认地址
+    getdefaultaddress=params => {
+        return http.post("MyApi/getdefaultaddress", params);
     };
 }
 

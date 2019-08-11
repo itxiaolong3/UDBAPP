@@ -97,6 +97,52 @@
       </div>
     </div>
     <div class="contents">
+        <!--正规地址隐藏-->
+      <!--<div class="item" @click='address'>-->
+            <!--<div class="itemContent">-->
+                <!--<div class="lt">-->
+                    <!--<img src="@/assets/image/myaddress.png" alt="">-->
+                    <!--<span>{{$t('my.myaddress')}}</span>-->
+                <!--</div>-->
+                <!--<div class="rt"><img src="@/assets/image/jiantou.png" alt=""></div>-->
+            <!--</div>-->
+        <!--</div>-->
+      <div
+              class="item"
+              @click='myTeam'
+      >
+        <div class="itemContent">
+          <div class="lt">
+            <img
+                    src="@/assets/image/team.png"
+                    alt=""
+            >
+            <span>{{$t('my.myteam')}}</span>
+          </div>
+          <div class="rt"><img
+                  src="@/assets/image/jiantou.png"
+                  alt=""
+          ></div>
+        </div>
+      </div>
+      <div
+              class="item"
+              @click='chongzhi'
+      >
+        <div class="itemContent">
+          <div class="lt">
+            <img
+                    src="@/assets/image/chongzhi.png"
+                    alt=""
+            >
+            <span>{{$t('my.topupupload')}}</span>
+          </div>
+          <div class="rt"><img
+                  src="@/assets/image/jiantou.png"
+                  alt=""
+          ></div>
+        </div>
+      </div>
       <div
         class="item"
         @click='zxlist'
@@ -117,6 +163,28 @@
       </div>
       <div
               class="item"
+              @click='pwd'
+      >
+        <div class="itemContent special">
+          <!-- <div class="tip">
+            未设置
+          </div> -->
+          <div class="lt">
+            <img
+                    src="@/assets/image/mima.png"
+                    alt=""
+            >
+            <span>{{$t('my.paypsw')}}</span>
+          </div>
+          <div class="rt"><img
+                  src="@/assets/image/jiantou.png"
+                  alt=""
+          ></div>
+        </div>
+      </div>
+
+      <div
+              class="item"
               @click='cart'
       >
         <div class="itemContent">
@@ -134,24 +202,21 @@
         </div>
       </div>
       <div
-        class="item"
-        @click='pwd'
+              class="item"
+              @click='task'
       >
-        <div class="itemContent special">
-          <!-- <div class="tip">
-            未设置
-          </div> -->
+        <div class="itemContent">
           <div class="lt">
             <img
-              src="@/assets/image/mima.png"
-              alt=""
+                    src="@/assets/image/tousu.png"
+                    alt=""
             >
-            <span>{{$t('my.paypsw')}}</span>
+            <span> {{$t('my.Feedback')}}</span>
           </div>
           <div class="rt"><img
-              src="@/assets/image/jiantou.png"
-              alt=""
-            ></div>
+                  src="@/assets/image/jiantou.png"
+                  alt=""
+          ></div>
         </div>
       </div>
       <div
@@ -172,61 +237,8 @@
             ></div>
         </div>
       </div>
-      <div
-        class="item"
-        @click='chongzhi'
-      >
-        <div class="itemContent">
-          <div class="lt">
-            <img
-              src="@/assets/image/chongzhi.png"
-              alt=""
-            >
-            <span>{{$t('my.topupupload')}}</span>
-          </div>
-          <div class="rt"><img
-              src="@/assets/image/jiantou.png"
-              alt=""
-            ></div>
-        </div>
-      </div>
-      <div
-        class="item"
-        @click='myTeam'
-      >
-        <div class="itemContent">
-          <div class="lt">
-            <img
-              src="@/assets/image/team.png"
-              alt=""
-            >
-            <span>{{$t('my.myteam')}}</span>
-          </div>
-          <div class="rt"><img
-              src="@/assets/image/jiantou.png"
-              alt=""
-            ></div>
-        </div>
-      </div>
 
-      <div
-        class="item"
-        @click='task'
-      >
-        <div class="itemContent">
-          <div class="lt">
-            <img
-              src="@/assets/image/tousu.png"
-              alt=""
-            >
-            <span> {{$t('my.Feedback')}}</span>
-          </div>
-          <div class="rt"><img
-              src="@/assets/image/jiantou.png"
-              alt=""
-            ></div>
-        </div>
-      </div>
+
       <!--<div-->
         <!--class="item"-->
         <!--@click='old'-->
@@ -292,6 +304,9 @@ export default {
     //页面销毁时关闭长连接
   },
   methods: {
+      address(){
+          this.$router.push({ path: "/addresslist" });
+      },
       toactive(){
           this.$router.push({ path: "/chongzhiNote",name:'chongzhiNote',params:{type:1} });
       },
@@ -345,6 +360,8 @@ export default {
       document.title = this.$t('alltitle.Person');
     this.http = localStorage.getItem("http");
     this.init();
+      localStorage.setItem('objid','')
+      localStorage.setItem('posttype','')
     // this.$api.myInfo({
     //   sessionId: localStorage.getItem('sessionId')
     // }).then(res=>{

@@ -55,12 +55,14 @@
             <img :src="item" v-for="(item,index) in imgUrl" :key="index" alt>
           </div>
         </div>
+        <van-loading type="spinner" color="#1989fa" v-if="isloadimg" />
         <div class="add" v-if="imgUrl.length<3">
           <input type="file" accept="image/*" ref="avatarInput" @change="changeImage($event)">
           <img src="@/assets/image/add1.png" alt>
           <span>{{$t('topup.upload')}}</span>
         </div>
       </div>
+
       <div class="btnContent">
         <div class="btn df" @click="submit">{{$t('alltitle.topup')}}</div>
       </div>
@@ -87,6 +89,7 @@
 import Tab from "../components/Tab";
 import info from "../components/info";
 import { ImagePreview } from "vant";
+
 export default {
   components: { Tab, info },
 
@@ -131,6 +134,8 @@ export default {
       imgInfo: [],
       moneynum: "",
         isactive:0,
+        loadsuccesstip:this.$t('topup.imgupload'),
+        isloadimg:0
     };
   },
   created() {},
@@ -168,7 +173,7 @@ export default {
     },
     changeImage(e) {
       console.log(1);
-
+      this.isloadimg=1;
       this.file = e.target.files[0];
       // this.form = new FormData();
 
@@ -198,9 +203,9 @@ export default {
           .then(function(resp) {
             if (resp.data.status == 1) {
               that.imgString.push(resp.data.result);
-              console.log(that.imgString);
-
-              // $.toast("成功", "text");
+              console.log(that.imgString,'图片真正返回地址');
+              that.isloadimg=0;
+                //that.$toast(that.loadsuccesstip, "text");
             } else {
               // $.toast("无法加载", "text");
             }

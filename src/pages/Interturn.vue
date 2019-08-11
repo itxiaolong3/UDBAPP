@@ -261,7 +261,7 @@ export default {
     },
     btn() {
       if (this.tabIndex == 0) {
-          if (this.udbNum<100) {
+          if (this.udbNum<50) {
               this.$toast(this.p2);
               return false;
           }
@@ -279,7 +279,7 @@ export default {
             }
           });
       } else {
-          if (this.yueNum<100) {
+          if (this.yueNum<50) {
               this.$toast(this.p2);
               return false;
           }

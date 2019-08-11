@@ -12,7 +12,6 @@
     <div class="select">
       <div class="top" @click='select()'>
         {{selectText}}
-
       </div>
       <div class="bottom" v-if='isSelect'>
         <div class="item df"  v-for='(item,index) in selectList' :key='index' @click='changeLanguage(index)'>
@@ -20,13 +19,24 @@
         </div>
       </div>
     </div>
-
     </div>
+
     <div class="tab">
       <div class="item" v-for='(item,index) in $t("message.tabsList")' :key='index' @click='toDetail(index)'>
         <div class="top">{{item.name}}</div>
         <div class="top">{{item.num == null?'0.000':item.num}}</div>
       </div>
+    </div>
+    <div class="natifi" v-if="this.notifilist.length">
+      <van-notice-bar
+              color="red"
+              background="#f5f5f5"
+              left-icon="info-o"
+
+              @click="gonotifilist(1)"
+      >
+          <span v-for="(item,index) in notifilist">{{item.desc}}--</span>
+      </van-notice-bar>
     </div>
     <div class="tabs">
       <div class="item"  v-for='(item,index) in $t("message.tabList")' :key='index' @click='detail(index)'>
@@ -50,8 +60,6 @@ import img3 from "../assets/image/333.png";
 
 import img4 from "../assets/image/444.png";
 import img5 from "../assets/image/555.png";
-
-
 export default {
   components: { articleList, consultation, Tab },
   data() {
@@ -108,11 +116,23 @@ export default {
       selectIndex: 0,
       isSelect: false,
       selectText: "CN 中文",
-      moneys:''
+      moneys:'',
+      notifilist:[]
     };
   },
   methods: {
+      gonotifilist(id){
+          this.$router.push({ path: "/natifilist" });
+      },
+      getnotifilist(){
+          this.$api.navifilist().then(res => {
+              if (res.status == 1) {
+                 this.notifilist=res.result;
+              }
+          });
+      },
     getMoney() {
+
         let t=this;
       this.$api.geteanring({
         money:this.moneys
@@ -226,6 +246,7 @@ export default {
   mounted() {
     document.title = this.$t('alltitle.index');
     this.init();
+      this.getnotifilist();
     this.$i18n.locale = localStorage.getItem("locale") == null?'zh':localStorage.getItem("locale");
     this.selectText = this.selectList[localStorage.getItem('language') == null?0:localStorage.getItem('language')].name
     // var arr, reg = new RegExp("(^| )" + 'PLAY_LANG' + "=([^;]*)(;|$)");
@@ -322,8 +343,13 @@ bottom: 1.08rem;
       }
     }
   }
-}
 
+}
+.natifi{
+  position: relative;
+  margin-top: -0.4rem;
+  margin-bottom: 0.1rem;
+}
 .tab {
   width: 3.45rem;
   height: 1.6rem;

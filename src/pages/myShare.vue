@@ -87,6 +87,7 @@ export default {
       p3: this.$t("myShareInfo.p3"),
       p4: this.$t("myShareInfo.p4"),
       p5: this.$t("myShareInfo.p5"),
+      p6:  this.$t("retrun.tip3"),
       num: 0,
       address: "",
       money: "",
@@ -189,6 +190,10 @@ export default {
 
     duiHuan() {
       if (this.tabIndex == 0) {
+          if (this.UDB<50) {
+              this.$toast(this.p6);
+              return false;
+          }
         this.$api
           .tzchange({
             zcnum: this.UDB,
@@ -202,6 +207,10 @@ export default {
             }
           });
       } else if (this.tabIndex == 1) {
+          if (this.AKl<50) {
+              this.$toast(this.p6);
+              return false;
+          }
         this.$api
           .tzchange({
             zcnum: this.AKl,

@@ -3,15 +3,13 @@
     <!-- <div class="title">
       {{$t("message.title")}}
     </div>-->
-    <div class="top">
+    <div class="top" id="top">
       <info></info>
     </div>
-    <div class="duihuan">
-      <span class="record" @click="torecord">复投记录</span>
-      <div class="title">{{$t('doubles.tip1')}}</div>
-      <input type="text" class :placeholder="$t('doubles.tip2')" v-model="money">
-      <div class="tip">{{$t('doubles.tip3')}}</div>
-      <div class="btn df" @click="duihuan">{{$t('doubles.okbt')}}</div>
+    <div class="tixian">
+      <input type="text" :placeholder="p3" v-model="address">
+      <input type="text" :placeholder="p5" disabled="disabled" v-model="ztuimoney">
+      <div class="btn df" @click="tx">{{$t('myShareInfo.ok')}}</div>
     </div>
   </div>
 </template>
@@ -22,126 +20,61 @@ import info from "../components/info";
 
 export default {
   components: { Tab, info },
-
   name: "login",
   data() {
     return {
-      money: "",
-      place: "请输入11的整数倍",
-      phone: "",
-      pwd: "",
-      student: true,
-      pwdType: "password",
-      state: 1,
-      http: "",
-      list: [
-        {
-          name: "UDB兑换"
-        },
-        {
-          name: "AKFL兑换"
-        },
-        {
-          name: "提现"
-        },
-        {
-          name: "记录"
-        }
-      ],
-      tabIndex: 0,
-      noteTab: [
-        {
-          name: "业务类型"
-        },
-        {
-          name: "金额"
-        },
-        {
-          name: "当前余额"
-        },
-        {
-          name: "时间"
-        }
-      ],
-      noteList: [
-        {
-          name: "UDB兑换",
-          money: "8.39",
-          now: "728.31",
-          time: "2019-06-07 14:28:12"
-        },
-        {
-          name: "UDB兑换",
-          money: "8.39",
-          now: "728.31",
-          time: "2019-06-07 14:28:12"
-        },
-
-        {
-          name: "UDB兑换",
-          money: "8.39",
-          now: "728.31",
-          time: "2019-06-07 14:28:12"
-        }
-      ]
+      p1: this.$t("cartAddress.address"),
+      p3: this.$t("myShareInfo.p3"),
+      p5: this.$t("myShareInfo.p5"),
+      address: "",
+      ztuimoney:0,
     };
   },
   created() {},
   methods: {
-      torecord(){
-          this.$router.push({ path: "/futoulist",name:'futoulist',params:{type:1} });
-      },
-    duihuan() {
-      this.$api
-        .dofutou({
-          money: this.money
-        })
-        .then(res => {
-          if (res.status == 1) {
-            this.$toast(res.message);
-              this.$router.go(0)
-          } else {
+      //提现
+      tx(){
+          if (this.address==''){
+              this.$toast(this.p1);
+              return false;
           }
+          let t=this;
+          this.$api.ztuitx({zcnum: this.ztuimoney,
+              moneyadress: this.address}).then(res => {
+              if (res.status == 1) {
+                  this.$toast(res.message);
+                  setTimeout(function () {
+                      t.$router.go(-1)
+                  },1000)
+              } else {
+              }
+          });
+      },
+    init() {
+        this.$api.myteam({}).then(res => {
+            if (res.status == 1) {
+                this.ztuimoney = res.result.ztuimoney;
+            } else {
+            }
         });
-    },
-    toDetail(id) {
-      this.$router.push({ path: "/zhiboDetail", query: { id: id } });
-    },
-    tab(index) {
-      this.tabIndex = index;
-    },
-    onScroll() {
-      //可滚动容器的高度
-      let innerHeight = document.querySelector("#app").clientHeight;
-      //屏幕尺寸高度
-      let outerHeight = document.documentElement.clientHeight;
-      //可滚动容器超出当前窗口显示范围的高度
-      let scrollTop = document.documentElement.scrollTop;
-      //scrollTop在页面为滚动时为0，开始滚动后，慢慢增加，滚动到页面底部时，出现innerHeight < (outerHeight + scrollTop)的情况，严格来讲，是接近底部。
-      // console.log(innerHeight + " " + outerHeight + " " + scrollTop);
-      this.init(++this.num);
-      if (innerHeight < outerHeight + scrollTop) {
-        //加载更多操作
-        console.log("loadmore", "jjjjjj");
-        // this.num += 1;
-      }
     }
   },
   mounted() {
-    document.title =  this.$t('alltitle.futou');
-    // this.init();
-  },
-  created() {
-    // window.addEventListener("scroll", this.onScroll);
+    document.title = "通证";
+    this.init();
+    this.wrapper = document.getElementById("app");
   }
 };
 </script>
 <style lang="scss" scoped>
 .login {
   width: 100%;
-  min-height: 100vh;
+  height: 100vh;
+  overflow: hidden;
   background-color: #fff;
   padding: 0 0.15rem;
+  padding-bottom: 0.7rem;
+
   .top {
     width: 100%;
     height: 1.4rem;
@@ -187,19 +120,6 @@ export default {
       font-family: SourceHanSansSC-Regular;
       font-weight: 400;
       color: rgba(51, 51, 51, 1);
-    }
-    .record{
-      position: absolute;
-      right: 0.25rem;
-      background: linear-gradient(
-                      90deg,
-                      rgba(58, 48, 207, 1),
-                      rgba(65, 104, 238, 1)
-      );
-      border-radius: 0.2rem;
-      color: white;
-      padding: 0.05rem 0.08rem;
-      font-size: 0.10rem;
     }
     input {
       margin-top: 0.25rem;
@@ -300,6 +220,11 @@ export default {
     }
   }
   .note {
+    // position: relative;
+    padding-bottom: 0.7rem;
+
+    height: 4.78rem;
+    overflow-y: auto;
     .tabs {
       height: 0.43rem;
       width: 100%;
@@ -329,7 +254,7 @@ export default {
           // flex-wrap: wrap;
           width: 22.5%;
           height: 0.55rem;
-          font-size: 0.15rem;
+          font-size: 0.13rem;
           font-family: SourceHanSansSC-Regular;
           font-weight: 400;
           color: rgba(51, 51, 51, 1);

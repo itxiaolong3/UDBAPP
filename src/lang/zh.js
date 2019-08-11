@@ -69,7 +69,7 @@ module.exports = {
     index: '首页',
     zheng: '通证',
     shop: '应用场景',
-    my: '我的'
+    my: '我的',
   },
   // Udb
   udbInfo: {
@@ -108,8 +108,8 @@ module.exports = {
     tongztixian: '通证提现',
     sduitixian: '闪兑奖励提现',
     price: '单价',
-    tip1: '（提示：最低的兑换数量是100）',
-    tip2: '（提示：最低的兑换数量是100）',
+    tip1: '（提示：最低的兑换数量是50）',
+    tip2: '（提示：最低的兑换数量是50）',
     ok: '确认兑换',
     p1: '请输入需要兑换的UDB通证数',
     p2: '请输入需要兑换的AKFL通证数',
@@ -158,9 +158,9 @@ module.exports = {
         name: "时间"
       }
     ],
-    tip1: '（提示：最低的兑换数量是100）',
+    tip1: '（提示：最低的兑换数量是50）',
     tip2: '请输入用户ID',
-    tip3:'请输入大于100大金额',
+    tip3:'请输入大于50金额',
     next:'下一步',
     ok:'确认提交'
   },
@@ -193,16 +193,17 @@ module.exports = {
         list: [
             {
                 name: "UDB兑换 "
-            },
-            {
-                name: "AKFL兑换"
             }
+            // ,
+            // {
+            //     name: "AKFL兑换"
+            // }
         ],
         price:'单价',
         tip1:'请输入需要兑换的UDB通证数',
         tip2:'请输入需要兑换的AKFL通证数',
         Confirm:'确认兑换',
-        Tip:'提示：最低的兑换数量是100',
+        Tip:'提示：最低的兑换数量是50',
     },
     alltitle:{
       index:'首页',
@@ -222,6 +223,12 @@ module.exports = {
       Record:'记录',
       protocol:'用户协议',
       application:'应用场景',
+      catlist:'汽车列表',
+      goodlist:'商品列表',
+        noticelist:'公告列表',
+      back:'返回',
+      addresslist:'地址列表',
+      editaddress:'编辑地址',
     },
     udb:{
         list: [
@@ -279,7 +286,8 @@ module.exports = {
         tip2:'充值备注',
         tip3:'请上传充值凭证，保持图片清晰度，不可涂改，提高充值审核通过率（图片不超过3张）',
         address:'复制地址',
-        upload:'上传凭证'
+        upload:'上传凭证',
+        imgupload:'图片已上传',
     },
     my:{
       zxlist:'申请记录',
@@ -292,6 +300,7 @@ module.exports = {
       setting:'设置',
       old:'提交旧数据',
       activation:'激活',
+        myaddress: '收货地址',
     },
     cartAddress:{
       title:'转账唯一地址，填错自负!!!',
@@ -303,7 +312,10 @@ module.exports = {
       title:"我的直推人",
       time:"注册时间",
       team:'我的团队',
-      out:"退出当前用户"
+      out:"退出当前用户",
+      record:"奖励记录",
+      num:"直推奖励",
+      withdrawal:"提现",
     },
     yueNote:{
       noteTab: [
@@ -336,6 +348,41 @@ module.exports = {
           name: "备注"
         }
       ],
+    },
+    futoulist:{
+        noteTab: [
+            {
+                name: "金额"
+            },
+            {
+                name: "添加时间"
+            },
+            {
+                name: "享受倍数"
+            },
+            {
+                name: "备注"
+            }
+        ],
+    },
+    ztlistNote:{
+        noteTab: [
+            {
+                name: "金额"
+            },
+            {
+                name: "添加时间"
+            },
+            {
+                name: "状态"
+            },
+            {
+                name: "备注"
+            },
+            {
+                name: "操作"
+            }
+        ],
     },
     task:{
       title:"您的投诉或反馈：",
@@ -424,11 +471,26 @@ module.exports = {
         tiphz:'手持身份证或护照',
         tipssfzorhz:'手持证件',
         post:'提交申请',
+        addaddress:'添加地址',
+        address:'地址',
     },
     postcg:{
       title:'提交结果',
         tip:'恭喜您提交成功，工作人员与会在2个工作日内您联系，请保持手机通畅',
         bt:'确认',
         nokf:'待开发',
+    },
+    address:{
+      title:'编辑地址'
+    },
+    ztlist:{
+      record:'直推奖励记录',
+        to_balance:'转余额',
+        all_to_balance:'全转余额',
+        wait:'待转',
+        ok:'已转',
+        withdrawal:'已提现',
+        audit:'审核中',
+        Returned:'已退回',
     }
 }

@@ -3,7 +3,7 @@
     <div class="tabs">
       <div
         class="item df"
-        v-for="(item,index) in $t('moneyNote.noteTab')"
+        v-for="(item,index) in $t('futoulist.noteTab')"
         :key="index"
       >{{item.name}}</div>
     </div>
@@ -13,9 +13,9 @@
         v-for="(item,index) in noteList"
         :key="index"
       >
-        <div>{{item.getmoney}}</div>
+        <div>{{item.ftmoney}}</div>
         <div class="num">{{item.addtime}}</div>
-        <div>{{item.status == 0?"未领取":'已领取'}}</div>
+        <div>{{item.beinum}}</div>
         <div
           class=" df"
         >
@@ -53,9 +53,8 @@ export default {
   },
   created() {},
   methods: {
-
     init() {
-        this.$api.zclist({}).then(res => {
+        this.$api.ftlist({}).then(res => {
             if (res.status == 1) {
                 this.noteList = res.result
             } else {
@@ -64,7 +63,7 @@ export default {
     }
   },
   mounted() {
-    document.title = "资产记录";
+    document.title = "复投记录";
       this.recordtype=this.$route.params.type;
     this.init();
   }
@@ -116,6 +115,7 @@ i {
       }
       .num {
         color: #ff0000;
+        font-size: 0.12rem;
       }
       .state {
         width: 0.8rem;

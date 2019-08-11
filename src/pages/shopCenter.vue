@@ -1,5 +1,10 @@
 <template lang="html">
   <div class="content" :class="clearoverflow">
+    <van-nav-bar
+            :left-text="$t('alltitle.back')"
+            left-arrow
+            @click-left="onClickLeft"
+    />
     <!--<div class="swiper">-->
       <!--<van-swipe :autoplay="3500" :loop="true" indicator-color="#fff">-->
         <!--<van-swipe-item v-for="(image, index) in SwiperImg" :key="index">-->
@@ -49,7 +54,7 @@
       </div>
     </div>
     <!--底部tab-->
-    <Tab :tabIndex="2"></Tab>
+    <!--<Tab :tabIndex="2"></Tab>-->
   </div>
 </template>
 <script>
@@ -108,6 +113,10 @@
             this.isFirstEnter=false;
         },
         methods: {
+            onClickLeft() {
+                //this.$toast('返回');
+                this.$router.go(-1)
+            },
             gotogood(id){
                 console.log(id,'点击得到')
             },

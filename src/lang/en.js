@@ -66,7 +66,8 @@ module.exports = {
     index: 'index',
     zheng: 'Pass card',
     shop: 'apply',
-    my: 'my'
+    my: 'my',
+
   },
   // Udb
   udbInfo: {
@@ -202,6 +203,12 @@ module.exports = {
         Record:'Record',
         protocol:'protocol',
         application:'application',
+        catlist:'catlist',
+        goodlist:'goodlist',
+        back:'back',
+        noticelist:'noticelist',
+        addresslist:'addresslist',
+        editaddress:'editaddress',
     },
     exchange:{
         list: [
@@ -273,7 +280,8 @@ module.exports = {
         tip2:'top-up comment',
         tip3:'Please upload the recharge voucher to maintain the clarity of the picture, which cannot be altered, and improve the pass rate of recharge audit (no more than 3 pictures).',
         address:'Platform address',
-        upload:'Upload vouchers'
+        upload:'Upload vouchers',
+        imgupload:'Upload success',
     },
     my:{
         zxlist:'ask record',
@@ -286,6 +294,7 @@ module.exports = {
         task:'Feedback',
         old:'Submitting old data',
         activation:'activation',
+        myaddress: 'address',
     },
     cartAddress:{
       title:'Transfer only address, fill in the wrong conceit!!!',
@@ -297,7 +306,10 @@ module.exports = {
       title:"My direct pusher",
       time:"Registration time",
       team:'my team',
-      out:"Exit the current user"
+      out:"Exit the current user",
+      record:"record",
+        num:"num",
+        withdrawal:"withdrawal",
     },
     yueNote:{
       noteTab: [
@@ -330,6 +342,22 @@ module.exports = {
           name: "remark"
         }
       ],
+    },
+    futoulist:{
+        noteTab: [
+            {
+                name: "money"
+            },
+            {
+                name: "addTime"
+            },
+            {
+                name: "multiple"
+            },
+            {
+                name: "remark"
+            }
+        ],
     },
     task:{
       title:"Your complaint or feedback:",
@@ -416,11 +444,23 @@ module.exports = {
         tiphz:'Hold identification card or passport',
         tipssfzorhz:'Holding a certificate',
         post:'post',
+        addaddress:'add_address',
+        address:'address',
     },
     postcg:{
         title:'result',
         tip:'Congratulations on your successful submission. The staff will attend the meeting within 2 working days. Please keep your mobile phone open畅',
         bt:'Ok',
         nokf:'wait to do',
+    },
+    ztlist:{
+        record:'record',
+        to_balance:'to_balance',
+        all_to_balance:'all_to_balance',
+        wait:'wait',
+        ok:'ok',
+        withdrawal:'withdrawal',
+        audit:'audit',
+        Returned:'Returned',
     }
 }

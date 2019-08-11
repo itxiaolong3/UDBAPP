@@ -1,5 +1,11 @@
 <template>
     <div class="login">
+        <van-nav-bar
+                :title="$t('alltitle.catlist')"
+                :left-text="$t('alltitle.back')"
+                left-arrow
+                @click-left="onClickLeft"
+        />
         <van-list
                 v-model="loading"
                 :finished="finished"
@@ -35,6 +41,10 @@
             };
         },
         methods: {
+            onClickLeft() {
+                //this.$toast('返回');
+                this.$router.go(-1)
+            },
             go(id) {
                 console.log(id, 'getid')
                 this.$router.push({ path: "/gooddetail",name:'gooddetail',params:{id:id,type:0,showtype:0}});
@@ -117,7 +127,7 @@
                 img {
                     width: 0.91rem;
                     height: 0.72rem;
-                    border-radius: 0.3rem;
+                    border-radius: 0.08rem;
                 }
                 .date {
                     font-size: 0.11rem;
