@@ -156,7 +156,8 @@ module.exports = {
         name: "time"
       }
     ],
-    tip1: '（ Please enter an integer multiple of 100.）',
+    tip1: '（ Please enter an integer multiple of 50.）',
+    tip11: '（ Please enter an integer multiple of 50.）',
     tip2: 'Please enter the user ID',
     tip3:'Please enter a larger amount than 100',
     next:'next',
@@ -213,7 +214,7 @@ module.exports = {
     exchange:{
         list: [
             {
-                name: "UDBtransfer"
+                name: "Money To UDB"
             },
             {
                 name: "Balancetransfer"

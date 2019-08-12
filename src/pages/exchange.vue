@@ -22,13 +22,13 @@
                 </div>
             </div>
             <div class="duihuan" v-if="tabIndex==0">
-                <div class="title">{{$t('exchange.price')}}：{{obj.udbprice}}</div>
+                <div class="title">{{$t('exchange.price')}}：${{obj.udbprice}}</div>
                 <input type="text" class :placeholder="$t('exchange.tip1')" v-model="UDB">
                 <div class="tip">（{{$t('exchange.Tip')}}）</div>
                 <div class="btn df" @click="duiHuan">{{$t('exchange.Confirm')}}</div>
             </div>
             <div class="duihuan" v-if="tabIndex==1">
-                <div class="title">{{$t('exchange.price')}}：{{obj.akprice}}</div>
+                <div class="title">{{$t('exchange.price')}}：${{obj.akprice}}</div>
                 <input type="text" class :placeholder="$t('exchange.tip2')" v-model="AKl">
                 <div class="tip">（{{$t('exchange.Tip')}}）</div>
                 <div class="btn df" @click="duiHuan">{{$t('exchange.Confirm')}}</div>
@@ -39,6 +39,7 @@
 
 <script>
     import {clearInterval} from "timers";
+    import { Dialog } from 'vant';
     // import qs from 'qs'
     export default {
         name: "login",
@@ -94,6 +95,7 @@
                 buy: [30, 44, 34, 65, 66, 60],
                 sale: [220, 330, 40, 40, 50, 60],
                 price: [9.59, 9.59, 9.59, 9.59, 9.59, 9.59],
+                p2:this.$t("exchange.Tip"),
 
             };
         },
@@ -131,18 +133,30 @@
             },
             duiHuan() {
                 if (this.tabIndex == 0) {
-                    this.$api
-                        .tzchange({
-                            zcnum: this.UDB,
-                            type: 0
-                        })
-                        .then(res => {
-                            if (res.status == 1) {
-                                this.$toast(res.message);
-                            } else {
-                                //console.log(333);
-                            }
-                        });
+                    if (this.UDB<10) {
+                        this.$toast(this.p2);
+                        return false;
+                    }
+                    Dialog.confirm({
+                        title: '温馨提示',
+                        message: '购买'+this.UDB+'个UDB需要'+(this.UDB*this.obj.udbprice).toFixed(2)+'余额'
+                    }).then(() => {
+                        this.$api
+                            .tzchange({
+                                zcnum: this.UDB,
+                                type: 0
+                            })
+                            .then(res => {
+                                if (res.status == 1) {
+                                    this.$toast(res.message);
+                                } else {
+                                    //console.log(333);
+                                }
+                            });
+                    }).catch(() => {
+                        //this.$toast('取消');
+                    });
+
                 } else if (this.tabIndex == 1) {
                     this.$api
                         .tzchange({

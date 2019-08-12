@@ -142,7 +142,7 @@ module.exports = {
         name: "余额明细"
       },
       {
-        name: "通证明细"
+        name: "UDB明细"
       }
     ],
     noteTab: [{
@@ -158,7 +158,8 @@ module.exports = {
         name: "时间"
       }
     ],
-    tip1: '（提示：最低的兑换数量是50）',
+    tip1: '（提示：最低转出个数：50个）',
+    tip11: '（提示：最低转出金额：$50）',
     tip2: '请输入用户ID',
     tip3:'请输入大于50金额',
     next:'下一步',
@@ -192,7 +193,7 @@ module.exports = {
     exchange:{
         list: [
             {
-                name: "UDB兑换 "
+                name: "余额兑换UDB "
             }
             // ,
             // {
@@ -203,7 +204,7 @@ module.exports = {
         tip1:'请输入需要兑换的UDB通证数',
         tip2:'请输入需要兑换的AKFL通证数',
         Confirm:'确认兑换',
-        Tip:'提示：最低的兑换数量是50',
+        Tip:'提示：最低的兑换数量是10',
     },
     alltitle:{
       index:'首页',

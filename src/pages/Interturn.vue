@@ -32,7 +32,7 @@
     </div>
     <div class="duihuan" v-if="tabIndex==1">
       <div v-if="!show1">
-        <div class="title">{{$t('retrun.tip1')}}</div>
+        <div class="title">{{$t('retrun.tip11')}}</div>
         <input type="text" class :placeholder="p1" v-model="yueId">
         <div @click="next()" class="btn df">{{$t('retrun.next')}}</div>
       </div>
@@ -228,7 +228,8 @@ export default {
           }
         this.$api
           .getInfo({
-            touid: this.udbId
+            touid: this.udbId,
+              ischeck:1
           })
           .then(res => {
             if (res.status == 1) {
@@ -246,7 +247,8 @@ export default {
           }
         this.$api
           .getInfo({
-            touid: this.yueId
+            touid: this.yueId,
+              ischeck:1
           })
           .then(res => {
             if (res.status == 1) {
