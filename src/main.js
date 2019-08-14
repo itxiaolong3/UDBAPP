@@ -99,9 +99,7 @@ import {
 } from 'vant';
 Vue.use(Toast);
 // 图片上传
-import {
-  Uploader
-} from 'vant';
+import {Uploader} from 'vant';
 Vue.use(Uploader);
 // List 列表
 import {
