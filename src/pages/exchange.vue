@@ -139,7 +139,7 @@
                     }
                     Dialog.confirm({
                         title: '温馨提示',
-                        message: '购买'+this.UDB+'个UDB需要'+(this.UDB*this.obj.udbprice).toFixed(2)+'余额'
+                        message: '购买'+this.UDB+'个UDB需要$'+(this.UDB*this.obj.udbprice).toFixed(2)+''
                     }).then(() => {
                         this.$api
                             .tzchange({

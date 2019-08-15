@@ -56,11 +56,12 @@
             <div class="del">
               <img src="@/assets/image/close.png" class="close" alt @click="del(index,0)">
             </div>
-            <img :src="item" v-for="(item,index) in allimg[0]" :key="index" alt>
+            <div class="showimg"><img :src="item" v-for="(item,index) in allimg[0]" :key="index" @click="open(allimg[0])" alt></div>
           </div>
         </div>
+        <div class="showloading" v-if="isloadimg1"><van-loading type="spinner" color="#1989fa"  /></div>
         <div class="add" v-if="allimg[0].length<1">
-          <input type="file" accept="image/*" ref="avatarInput" @change="changeImage($event,0)">
+          <input type="file" accept="image/*" ref="avatarInput" @change="changeImage($event,0,1)">
           <img src="@/assets/image/upimg.png" alt>
           <span>{{$t('shenqing.tipsfztrue')}}</span>
         </div>
@@ -72,11 +73,12 @@
             <div class="del">
               <img src="@/assets/image/close.png" class="close" alt @click="del(index,1)">
             </div>
-            <img :src="item" v-for="(item,index) in allimg[1]" :key="index" alt>
+            <div class="showimg"> <img :src="item" v-for="(item,index) in allimg[1]" :key="index" @click="open(allimg[1])" alt></div>
           </div>
         </div>
+        <div class="showloading" v-if="isloadimg2"><van-loading type="spinner" color="#1989fa"  /></div>
         <div class="add" v-if="allimg[1].length<1">
-          <input type="file" accept="image/*" ref="avatarInput" @change="changeImage($event,1)">
+          <input type="file" accept="image/*" ref="avatarInput" @change="changeImage($event,1,2)">
           <img src="@/assets/image/upimg.png" alt>
           <span>{{$t('shenqing.tipsfzfalse')}}</span>
         </div>
@@ -99,11 +101,12 @@
               <div class="del">
                 <img src="@/assets/image/close.png" class="close" alt @click="del(index,0)">
               </div>
-              <img :src="item" v-for="(item,index) in allimg[0]" :key="index" alt>
+              <div class="showimg"> <img :src="item" v-for="(item,index) in allimg[0]" :key="index" @click="open(allimg[0])" alt></div>
             </div>
           </div>
+          <div class="showloading" v-if="isloadimg3"><van-loading type="spinner" color="#1989fa"  /></div>
           <div class="add" v-if="allimg[0].length<1">
-            <input type="file" accept="image/*" ref="avatarInput" @change="changeImage($event,0)">
+            <input type="file" accept="image/*" ref="avatarInput" @change="changeImage($event,0,3)">
             <img src="@/assets/image/upimg.png" alt>
             <span>{{$t('shenqing.tippassport')}}</span>
           </div>
@@ -115,11 +118,12 @@
               <div class="del">
                 <img src="@/assets/image/close.png" class="close" alt @click="del(index,1)">
               </div>
-              <img :src="item" v-for="(item,index) in allimg[1]" :key="index" alt>
+              <div class="showimg"> <img :src="item" v-for="(item,index) in allimg[1]" :key="index" @click="open(allimg[1])" alt></div>
             </div>
           </div>
+          <div class="showloading" v-if="isloadimg4"><van-loading type="spinner" color="#1989fa"  /></div>
           <div class="add" v-if="allimg[1].length<1">
-            <input type="file" accept="image/*" ref="avatarInput" @change="changeImage($event,1)">
+            <input type="file" accept="image/*" ref="avatarInput" @change="changeImage($event,1,4)">
             <img src="@/assets/image/upimg.png" alt>
             <span>{{$t('shenqing.tippassport')}}</span>
           </div>
@@ -143,11 +147,12 @@
               <div class="del">
                 <img src="@/assets/image/close.png" class="close" alt @click="del(index,2)">
               </div>
-              <img :src="item" v-for="(item,index) in allimg[2]" :key="index" alt>
+              <div class="showimg"><img :src="item" v-for="(item,index) in allimg[2]" @click="open(allimg[2])" :key="index" alt></div>
             </div>
           </div>
+          <div class="showloading" v-if="isloadimg5"><van-loading type="spinner" color="#1989fa"  /></div>
           <div class="add" v-if="allimg[2].length<1">
-            <input type="file" accept="image/*" ref="avatarInput" @change="changeImage($event,2)">
+            <input type="file" accept="image/*" ref="avatarInput" @change="changeImage($event,2,5)">
             <img src="@/assets/image/upimg.png" alt>
             <span>{{$t('shenqing.tipjsztrue')}}</span>
           </div>
@@ -158,11 +163,12 @@
               <div class="del">
                 <img src="@/assets/image/close.png" class="close" alt @click="del(index,3)">
               </div>
-              <img :src="item" v-for="(item,index) in allimg[3]" :key="index" alt>
+              <div class="showimg"> <img :src="item" v-for="(item,index) in allimg[3]" :key="index" @click="open(allimg[3])" alt></div>
             </div>
           </div>
+          <div class="showloading" v-if="isloadimg6"><van-loading type="spinner" color="#1989fa"  /></div>
           <div class="add" v-if="allimg[3].length<1">
-            <input type="file" accept="image/*" ref="avatarInput" @change="changeImage($event,3)">
+            <input type="file" accept="image/*" ref="avatarInput" @change="changeImage($event,3,6)">
             <img src="@/assets/image/upimg.png" alt>
             <span>{{$t('shenqing.tipjszfalse')}}</span>
           </div>
@@ -186,11 +192,12 @@
               <div class="del">
                 <img src="@/assets/image/close.png" class="close" alt @click="del(index,4)">
               </div>
-              <img :src="item" v-for="(item,index) in allimg[4]" :key="index" alt>
+              <div class="showimg"><img :src="item" v-for="(item,index) in allimg[4]" :key="index" @click="open(allimg[4])" alt></div>
             </div>
           </div>
+          <div class="showloading" v-if="isloadimg7"><van-loading type="spinner" color="#1989fa"  /></div>
           <div class="add" v-if="allimg[4].length<1">
-            <input type="file" accept="image/*" ref="avatarInput" @change="changeImage($event,4)">
+            <input type="file" accept="image/*" ref="avatarInput" @change="changeImage($event,4,7)">
             <img src="@/assets/image/upimg.png" alt>
             <span>{{$t('shenqing.tipyhktrue')}}</span>
           </div>
@@ -201,11 +208,12 @@
               <div class="del">
                 <img src="@/assets/image/close.png" class="close" alt @click="del(index,5)">
               </div>
-              <img :src="item" v-for="(item,index) in allimg[5]" :key="index" alt>
+              <div class="showimg"> <img :src="item" v-for="(item,index) in allimg[5]" :key="index" @click="open(allimg[5])" alt></div>
             </div>
           </div>
+          <div class="showloading" v-if="isloadimg8"><van-loading type="spinner" color="#1989fa"  /></div>
           <div class="add" v-if="allimg[5].length<1">
-            <input type="file" accept="image/*" ref="avatarInput" @change="changeImage($event,5)">
+            <input type="file" accept="image/*" ref="avatarInput" @change="changeImage($event,5,8)">
             <img src="@/assets/image/upimg.png" alt>
             <span>{{$t('shenqing.tipyhkfalse')}}</span>
           </div>
@@ -229,11 +237,12 @@
               <div class="del">
                 <img src="@/assets/image/close.png" class="close" alt @click="del(index,6)">
               </div>
-              <img :src="item" v-for="(item,index) in allimg[6]" :key="index" alt>
+              <div class="showimg"> <img :src="item" v-for="(item,index) in allimg[6]" :key="index" @click="open(allimg[6])" alt></div>
             </div>
           </div>
+          <div class="showloading" v-if="isloadimg9"><van-loading type="spinner" color="#1989fa"  /></div>
           <div class="add" v-if="allimg[6].length<1">
-            <input type="file" accept="image/*" ref="avatarInput" @change="changeImage($event,6)">
+            <input type="file" accept="image/*" ref="avatarInput" @change="changeImage($event,6,9)">
             <img src="@/assets/image/upimg.png" alt>
             <span>{{$t('shenqing.tiphz')}}</span>
           </div>
@@ -244,11 +253,12 @@
               <div class="del">
                 <img src="@/assets/image/close.png" class="close" alt @click="del(index,7)">
               </div>
-              <img :src="item" v-for="(item,index) in allimg[7]" :key="index" alt>
+              <div class="showimg"> <img :src="item" v-for="(item,index) in allimg[7]" :key="index" @click="open(allimg[7])" alt></div>
             </div>
           </div>
+          <div class="showloading" v-if="isloadimg10"><van-loading type="spinner" color="#1989fa"  /></div>
           <div class="add" v-if="allimg[7].length<1">
-            <input type="file" accept="image/*" ref="avatarInput" @change="changeImage($event,7)">
+            <input type="file" accept="image/*" ref="avatarInput" @change="changeImage($event,7,10)">
             <img src="@/assets/image/upimg.png" alt>
             <span>{{$t('shenqing.tiphz')}}</span>
           </div>
@@ -299,7 +309,17 @@ export default {
         },
         objid:0,
         posttype:0,
-        addressid:0
+        addressid:0,
+      isloadimg1:0,
+      isloadimg2:0,
+      isloadimg3:0,
+      isloadimg4:0,
+      isloadimg5:0,
+      isloadimg6:0,
+      isloadimg7:0,
+      isloadimg8:0,
+      isloadimg9:0,
+      isloadimg10:0,
     };
   },
   created() {},
@@ -342,15 +362,37 @@ export default {
       this.allimg[op].shift(index);
       this.savaimg[op].shift(index);
     },
-    changeImage(e,type) {
+    changeImage(e,type,idnum) {
       console.log(type,'得到类型');
-
+      this.isloadimgtype=idnum
       this.file = e.target.files[0];
       // this.form = new FormData();
 
       // form.append("head", file);
       var reader = new FileReader();
       var that = this;
+      if (idnum==1){
+        that.isloadimg1=1;
+      }else if(idnum==2){
+        that.isloadimg2=1;
+      }else if(idnum==3){
+        that.isloadimg3=1;
+      }else if(idnum==4){
+        that.isloadimg4=1;
+      }else if(idnum==5){
+        that.isloadimg5=1;
+      }else if(idnum==6){
+        that.isloadimg6=1;
+      }else if(idnum==7){
+        that.isloadimg7=1;
+      }else if(idnum==8){
+        that.isloadimg8=1;
+      }else if(idnum==9){
+        that.isloadimg9=1;
+      }else if(idnum==10){
+        that.isloadimg10=1;
+      }
+
       that.imgInfo=[];
       that.imgInfo.push(e.target.files[0]);
 
@@ -374,11 +416,32 @@ export default {
           //then里面跟一个成功回调函数
           .then(function(resp) {
             if (resp.data.status == 1) {
+              if (idnum==1){
+                that.isloadimg1=0;
+              }else if(idnum==2){
+                that.isloadimg2=0;
+              }else if(idnum==3){
+                that.isloadimg3=0;
+              }else if(idnum==4){
+                that.isloadimg4=0;
+              }else if(idnum==5){
+                that.isloadimg5=0;
+              }else if(idnum==6){
+                that.isloadimg6=0;
+              }else if(idnum==7){
+                that.isloadimg7=0;
+              }else if(idnum==8){
+                that.isloadimg8=0;
+              }else if(idnum==9){
+                that.isloadimg9=0;
+              }else if(idnum==10){
+                that.isloadimg10=0;
+              }
               that.savaimg[type].push(resp.data.result);
               console.log(that.savaimg[type],'图片地址');
               console.log(that.savaimg,'保存所有图片');
             } else {
-               //$.toast("上传失败", "text");
+              that.$toast(resp.data.message, "text");
             }
           })
           // catch中跟一个失败回调函数
@@ -603,6 +666,7 @@ export default {
           width: 0.22rem;
           top: 0;
           right: 0;
+          background-color: red;
           img {
             width: 100%;
           }
@@ -615,6 +679,14 @@ export default {
             width: 100%;
           }
         }
+      .showimg{
+        width: 1.05rem;
+        height: 1.05rem;
+        img{
+          width: 100%;
+          height: 100%;
+        }
+      }
       }
     }
     .tip {

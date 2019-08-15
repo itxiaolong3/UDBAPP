@@ -19,13 +19,13 @@
       </div>
     </div>
     <div class="duihuan" v-if="tabIndex==0">
-      <div class="title">{{$t('myShareInfo.price')}}：{{obj.udbprice}}</div>
+      <div class="title">{{$t('myShareInfo.price')}}：${{obj.udbprice}}</div>
       <input type="text" class :placeholder="p1" v-model="UDB">
       <div class="tip">{{$t('myShareInfo.tip1')}}</div>
       <div class="btn df" @click="duiHuan">{{$t('myShareInfo.ok')}}</div>
     </div>
     <div class="duihuan" v-if="tabIndex==1">
-      <div class="title">{{$t('myShareInfo.price')}}：{{obj.akprice}}</div>
+      <div class="title">{{$t('myShareInfo.price')}}：${{obj.akprice}}</div>
       <input type="text" class :placeholder="p2" v-model="AKl">
       <div class="tip">{{$t('myShareInfo.tip2')}}</div>
       <div class="btn df" @click="duiHuan">{{$t('myShareInfo.ok')}}</div>

@@ -6,7 +6,6 @@
         <img class="img1" src="@/assets/image/qianbao.png" alt>
       </div>
     </div>
-
     <!-- <div class="title">
       {{$t("message.title")}}
     </div>-->
@@ -51,35 +50,23 @@
         <div class="imgUrl" v-if="imgUrl.length>0">
           <div class="allshowimg">
             <div class="showimg" v-for="(item,index) in imgUrl" :key="index">
-              <img :src="item" alt>
+              <img :src="item" @click="open(imgUrl)" alt>
               <div class="del">
                 <img src="@/assets/image/close.png" class="close" alt @click="del(index)">
               </div>
             </div>
 
           </div>
-          <!--<div class="imgs df">-->
-            <!--<div class="del">-->
-              <!--<img src="@/assets/image/close.png" class="close" alt @click="del(index)">-->
-            <!--</div>-->
-            <!--<img :src="item.url" v-for="(item,index) in fileList" :key="index" alt class="showimg">-->
-          <!--</div>-->
         </div>
-        <van-uploader
-                v-model="fileList"
-                multiple
-                :max-count="2"
-                :after-read="onRead"
-        ><img class="head-img" src="@/assets/image/add1.png"/></van-uploader>
-        <!--<van-uploader :after-read="onRead" accept="image/*" multiple v-model="fileList" :max-count="3">-->
-          <!--<img class="head-img" src="@/assets/image/add1.png"/>-->
-        <!--</van-uploader>-->
-
-        <!--<div class="add" v-if="imgUrl.length<3">-->
-          <!--<input type="file" accept="image/*" ref="avatarInput" @change="changeImage($event)">-->
-          <!--<img src="@/assets/image/add1.png" alt>-->
-          <!--<span>{{$t('topup.upload')}}</span>-->
-        <!--</div>-->
+          <div class="showloading" v-if="isloadimg"><van-loading type="spinner" color="#1989fa"  /></div>
+          <div v-if="imgUrl.length <3" class="addimg">
+                <van-uploader
+                        v-model="fileList"
+                        multiple
+                        :max-count="3"
+                        :after-read="onRead"
+                ><img class="head-img" src="@/assets/image/add1.png"/><span>{{$t('topup.upload')}}</span></van-uploader>
+          </div>
       </div>
 
       <div class="btnContent">
@@ -118,6 +105,7 @@ export default {
   name: "login",
   data() {
     return {
+        loginfo:"0000",
         fileList: [
             { url: 'https://img.yzcdn.cn/vant/cat.jpeg' },
             { url: 'https://img.yzcdn.cn/vant/cat.jpeg' },
@@ -168,18 +156,20 @@ export default {
   created() {},
   methods: {
       onRead(file) {
-
           var that = this;
           //将原图片显示为选择的图片
           //this.$refs.goodsImg.src = file.content;
+          that.isloadimg=1;
           if (file.length>1){
-              if (file.length>3){
+              if (file.length>3||that.imgUrl.length>=2){
                   this.$toast("最多三张");
+                  that.isloadimg=0;
                   return false;
               }
               file.forEach(function (value) {
                   const formd = new FormData();
-                  formd.append("uploadfile",that.dataURLtoBlob(value.content) );
+                  var blob=that.dataURLtoBlob(value.content)
+                  formd.append('uploadfile',blob, Date.now() + '.jpg');
                   console.log(formd);
                   that
                       .$axios({
@@ -198,7 +188,7 @@ export default {
                               that.isloadimg=0;
                               //that.$toast(that.loadsuccesstip, "text");
                           } else {
-                              // $.toast("无法加载", "text");
+                              that.$toast(resp.data.message, "text");
                           }
                       })
                       // catch中跟一个失败回调函数
@@ -211,33 +201,41 @@ export default {
           } else{
               if (that.imgUrl.length>=3){
                   this.$toast("最多三张");
+                  that.isloadimg=0;
                   return false;
               }
-              const formd = new FormData();
-              formd.append("uploadfile",that.dataURLtoBlob(file.content) );
-              console.log(formd);
+              var blob=this.dataURLtoBlob(file.content)
+            //FormData对象
+              var fd = new FormData();
+            //TDOD Ajax或者其他方式上传FormData对象
+            //FormData对象接受三个参数，第三个参数为文件名，通常我们只传前两个参数，
+              // 第三个参数不传则使用默认文件名，这里使用的Blob对象，所以需要一个文件名，用时间戳代替。
+              fd.append('uploadfile',blob, Date.now() + '.jpg');
+              ////uploadfile
               that
                   .$axios({
                       url: "http://udb.red/User/upImg",
                       method: "post",
-                      data: formd,
+                      data: fd,
                       headers: {
                           "Content-Type": "multipart/form-data"
                       }
                   })
                   //then里面跟一个成功回调函数
                   .then(function(resp) {
+                      //that.loginfo=resp;
                       if (resp.data.status == 1) {
                           that.imgString.push(resp.data.result);
                           console.log(that.imgString,'图片真正返回地址');
                           that.isloadimg=0;
                           //that.$toast(that.loadsuccesstip, "text");
                       } else {
-                          // $.toast("无法加载", "text");
+                          that.$toast(resp.data.message, "text");
                       }
                   })
                   // catch中跟一个失败回调函数
                   .catch(function(error) {
+                      //that.loginfo=error;
                       console.log(error);
                   });
               that.imgUrl.push(file.content);
@@ -246,19 +244,20 @@ export default {
           console.log(file);
           console.log(that.imgUrl.length,'baocimg')
       },
-      dataURLtoBlob(dataurl) {
-    var arr = dataurl.split(','),
-        mime = arr[0].match(/:(.*?);/)[1],
-        bstr = atob(arr[1]),
-        n = bstr.length,
-        u8arr = new Uint8Array(n);
-    while (n--) {
-        u8arr[n] = bstr.charCodeAt(n);
-    }
-    return new Blob([u8arr], {
-        type: mime
-    });
-},
+      dataURLtoBlob(base64string) {
+          var base64String = base64string;
+          //这里对base64串进行操作，去掉url头，并转换为byte
+          var bytes = window.atob(base64String.split(',')[1]);
+          //处理异常，将ASCII码小于0的转换为大于0
+          var ab = new ArrayBuffer(bytes.length);
+          var ia = new Uint8Array(ab);
+          for(var i = 0; i < bytes.length; i++){
+              ia[i] = bytes.charCodeAt(i); //这里有点疑惑，ia是怎么改变ab的？注：①
+          }
+          //Blob对象
+          var blob = new Blob([ab], {type: 'image/jpeg'}); //type为图片的格式
+          return blob;
+        },
     rule() {
       this.$router.push({ path: "/Rule" ,query:{state:1}});
 
@@ -287,54 +286,10 @@ export default {
     },
     // 删除图片
     del(index) {
-      this.imgUrl.shift(index);
-      this.imgInfo.shift(index);
-    },
-    changeImage(e) {
-      console.log(1);
-      this.isloadimg=1;
-      this.file = e.target.files[0];
-      // this.form = new FormData();
-
-      // form.append("head", file);
-      var reader = new FileReader();
-      var that = this;
-      that.imgInfo.push(e.target.files[0]);
-
-      reader.readAsDataURL(that.file);
-      reader.onload = function(e) {
-        that.imgUrl = that.imgUrl.concat(this.result);
-        console.log(this.result);
-        console.log(that.imgUrl, that.imgInfo);
-        const formd = new FormData();
-        formd.append("uploadfile", that.imgInfo[that.imgInfo.length - 1]);
-
-
-        that
-          .$axios({
-            url: "http://udb.red/User/upImg",
-            method: "post",
-            data: formd,
-            headers: {
-              "Content-Type": "multipart/form-data"
-            }
-          })
-          //then里面跟一个成功回调函数
-          .then(function(resp) {
-            if (resp.data.status == 1) {
-              that.imgString.push(resp.data.result);
-              console.log(that.imgString,'图片真正返回地址');
-              that.isloadimg=0;
-                //that.$toast(that.loadsuccesstip, "text");
-            } else {
-              // $.toast("无法加载", "text");
-            }
-          })
-          // catch中跟一个失败回调函数
-          .catch(function(error) {
-            console.log(error);
-          });
-      };
+      //  this.$toast("index"+index);
+      this.imgUrl.splice(index,1);
+      this.imgString.splice(index,1);
+        console.log(this.imgString,'当前图片地址');
     },
     open(arr) {
       // this.show = !this.show;
@@ -444,6 +399,25 @@ export default {
         border-radius: 0.01rem;
       }
     }
+  }
+  .addimg{
+     width: 0.8rem;
+     height: 0.8rem;
+      background-color: #FDF9F9;
+      span{
+          position: relative;
+          color: rgba(153, 153, 153, 1);
+          width: 100%;
+          font-size: 0.12rem;
+          margin-left: 0.15rem;
+      }
+  }
+  .head-img{
+      width: 0.35rem;
+      height: 0.35rem;
+      display: flex;
+      margin-left: 0.22rem;
+      margin-top: 0.08rem;
   }
   .duihuan {
     padding-top: 0.1rem;
@@ -568,7 +542,6 @@ export default {
       }
       .allshowimg{
         display: flex;
-
         .showimg{
           img{
             width: 1.05rem;
