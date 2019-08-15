@@ -46,21 +46,40 @@
         <div class="tips">{{content.length}}/300</div>
       </div>
       <div class="tipss">{{$t('topup.tip3')}}</div>
-      <div class="contentAdd">
-        <div class="imgUrl" v-if="imgUrl.length!=0">
-          <div class="imgs df">
-            <div class="del">
-              <img src="@/assets/image/close.png" class="close" alt @click="del(index)">
+
+      <div class="contentAdd add">
+        <div class="imgUrl" v-if="imgUrl.length>0">
+          <div class="allshowimg">
+            <div class="showimg" v-for="(item,index) in imgUrl" :key="index">
+              <img :src="item" alt>
+              <div class="del">
+                <img src="@/assets/image/close.png" class="close" alt @click="del(index)">
+              </div>
             </div>
-            <img :src="item" v-for="(item,index) in imgUrl" :key="index" alt>
+
           </div>
+          <!--<div class="imgs df">-->
+            <!--<div class="del">-->
+              <!--<img src="@/assets/image/close.png" class="close" alt @click="del(index)">-->
+            <!--</div>-->
+            <!--<img :src="item.url" v-for="(item,index) in fileList" :key="index" alt class="showimg">-->
+          <!--</div>-->
         </div>
-        <van-loading type="spinner" color="#1989fa" v-if="isloadimg" />
-        <div class="add" v-if="imgUrl.length<3">
-          <input type="file" accept="image/*" ref="avatarInput" @change="changeImage($event)">
-          <img src="@/assets/image/add1.png" alt>
-          <span>{{$t('topup.upload')}}</span>
-        </div>
+        <van-uploader
+                v-model="fileList"
+                multiple
+                :max-count="2"
+                :after-read="onRead"
+        ><img class="head-img" src="@/assets/image/add1.png"/></van-uploader>
+        <!--<van-uploader :after-read="onRead" accept="image/*" multiple v-model="fileList" :max-count="3">-->
+          <!--<img class="head-img" src="@/assets/image/add1.png"/>-->
+        <!--</van-uploader>-->
+
+        <!--<div class="add" v-if="imgUrl.length<3">-->
+          <!--<input type="file" accept="image/*" ref="avatarInput" @change="changeImage($event)">-->
+          <!--<img src="@/assets/image/add1.png" alt>-->
+          <!--<span>{{$t('topup.upload')}}</span>-->
+        <!--</div>-->
       </div>
 
       <div class="btnContent">
@@ -89,13 +108,21 @@
 import Tab from "../components/Tab";
 import info from "../components/info";
 import { ImagePreview } from "vant";
+import Vue from 'vue';
+import { Uploader } from 'vant';
 
+Vue.use(Uploader);
 export default {
   components: { Tab, info },
 
   name: "login",
   data() {
     return {
+        fileList: [
+            { url: 'https://img.yzcdn.cn/vant/cat.jpeg' },
+            { url: 'https://img.yzcdn.cn/vant/cat.jpeg' },
+            { url: 'https://img.yzcdn.cn/vant/cat.jpeg' },
+        ],
       address:'',
       imgString: [],
       content: "",
@@ -140,6 +167,98 @@ export default {
   },
   created() {},
   methods: {
+      onRead(file) {
+
+          var that = this;
+          //将原图片显示为选择的图片
+          //this.$refs.goodsImg.src = file.content;
+          if (file.length>1){
+              if (file.length>3){
+                  this.$toast("最多三张");
+                  return false;
+              }
+              file.forEach(function (value) {
+                  const formd = new FormData();
+                  formd.append("uploadfile",that.dataURLtoBlob(value.content) );
+                  console.log(formd);
+                  that
+                      .$axios({
+                          url: "http://udb.red/User/upImg",
+                          method: "post",
+                          data: formd,
+                          headers: {
+                              "Content-Type": "multipart/form-data"
+                          }
+                      })
+                      //then里面跟一个成功回调函数
+                      .then(function(resp) {
+                          if (resp.data.status == 1) {
+                              that.imgString.push(resp.data.result);
+                              console.log(that.imgString,'图片真正返回地址');
+                              that.isloadimg=0;
+                              //that.$toast(that.loadsuccesstip, "text");
+                          } else {
+                              // $.toast("无法加载", "text");
+                          }
+                      })
+                      // catch中跟一个失败回调函数
+                      .catch(function(error) {
+                          console.log(error);
+                      });
+                  that.imgUrl.push(value.content);
+              })
+
+          } else{
+              if (that.imgUrl.length>=3){
+                  this.$toast("最多三张");
+                  return false;
+              }
+              const formd = new FormData();
+              formd.append("uploadfile",that.dataURLtoBlob(file.content) );
+              console.log(formd);
+              that
+                  .$axios({
+                      url: "http://udb.red/User/upImg",
+                      method: "post",
+                      data: formd,
+                      headers: {
+                          "Content-Type": "multipart/form-data"
+                      }
+                  })
+                  //then里面跟一个成功回调函数
+                  .then(function(resp) {
+                      if (resp.data.status == 1) {
+                          that.imgString.push(resp.data.result);
+                          console.log(that.imgString,'图片真正返回地址');
+                          that.isloadimg=0;
+                          //that.$toast(that.loadsuccesstip, "text");
+                      } else {
+                          // $.toast("无法加载", "text");
+                      }
+                  })
+                  // catch中跟一个失败回调函数
+                  .catch(function(error) {
+                      console.log(error);
+                  });
+              that.imgUrl.push(file.content);
+          }
+
+          console.log(file);
+          console.log(that.imgUrl.length,'baocimg')
+      },
+      dataURLtoBlob(dataurl) {
+    var arr = dataurl.split(','),
+        mime = arr[0].match(/:(.*?);/)[1],
+        bstr = atob(arr[1]),
+        n = bstr.length,
+        u8arr = new Uint8Array(n);
+    while (n--) {
+        u8arr[n] = bstr.charCodeAt(n);
+    }
+    return new Blob([u8arr], {
+        type: mime
+    });
+},
     rule() {
       this.$router.push({ path: "/Rule" ,query:{state:1}});
 
@@ -189,7 +308,8 @@ export default {
         console.log(that.imgUrl, that.imgInfo);
         const formd = new FormData();
         formd.append("uploadfile", that.imgInfo[that.imgInfo.length - 1]);
-        console.log(formd);
+
+
         that
           .$axios({
             url: "http://udb.red/User/upImg",
@@ -446,28 +566,56 @@ export default {
           color: rgba(153, 153, 153, 1);
         }
       }
-      .imgUrl {
-        position: relative;
+      .allshowimg{
         display: flex;
-        align-items: center;
-        .del {
-          position: absolute;
-          width: 0.22rem;
-          top: 0;
-          right: 0;
-          img {
-            width: 100%;
+
+        .showimg{
+          img{
+            width: 1.05rem;
+            height: 1.05rem;
+            padding-left: 0.03rem;
           }
-        }
-        .imgs {
-          width: 1.05rem;
-          height: 1.05rem;
-          margin-right: 0.1rem;
-          img {
-            width: 100%;
+          .del {
+          position: relative;
+          width: 0.32rem;
+            height: 0.22rem;
+          top: -1.05rem;
+            left: 72%;
+            img{
+              width: 80%;
+              height: 90%;
+              background-color: red;
+            }
           }
         }
       }
+      /*.imgUrl {*/
+        /*position: relative;*/
+        /*display: flex;*/
+        /*align-items: center;*/
+        /*.del {*/
+          /*position: absolute;*/
+          /*width: 0.22rem;*/
+          /*top: 0;*/
+          /*right: 0;*/
+          /*img {*/
+            /*width: 100%;*/
+          /*}*/
+        /*}*/
+        /*.imgs {*/
+          /*width: 1.05rem;*/
+          /*height: 1.05rem;*/
+          /*margin-right: 0.1rem;*/
+          /*img {*/
+            /*width: 100%;*/
+          /*}*/
+          /*.showimg{*/
+
+            /*width: 1.05rem;*/
+            /*height: 1.05rem;*/
+          /*}*/
+        /*}*/
+      /*}*/
     }
     .tip {
       width: 100%;

@@ -361,6 +361,7 @@ export default {
         console.log(that.allimg[type], that.imgInfo);
         const formd = new FormData();
         formd.append("uploadfile", that.imgInfo[that.imgInfo.length - 1]);
+          console.log(formd,'ddddd');
         that
           .$axios({
             url: "http://udb.red/User/upImg",
