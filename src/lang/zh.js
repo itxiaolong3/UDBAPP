@@ -8,7 +8,7 @@ module.exports = {
 
       },
       {
-        name: '兑换',
+        name: '交易大厅',
 
       },
       {
@@ -195,10 +195,14 @@ module.exports = {
             {
                 name: "余额兑换UDB "
             }
-            // ,
-            // {
-            //     name: "AKFL兑换"
-            // }
+            ,
+            {
+                name: "AKFL兑换"
+            }
+            ,
+            {
+                name: "通证交易"
+            }
         ],
         price:'单价',
         tip1:'请输入需要兑换的UDB通证数',

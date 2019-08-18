@@ -6,7 +6,7 @@ module.exports = {
         name: 'Interturn',
       },
       {
-        name: 'Exchange',
+        name: 'C2C',
 
       },
       {
@@ -219,6 +219,9 @@ module.exports = {
             {
                 name: "Balancetransfer"
             },
+            {
+                name: "C2C"
+            }
         ],
         price:'Price',
         tip1:'the number of UDB',

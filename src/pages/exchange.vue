@@ -33,6 +33,19 @@
                 <div class="tip">（{{$t('exchange.Tip')}}）</div>
                 <div class="btn df" @click="duiHuan">{{$t('exchange.Confirm')}}</div>
             </div>
+            <div class="c2c" v-if="tabIndex==2">
+                <div>
+                    <span>交易类型</span>
+                    <div>
+                        <van-radio-group v-model="radio">
+                            <div style="display: flex;">
+                                <van-radio name="1" clickable @click="ischoose(1)" style="margin-right: 0.2rem;">{{$t('myShareInfo.tongztixian')}}</van-radio>
+                                <van-radio name="2" clickable @click="ischoose(2)">{{$t('myShareInfo.sduitixian')}}</van-radio>
+                            </div>
+                        </van-radio-group>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </template>
@@ -45,6 +58,7 @@
         name: "login",
         data() {
             return {
+                radio: "1",
                 UDB: '',
                 AKl: '',
                 obj: {
@@ -182,8 +196,13 @@
                 });
             },
             tab(index) {
-                this.tabIndex = index;
+
                 console.log(index, '切换的');
+                if (index==1){
+                    this.$toast(this.$t('postcg.nokf'));
+                    return false;
+                }
+                this.tabIndex = index;
                 let t = this;
                 this.getchardata();
                 //t.getDateArray();
