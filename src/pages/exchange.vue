@@ -34,16 +34,37 @@
                 <div class="btn df" @click="duiHuan">{{$t('exchange.Confirm')}}</div>
             </div>
             <div class="c2c" v-if="tabIndex==2">
-                <div>
+                <div class="changetype">
                     <span>交易类型</span>
-                    <div>
+                    <div class="changetyperedio">
                         <van-radio-group v-model="radio">
                             <div style="display: flex;">
-                                <van-radio name="1" clickable @click="ischoose(1)" style="margin-right: 0.2rem;">{{$t('myShareInfo.tongztixian')}}</van-radio>
-                                <van-radio name="2" clickable @click="ischoose(2)">{{$t('myShareInfo.sduitixian')}}</van-radio>
+                                <van-radio name="1" clickable @click="ischoose(1)" style="margin-right: 0.2rem;">UDB通证</van-radio>
+                                <van-radio name="2" clickable @click="ischoose(2)">AKFL通证</van-radio>
                             </div>
                         </van-radio-group>
                     </div>
+                </div>
+                <div class="c2ccenter">
+                    <div class="inp">
+                        <span>实时单价：</span>
+                        <input type="text"  v-model="selloneprice">
+                    </div>
+                </div>
+                <div class="c2ccenter">
+                    <div class="inp">
+                        <span>交易金额：</span>
+                        <input type="text"  v-model="selloneprice">
+                    </div>
+                </div>
+                <div class="c2ccenter">
+                    <div class="inp">
+                        <span>钱包地址：</span>
+                        <input type="text"  v-model="selloneprice">
+                    </div>
+                </div>
+                <div class="sellbt">
+                    <div class="dosellbt df" @click="dosell">卖出</div>
                 </div>
             </div>
         </div>
@@ -61,6 +82,7 @@
                 radio: "1",
                 UDB: '',
                 AKl: '',
+                selloneprice:'',
                 obj: {
                     akPrice: "",
                     udbprice: ""
@@ -144,6 +166,9 @@
                             this.$toast(res.message);
                         }
                     });
+            },
+            dosell(){
+                this.$toast('点击');
             },
             duiHuan() {
                 if (this.tabIndex == 0) {
@@ -412,6 +437,42 @@
         box-sizing: border-box;
         padding: 0 0.15rem;
         .bottom {
+    .inp{
+        display: flex;
+        margin-top: 0.3rem;
+        justify-content: center;
+        span{
+            display: flex;
+            align-items: center;
+            margin-right: 0.3rem;
+            color: #666666;
+        }
+        input{
+            border: 0.005rem solid #DEDEDE;
+            padding: 0.05rem;
+        }
+    }
+    .sellbt{
+        display: flex;
+        justify-content: center;
+        .dosellbt{
+            display: flex;
+            width: 30%;
+            height: 0.3rem;
+            background: linear-gradient(
+                    90deg,
+                    rgba(58, 48, 207, 1),
+                    rgba(65, 104, 238, 1)
+            );
+            border-radius: 0.2rem;
+            margin-top: 0.15rem;
+            font-size: 0.14rem;
+            font-family: SourceHanSansSC-Regular;
+            font-weight: 400;
+            color: rgba(255, 255, 255, 1);
+        }
+    }
+
             .tab {
                 margin-top: 0.15rem;
                 display: flex;
@@ -441,7 +502,16 @@
                         border-radius: 0.01rem;
                     }
                 }
+
             }
+    .changetype{
+        margin-top: 0.3rem;
+        color:#666666;
+        .changetyperedio{
+            display: flex;
+            justify-content: center;
+        }
+    }
             .duihuan {
                 padding-top: 0.2rem;
                 .title {
