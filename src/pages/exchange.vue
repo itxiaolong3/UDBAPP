@@ -67,6 +67,41 @@
                     <div class="dosellbt df" @click="dosell">卖出</div>
                 </div>
             </div>
+            <div class="getlist">
+                <div class="list_title">
+                    <ul>
+                        <li>UID</li>
+                        <li>通证</li>
+                        <li>单价</li>
+                        <li>金额</li>
+                        <li>操作</li>
+                    </ul>
+                </div>
+                <div class="contlist">
+                    <ul>
+                        <li>6074444</li>
+                        <li>UDB</li>
+                        <li>1.73</li>
+                        <li>200</li>
+                        <li><span>买入</span></li>
+                    </ul>
+                    <ul>
+                        <li>6074444</li>
+                        <li>UDB</li>
+                        <li>1.73</li>
+                        <li>200</li>
+                        <li><span>买入</span></li>
+                    </ul>
+                    <ul>
+                    <li>6074444</li>
+                    <li>UDB</li>
+                    <li>1.73</li>
+                    <li>200</li>
+                    <li><span>买入</span></li>
+                    </ul>
+
+                </div>
+            </div>
         </div>
     </div>
 </template>
@@ -470,6 +505,41 @@
             font-family: SourceHanSansSC-Regular;
             font-weight: 400;
             color: rgba(255, 255, 255, 1);
+        }
+    }
+    .getlist{
+        margin: 0.2rem 0rem;
+        .list_title{
+            margin-left: -0.2rem;
+            margin-right: -0.2rem;
+            height:0.44rem;
+            line-height: 0.44rem;
+            background:rgba(233,246,255,1);
+            ul li{
+               width: 20%;
+                float: left;
+                text-align: center;
+            }
+        }
+        .contlist{
+            ul li{
+                width: 20%;
+                float: left;
+                text-align: center;
+                padding: 0.11rem;
+                margin: 0.06rem 0rem;
+            }
+            span{
+                width:0.85rem;
+                height: 0.25rem;
+                color: white;
+                padding: 0.07rem 0.07rem;
+                background: linear-gradient(
+                        90deg,
+                        rgba(58, 48, 207, 1),
+                        rgba(65, 104, 238, 1)
+                );
+            }
         }
     }
 
