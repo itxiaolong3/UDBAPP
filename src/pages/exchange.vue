@@ -34,6 +34,22 @@
                 <div class="btn df" @click="duiHuan">{{$t('exchange.Confirm')}}</div>
             </div>
             <div class="c2c" v-if="tabIndex==2">
+                <van-popup v-model="show" class="pop" :close-on-click-overlay="isclose">
+                    <span class="tiptitle">温馨提示</span>
+                    <div class="showpopup">
+                        <div class="popupcontent">
+                            <div class="maincontent">
+                                <div class="maintitle">交易待处理</div>
+                                <div class="maintitle2">“复制网址”购买通证 记得上传交易凭证哦</div>
+                                <div class="copybt" @click.stop="copyaddress()" >复制钱包地址</div>
+                                <div class="golist" @click="goc2clist()">查看我的交易</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="closebt" @click="closebt">
+                        <img src="@/assets/image/c2cclose.png" alt="">
+                    </div>
+                </van-popup>
                 <div class="changetype">
                     <span>交易类型</span>
                     <div class="changetyperedio">
@@ -83,21 +99,21 @@
                         <li>UDB</li>
                         <li>1.73</li>
                         <li>200</li>
-                        <li><span>买入</span></li>
+                        <li><span @click="showsell">买入</span></li>
                     </ul>
                     <ul>
                         <li>6074444</li>
                         <li>UDB</li>
                         <li>1.73</li>
                         <li>200</li>
-                        <li><span>买入</span></li>
+                        <li><span @click="showsell">买入</span></li>
                     </ul>
                     <ul>
                     <li>6074444</li>
                     <li>UDB</li>
                     <li>1.73</li>
                     <li>200</li>
-                    <li><span>买入</span></li>
+                    <li><span @click="showsell">买入</span></li>
                     </ul>
 
                 </div>
@@ -114,6 +130,8 @@
         name: "login",
         data() {
             return {
+                show: false,
+                isclose:false,
                 radio: "1",
                 UDB: '',
                 AKl: '',
@@ -132,7 +150,7 @@
                         name: "AKFL兑换"
                     }
                 ],
-                tabIndex: 0,
+                tabIndex: 2,
                 noteTab: [
                     {
                         name: "数量"
@@ -171,12 +189,24 @@
             };
         },
         created() {
-
         },
         methods: {
             onClickLeft() {
                 //this.$toast('返回');
                 this.$router.go(-1)
+            },
+            showsell(){
+                this.show=true;
+            },
+            closebt(){
+                this.show=false;
+            },
+            goc2clist(){
+                console.log('dddd')
+                this.$router.push({ path: "/c2crecord" });
+            },
+            copyaddress(){
+                console.log('bbbbb')
             },
             getchardata() {
                 this.$api
@@ -634,6 +664,87 @@
                     font-family: SourceHanSansSC-Regular;
                     font-weight: 400;
                     color: rgba(255, 255, 255, 1);
+                }
+            }
+            .pop{
+                background-color:#4c4c4c;
+                border-radius: 0.3rem;
+                .tiptitle{
+                    position: relative;
+                    top: 0.8rem;
+                    right: -0.89rem;
+                    z-index: 1;
+                    color: white;
+                    font-size: 0.23rem;
+                    padding: 0.12rem;
+                }
+                .showpopup{
+                    width: 2.75rem;
+                    height: 4.41rem;
+                    margin-left: 0.22rem;
+                    background: url("http://app.udb.red/img/c2cbg.png") no-repeat;
+                    display: flex;
+                    justify-content: center;
+                    .popupcontent{
+                        background-color: white;
+                        border-radius: 0.3rem;
+                        position: relative;
+                        top: -0.32rem;
+                        right: 0.15rem;
+                        width: 2.65rem;
+                        height: 2.81rem;
+                        margin-top: 1.1rem;
+                        .maincontent{
+                            display: flex;
+                            flex-direction: column;
+                            justify-content: center;
+                            align-items: center;
+                            padding: 0.5rem;
+                            .maintitle{
+                                height:0.185rem;
+                                font-size:0.19rem;
+                                font-family:Source Han Sans CN;
+                                font-weight:bold;
+                                color:rgba(50,50,50,1);
+                                margin-top: -0.2rem;
+
+                            }
+                            .maintitle2{
+                                width:1.3rem;
+                                height:0.185rem;
+                                margin-top: 0.2rem;
+                            }
+                            .copybt{
+                                margin-top: 0.5rem;
+                                width:2.03rem;
+                                height:0.40rem;
+                                background:linear-gradient(90deg,rgba(58,48,207,1),rgba(65,104,238,1));
+                                border-radius:45px;
+                                color: white;
+                                text-align: center;
+                                line-height: 0.4rem;
+                            }
+                            .golist{
+                                margin-top: 0.2rem;
+                                width:2.03rem;
+                                height:0.40rem;
+                                background:linear-gradient(90deg,rgba(58,48,207,1),rgba(65,104,238,1));
+                                border-radius:45px;
+                                color: white;
+                                text-align: center;
+                                line-height: 0.4rem;
+                            }
+                        }
+                    }
+
+                }
+                .closebt{
+                    position: relative;
+                    bottom: 0.7rem;
+                    left: 1.27rem;
+                    img{
+                        width: 0.35rem;
+                    }
                 }
             }
 

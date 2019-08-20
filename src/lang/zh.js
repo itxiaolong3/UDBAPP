@@ -266,6 +266,14 @@ module.exports = {
             name:'充值记录'
           }
       ],
+        c2clist:[
+            {
+                name:'待交易'
+            },
+            {
+                name:'交易记录'
+            }
+        ],
         noteTab: [
             {
                 name: "充值时间"
@@ -278,6 +286,20 @@ module.exports = {
             },
             {
                 name: "凭证"
+            }
+        ],
+        c2cnoteTab: [
+            {
+                name: "交易类型"
+            },
+            {
+                name: "金额"
+            },
+            {
+                name: "状态"
+            },
+            {
+                name: "操作"
             }
         ],
         copy:'复制地址',

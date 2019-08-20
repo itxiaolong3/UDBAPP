@@ -259,6 +259,14 @@ module.exports = {
                 name:'Record'
             }
         ],
+        c2clist:[
+            {
+                name:'Wait'
+            },
+            {
+                name:'Record'
+            }
+        ],
         noteTab: [
             {
                 name: "addtime"
@@ -271,6 +279,20 @@ module.exports = {
             },
             {
                 name: "credentials"
+            }
+        ],
+        c2cnoteTab: [
+            {
+                name: "Type"
+            },
+            {
+                name: "amount"
+            },
+            {
+                name: "state"
+            },
+            {
+                name: "Action"
             }
         ],
         copy:'copy',

@@ -21,7 +21,7 @@ module.exports = {
     //host: '192.168.0.117', // 公司
     //host: '192.168.43.55', //192.168.0.102辉Wi-Fi
     //host:'192.168.1.103',
-    host:'192.168.0.117',
+    host:'192.168.43.55',
     port: 8082, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
     autoOpenBrowser: false,
     errorOverlay: true,
