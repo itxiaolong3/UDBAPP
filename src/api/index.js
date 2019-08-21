@@ -247,6 +247,14 @@ getc2coneprice = params => {
     getdefaultaddress=params => {
         return http.post("MyApi/getdefaultaddress", params);
     };
+    //c2c卖出列表
+    c2cselllist=params => {
+        return http.post("MyApi/c2cselllist", params);
+    };
+    //c2c卖出
+    c2csell=params => {
+        return http.post("User/c2csell", params);
+    };
 }
 
 export default new API();

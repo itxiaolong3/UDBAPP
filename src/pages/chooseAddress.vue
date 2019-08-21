@@ -47,6 +47,7 @@ export default {
   },
   mounted() {
     document.title = "修改钱包地址";
+    this.content=this.$route.query.address
   }
 };
 </script>
@@ -96,7 +97,7 @@ export default {
   }
   .active {
     background:linear-gradient(90deg,rgba(58,48,207,1),rgba(65,104,238,1));
-    color: black; 
+    color: white;
     opacity: 1;
   }
 }

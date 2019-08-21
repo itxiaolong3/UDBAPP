@@ -2,7 +2,7 @@
   <div class="login">
     <div class="content">
       <div class="df">{{$t('cartAddress.title')}}</div>
-      <input  id="hidden" type="text" :placeholder= "$t('cartAddress.address')"  v-model="content">
+      <input disabled="disabled"  id="hidden"  type="text" :placeholder= "$t('cartAddress.address')"  v-model="content">
       <span @click="copy">{{$t('cartAddress.content')}}</span>
     </div>
     <div class="btn df" @click="choose" :class="[kong == true && 'active']">{{$t('cartAddress.do')}}</div>
@@ -27,7 +27,7 @@ export default {
   },
   methods: {
     choose() {
-      this.$router.push({ path: "/chooseAddress" });
+      this.$router.push({ path: "/chooseAddress",query:{address:this.content} });
 
     },
     del() {

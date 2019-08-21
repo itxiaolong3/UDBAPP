@@ -333,7 +333,7 @@ module.exports = {
     },
     my:{
       zxlist:'申请记录',
-      txaddress:'提现地址',
+      txaddress:'我的钱包地址',
       Feedback:'反馈',
       paypsw:'支付密码',
       txmanagement:'提现管理',
@@ -519,6 +519,8 @@ module.exports = {
     postcg:{
       title:'提交结果',
         tip:'恭喜您提交成功，工作人员与会在2个工作日内您联系，请保持手机通畅',
+        tipc2c:'恭喜，提交成功,等待审核',
+        btc2c:'查看我的交易',
         bt:'确认',
         nokf:'待开发',
     },

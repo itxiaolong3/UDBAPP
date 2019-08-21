@@ -6,9 +6,9 @@
             @click-left="onClickLeft"
     />
     <div class="icon"> <img src="@/assets/image/postg.png" class="iconimg" alt></div>
-    <div class="tipcon">{{$t('postcg.tip')}}</div>
+    <div class="tipcon">{{$t('postcg.tipc2c')}}</div>
     <div class="btnContent">
-      <div class="btn df" @click="backto()">{{$t('postcg.bt')}}</div>
+      <div class="btn df" @click="backto()">{{$t('postcg.btc2c')}}</div>
     </div>
   </div>
 </template>
@@ -27,7 +27,7 @@ export default {
           this.$router.go(-1)
       },
       backto(){
-          this.$router.push({ path: "/shopcenter" });
+          this.$router.push({ path: "/c2crecord" });
       },
 
   },

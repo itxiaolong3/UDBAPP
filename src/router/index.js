@@ -69,6 +69,7 @@ import houselist from '@/pages/houselist' //民宿列表
 import gooddetail from '@/pages/gooddetail' //详细信息
 import shenqing from '@/pages/shenqing' //提交申请
 import postcg from '@/pages/postcg' //提交成功
+import postcgforc2c from '@/pages/postcgforc2c' //c2c提交成功
 import zxlist from '@/pages/zxlist' //申请列表
 import applicationcenter from '@/pages/applicationcenter' //应用场景
 import natifilist from '@/pages/natifilist' //公告列表
@@ -482,6 +483,10 @@ const router =new Router({
           path: '/postcg',
           name: 'postcg',
           component: postcg
+      },{
+          path: '/postcgforc2c',
+          name: 'postcgforc2c',
+          component: postcgforc2c
       },
       {
           path: '/zxlist',

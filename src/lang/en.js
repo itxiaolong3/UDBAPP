@@ -480,6 +480,8 @@ module.exports = {
         tip:'Congratulations on your successful submission. The staff will attend the meeting within 2 working days. Please keep your mobile phone open畅',
         bt:'Ok',
         nokf:'wait to do',
+        tipc2c:'Congratulations, submitted successfully, awaiting review',
+        btc2c:'Look at my trades',
     },
     ztlist:{
         record:'record',

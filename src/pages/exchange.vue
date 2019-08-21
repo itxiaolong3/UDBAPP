@@ -40,9 +40,10 @@
                         <div class="popupcontent">
                             <div class="maincontent">
                                 <div class="maintitle">交易待处理</div>
-                                <div class="maintitle2">“复制网址”购买通证 记得上传交易凭证哦</div>
-                                <span>fefefef5448484848</span>
-                                <div class="copybt" @click.stop="copyaddress()" >复制钱包地址</div>
+                                <div class="maintitle2">“复制钱包地址”购买通证 记得上传交易凭证哦</div>
+                                <!--<span>{{toastaddress}}</span>-->
+                                <input  id="hidden" style="width: 100%" type="text" v-model="toastaddress">
+                                <div class="copybt" @click.stop="copyaddress({toastaddress})" id="qbaddress">复制钱包地址</div>
                                 <div class="golist" @click="goc2clist()">查看我的交易</div>
                             </div>
                         </div>
@@ -64,7 +65,7 @@
                 </div>
                 <div class="c2ccenter">
                     <div class="inp">
-                        <span>实时单价：$</span>
+                        <span>实时单价：$&nbsp;</span>
                         <input type="text" disabled="disabled"  v-model="selloneprice" value="selloneprice">
                     </div>
                 </div>
@@ -77,14 +78,14 @@
                 <div class="c2ccenter">
                     <div class="inp">
                         <span>钱包地址：</span>
-                        <input type="text"  v-model="moneyaddress">
+                        <input type="text"  v-model="moneyaddress" style="width: 80%">
                     </div>
                 </div>
                 <div class="sellbt">
                     <div class="dosellbt df" @click="dosell">卖出</div>
                 </div>
             </div>
-            <div class="getlist">
+            <div class="getlist" v-if="tabIndex==2">
                 <div class="list_title">
                     <ul>
                         <li>UID</li>
@@ -96,31 +97,18 @@
                     </ul>
                 </div>
                 <div class="contlist">
-                    <ul>
-                        <li>6074444</li>
-                        <li>UDB</li>
-                        <li>1.73</li>
-                        <li>1.73</li>
-                        <li>200</li>
-                        <li><span @click="showsell">买入</span></li>
+                    <ul v-for="(item,index) in noteList" :key="index">
+                        <li>{{item.uid}}</li>
+                        <li>{{item.type}}</li>
+                        <li>{{item.oneprice}}</li>
+                        <li>{{item.tznum}}</li>
+                        <li>{{item.money}}</li>
+                        <li><span @click="showsell(item.id,item.moneyadress,item.tznum,item.money,item.type)">买入</span></li>
                     </ul>
-                    <ul>
-                        <li>6074444</li>
-                        <li>UDB</li>
-                        <li>1.73</li>
-                        <li>1.73</li>
-                        <li>200</li>
-                        <li><span @click="showsell">买入</span></li>
-                    </ul>
-                    <ul>
-                    <li>6074444</li>
-                    <li>UDB</li>
-                    <li>1.73</li>
-                    <li>1.73</li>
-                    <li>200</li>
-                    <li><span @click="showsell">买入</span></li>
-                    </ul>
-
+                    <div class="no df" v-if='noteList.length == 0'>
+                        <img src="@/assets/image/kong.png" alt="">
+                        <div>暂无任何交易数据</div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -143,6 +131,8 @@
                 selloneprice:22,
                 udbnum:0,
                 moneyaddress:'',
+                toastaddress:'',
+                selltype:'UDB通证',
                 obj: {
                     akPrice: "",
                     udbprice: ""
@@ -170,22 +160,6 @@
                     }
                 ],
                 noteList: [
-                    {
-                        name: "备注",
-                        now: "728.31",
-                        time: "2019-06-07 14:28:12"
-                    },
-                    {
-                        name: "备注",
-                        now: "728.31",
-                        time: "2019-06-07 14:28:12"
-                    },
-
-                    {
-                        name: "备注",
-                        now: "728.31",
-                        time: "2019-06-07 14:28:12"
-                    }
                 ],
                 zong: [330, 340, 660, 70, 770, 80],
                 buy: [30, 44, 34, 65, 66, 60],
@@ -196,18 +170,38 @@
                 addresstip: this.$t("exchange.ctoctip2"),
                 udbtimeprice:0,
                 aktimeprice:0,
+                posttype:0
 
             };
         },
         created() {
         },
         methods: {
+            getaddress(){
+                this.$api.getInfo({}).then(res => {
+                    if (res.status == 1) {
+                        // this.$router.push({ path: "/index" });
+                        this.moneyaddress = res.result.userinfo.wallet_add;
+                    }
+                });
+            },
             onClickLeft() {
                 //this.$toast('返回');
                 this.$router.go(-1)
             },
-            showsell(){
-                this.show=true;
+            showsell(id,address,num,money,type){
+                let t=this;
+                Dialog.confirm({
+                    title: '买入确认',
+                    message: '您将购买'+num+'个'+type+'<br/>一共 $'+money+'<br/>'
+                }).then(() => {
+                    console.log('id='+id,' 地址：'+address)
+                    t.toastaddress=address;
+                    t.show=true;
+                }).catch(() => {
+                    //this.$toast('取消');
+                });
+
             },
             closebt(){
                 this.show=false;
@@ -216,15 +210,23 @@
                 console.log('dddd')
                 this.$router.push({ path: "/c2crecord" });
             },
-            copyaddress(){
-                console.log('bbbbb')
+            copyaddress(address){
+                var Url = document.getElementById("hidden");
+                Url.select(); // 选择对象
+                //document.execCommand("Copy");
+                let dd=document.execCommand('copy', true)
+                this.$toast("复制成功");
+                console.log(dd,'地址')
             },
             ischoose(e){
-                console.log(this.radio,'点击了')
                 if (e=="1"){
                     this.selloneprice=this.udbtimeprice;
+                    this.selltype='UDB通证'
+                    this.posttype=0;
                 } else if(e=="2"){
                     this.selloneprice=this.aktimeprice;
+                    this.selltype='AKFL通证';
+                    this.posttype=1;
                 }
             },
             getchardata() {
@@ -271,7 +273,34 @@
                     this.$toast(this.addresstip);
                     return false;
                 }
-                this.$toast('点击');
+                let t=this;
+                Dialog.confirm({
+                    title: '卖出确认',
+                    message: '您将卖出'+this.udbnum+'个'+this.selltype+'<br/>当前单价为：$ '+this.selloneprice+'<br/>一共 $'+(this.udbnum*this.selloneprice).toFixed(4)+'<br/>'+'钱包地址：'
+                    +this.moneyaddress
+                }).then(() => {
+                    this.$api
+                        .c2csell({
+                            tznum: this.udbnum,
+                            type: this.posttype,
+                            oneprice:this.selloneprice,
+                            money:(this.udbnum*this.selloneprice).toFixed(4),
+                            moneyadress:this.moneyaddress,
+                        })
+                        .then(res => {
+                            if (res.status == 1) {
+                                this.$toast(res.message);
+                                setTimeout(function () {
+                                    t.$router.push({ path: "/postcgforc2c" });
+                                },900)
+                            } else {
+                                //console.log(333);
+                            }
+                        });
+                }).catch(() => {
+                    //this.$toast('取消');
+                });
+
             },
             duiHuan() {
                 if (this.tabIndex == 0) {
@@ -323,6 +352,10 @@
                     } else {
                     }
                 });
+                this.getaddress()
+                this.$api.c2cselllist({}).then(res => {
+                    this.noteList = res.result;
+                });
             },
             tab(index) {
 
@@ -330,6 +363,10 @@
                 if (index==1){
                     this.$toast(this.$t('postcg.nokf'));
                     return false;
+                }else if(index==2){
+                    this.$api.c2cselllist({}).then(res => {
+                        this.noteList = res.result;
+                    });
                 }
                 this.tabIndex = index;
                 let t = this;
@@ -545,12 +582,12 @@
         .bottom {
     .inp{
         display: flex;
-        margin-top: 0.3rem;
+        margin-top: 0.2rem;
         justify-content: center;
         span{
             display: flex;
             align-items: center;
-            margin-right: 0.3rem;
+            /*margin-right: 0.3rem;*/
             color: #666666;
         }
         input{
@@ -758,6 +795,7 @@
                                 width:1.3rem;
                                 height:0.185rem;
                                 margin-top: 0.2rem;
+                                margin-bottom: 0.2rem;
                             }
                             .copybt{
                                 margin-top: 0.2rem;
@@ -829,6 +867,25 @@
                             color: rgba(51, 51, 51, 1);
                         }
                     }
+                }
+            }
+            .no {
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                justify-content: flex-start;
+                img {
+                    margin-top: 1.52rem;
+                    width: 1rem;
+                }
+                span {
+                    display: block;
+                    margin-top: 0.18rem;
+                    font-size: 0.14rem;
+                    font-family: SourceHanSansSC-Regular;
+                    font-weight: 400;
+                    color: rgba(153, 153, 153, 1);
+
                 }
             }
         }

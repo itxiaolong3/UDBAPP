@@ -73,7 +73,6 @@
       </div>
     </div>
 
-    <!-- 请输入需要兑换的AKFL通证数 -->
     <div class="note" v-if="tabIndex==1">
       <div class="tabs">
         <div class="item df" v-for="(item,index) in $t('topup.noteTab')" :key="index">{{item.name}}</div>
