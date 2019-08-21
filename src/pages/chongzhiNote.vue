@@ -32,7 +32,6 @@
         <!--<div class="mon df">{{$t('topup.upload')}}</div>-->
       <input  id="hidden" type="text"   v-model="address">
         <div class="mon df copyaddress">{{$t('topup.address')}}</div>
-
         <!-- <input type="text"  disabled  class="inp" v-model="address" id="hidden"> -->
       </div>
       <div class="tip tipcolor" @click="rule">({{$t('topup.title')}})</div>

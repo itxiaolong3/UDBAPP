@@ -228,6 +228,8 @@ module.exports = {
         tip2:'the number of AKFL',
         Confirm:'Confirm',
         Tip:'Tip: the minimum exchange multiple of 100',
+        ctoctip1:'Please enter number',
+        ctoctip2:'Please enter money address',
     },
     udb:{
         list: [

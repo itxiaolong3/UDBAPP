@@ -13,6 +13,9 @@ class API {
   code = params => {
     return http.post("PublicApi/sendemail", params);
   };
+getc2coneprice = params => {
+    return http.post("PublicApi/getc2coneprice", params);
+  };
   toLogin = params => {
     return http.post("Login/checkLogin", params);
   };

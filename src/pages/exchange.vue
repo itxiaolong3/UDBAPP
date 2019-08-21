@@ -41,6 +41,7 @@
                             <div class="maincontent">
                                 <div class="maintitle">交易待处理</div>
                                 <div class="maintitle2">“复制网址”购买通证 记得上传交易凭证哦</div>
+                                <span>fefefef5448484848</span>
                                 <div class="copybt" @click.stop="copyaddress()" >复制钱包地址</div>
                                 <div class="golist" @click="goc2clist()">查看我的交易</div>
                             </div>
@@ -63,20 +64,20 @@
                 </div>
                 <div class="c2ccenter">
                     <div class="inp">
-                        <span>实时单价：</span>
-                        <input type="text"  v-model="selloneprice">
+                        <span>实时单价：$</span>
+                        <input type="text" disabled="disabled"  v-model="selloneprice" value="selloneprice">
                     </div>
                 </div>
                 <div class="c2ccenter">
                     <div class="inp">
-                        <span>交易金额：</span>
-                        <input type="text"  v-model="selloneprice">
+                        <span>交易数量：</span>
+                        <input type="text"  v-model="udbnum">
                     </div>
                 </div>
                 <div class="c2ccenter">
                     <div class="inp">
                         <span>钱包地址：</span>
-                        <input type="text"  v-model="selloneprice">
+                        <input type="text"  v-model="moneyaddress">
                     </div>
                 </div>
                 <div class="sellbt">
@@ -89,6 +90,7 @@
                         <li>UID</li>
                         <li>通证</li>
                         <li>单价</li>
+                        <li>数量</li>
                         <li>金额</li>
                         <li>操作</li>
                     </ul>
@@ -98,6 +100,7 @@
                         <li>6074444</li>
                         <li>UDB</li>
                         <li>1.73</li>
+                        <li>1.73</li>
                         <li>200</li>
                         <li><span @click="showsell">买入</span></li>
                     </ul>
@@ -105,12 +108,14 @@
                         <li>6074444</li>
                         <li>UDB</li>
                         <li>1.73</li>
+                        <li>1.73</li>
                         <li>200</li>
                         <li><span @click="showsell">买入</span></li>
                     </ul>
                     <ul>
                     <li>6074444</li>
                     <li>UDB</li>
+                    <li>1.73</li>
                     <li>1.73</li>
                     <li>200</li>
                     <li><span @click="showsell">买入</span></li>
@@ -135,7 +140,9 @@
                 radio: "1",
                 UDB: '',
                 AKl: '',
-                selloneprice:'',
+                selloneprice:22,
+                udbnum:0,
+                moneyaddress:'',
                 obj: {
                     akPrice: "",
                     udbprice: ""
@@ -185,6 +192,10 @@
                 sale: [220, 330, 40, 40, 50, 60],
                 price: [9.59, 9.59, 9.59, 9.59, 9.59, 9.59],
                 p2:this.$t("exchange.Tip"),
+                numtip: this.$t("exchange.ctoctip1"),
+                addresstip: this.$t("exchange.ctoctip2"),
+                udbtimeprice:0,
+                aktimeprice:0,
 
             };
         },
@@ -207,6 +218,14 @@
             },
             copyaddress(){
                 console.log('bbbbb')
+            },
+            ischoose(e){
+                console.log(this.radio,'点击了')
+                if (e=="1"){
+                    this.selloneprice=this.udbtimeprice;
+                } else if(e=="2"){
+                    this.selloneprice=this.aktimeprice;
+                }
             },
             getchardata() {
                 this.$api
@@ -232,7 +251,26 @@
                         }
                     });
             },
+            getc2coneprice(){
+                this.$api.getc2coneprice({})
+                        .then(res => {
+                    if (res.status == 1) {
+                        //console.log(res.result,'结果')
+                        this.udbtimeprice=res.result.udbprice
+                        this.aktimeprice=res.result.ak_price
+                } else {
+                    this.$toast(res.message);
+                }
+            });
+            },
             dosell(){
+                if (this.udbnum==''||this.udbnum<0){
+                    this.$toast(this.numtip);
+                    return false;
+                }else if (this.moneyaddress==''){
+                    this.$toast(this.addresstip);
+                    return false;
+                }
                 this.$toast('点击');
             },
             duiHuan() {
@@ -279,6 +317,7 @@
                 this.$api.getPrice({}).then(res => {
                     if (res.status == 1) {
                         this.obj = res.result;
+                    this.selloneprice=this.obj.udbprice;
                         //console.log(this.obj);
 
                     } else {
@@ -335,6 +374,7 @@
             // 实时变化
             getDateArray(endDate, splitTime, count) {
                 this.getchardata();
+                this.getc2coneprice()
                 if (!endDate) {
                     endDate = new Date();
                 }
@@ -477,6 +517,7 @@
         mounted() {
             document.title = this.$t('alltitle.udbchange');
             this.init();
+            this.getc2coneprice()
             this.drawLine();
             // var time = null;
             this.getDateArray();
@@ -546,24 +587,25 @@
             line-height: 0.44rem;
             background:rgba(233,246,255,1);
             ul li{
-               width: 20%;
+               width: 16%;
                 float: left;
                 text-align: center;
             }
         }
         .contlist{
             ul li{
-                width: 20%;
+                width: 16%;
                 float: left;
                 text-align: center;
-                padding: 0.11rem;
+                padding: 0.10rem;
                 margin: 0.06rem 0rem;
             }
             span{
-                width:0.85rem;
+                width:0.95rem;
                 height: 0.25rem;
                 color: white;
-                padding: 0.07rem 0.07rem;
+                padding: 0.07rem 0.03rem;
+                margin-right: -0.2rem;
                 background: linear-gradient(
                         90deg,
                         rgba(58, 48, 207, 1),
@@ -700,6 +742,9 @@
                             justify-content: center;
                             align-items: center;
                             padding: 0.5rem;
+                            span{
+                                padding-top: 0.25rem;
+                            }
                             .maintitle{
                                 height:0.185rem;
                                 font-size:0.19rem;
@@ -715,7 +760,7 @@
                                 margin-top: 0.2rem;
                             }
                             .copybt{
-                                margin-top: 0.5rem;
+                                margin-top: 0.2rem;
                                 width:2.03rem;
                                 height:0.40rem;
                                 background:linear-gradient(90deg,rgba(58,48,207,1),rgba(65,104,238,1));

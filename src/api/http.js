@@ -94,7 +94,7 @@ export default {
   },
   post(url, params = {}, back = true) {
     return new Promise(async (resolve, reject) => {
-        if (url!='PublicApi/chardata'){
+        if (url!='PublicApi/chardata'&&url!='PublicApi/getc2coneprice'){
             vm.$toast.loading({
                 mask: true,
                 duration: 0,
