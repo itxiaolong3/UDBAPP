@@ -31,12 +31,16 @@
         <div class="item df" v-for="(item,index) in $t('topup.c2cnoteTab')" :key="index">{{item.name}}</div>
       </div>
       <div class="content">
-        <div class="item" v-for="(item,index) in noteList" :key="index">
+        <div class="item" v-for="(item,index) in waitnoteList" :key="index">
           <div>{{item.addtime}}</div>
           <div class="money" :class="[item.state ==0 && 'active']">{{item.moneynum}}</div>
           <div>{{item.status == 0?$t('topup.waittrue'):(item.status == 1?$t('topup.istrue'):$t('topup.Refused'))}}</div>
           <div class="open df" @click="open(item.pzimgarr)">{{$t('topup.upload')}}</div>
         </div>
+          <div class="no df" v-if='noteList.length == 0'>
+              <img src="@/assets/image/kong.png" alt="">
+              <div>{{$t('morecatlist.nodata')}}</div>
+          </div>
       </div>
     </div>
     <div class="note" v-if="tabIndex==1">
@@ -50,6 +54,10 @@
           <div>{{item.status == 0?$t('topup.waittrue'):(item.status == 1?$t('topup.istrue'):$t('topup.Refused'))}}</div>
           <div class="open df" @click="open(item.pzimgarr)">{{$t('topup.lookpz')}}</div>
         </div>
+          <div class="no df" v-if='noteList.length == 0'>
+              <img src="@/assets/image/kong.png" alt="">
+              <div>{{$t('morecatlist.nodata')}}</div>
+          </div>
       </div>
     </div>
   </div>
@@ -69,52 +77,11 @@ export default {
   name: "login",
   data() {
     return {
-        loginfo:"0000",
-        fileList: [
-            { url: 'https://img.yzcdn.cn/vant/cat.jpeg' },
-            { url: 'https://img.yzcdn.cn/vant/cat.jpeg' },
-            { url: 'https://img.yzcdn.cn/vant/cat.jpeg' },
-        ],
-      address:'',
-      imgString: [],
-      content: "",
-      show: false,
-      phone: "",
-      pwd: "",
-      student: true,
-      pwdType: "password",
-      state: 1,
-      http: "",
-      list: [
-        {
-          name: "充值"
-        },
-        {
-          name: "充值记录"
-        }
-      ],
+      list: [],
       tabIndex: 0,
-      noteTab: [
-        {
-          name: "充值时间"
-        },
-        {
-          name: "金额"
-        },
-        {
-          name: "状态"
-        },
-        {
-          name: "凭证"
-        }
-      ],
+      noteTab: [],
       noteList: [],
-      imgUrl: [],
-      imgInfo: [],
-      moneynum: "",
-        isactive:0,
-        loadsuccesstip:this.$t('topup.imgupload'),
-        isloadimg:0
+      waitnoteList: [],
     };
   },
   created() {},
@@ -123,150 +90,6 @@ export default {
           //this.$toast('返回');
           this.$router.go(-1)
       },
-      onRead(file) {
-          var that = this;
-          //将原图片显示为选择的图片
-          //this.$refs.goodsImg.src = file.content;
-          that.isloadimg=1;
-          if (file.length>1){
-              if (file.length>3||that.imgUrl.length>=2){
-                  this.$toast("最多三张");
-                  that.isloadimg=0;
-                  return false;
-              }
-              file.forEach(function (value) {
-                  const formd = new FormData();
-                  var blob=that.dataURLtoBlob(value.content)
-                  formd.append('uploadfile',blob, Date.now() + '.jpg');
-                  console.log(formd);
-                  that
-                      .$axios({
-                          url: "http://udb.red/User/upImg",
-                          method: "post",
-                          data: formd,
-                          headers: {
-                              "Content-Type": "multipart/form-data"
-                          }
-                      })
-                      //then里面跟一个成功回调函数
-                      .then(function(resp) {
-                          if (resp.data.status == 1) {
-                              that.imgString.push(resp.data.result);
-                              console.log(that.imgString,'图片真正返回地址');
-                              that.isloadimg=0;
-                              //that.$toast(that.loadsuccesstip, "text");
-                          } else {
-                              that.$toast(resp.data.message, "text");
-                          }
-                      })
-                      // catch中跟一个失败回调函数
-                      .catch(function(error) {
-                          console.log(error);
-                      });
-                  that.imgUrl.push(value.content);
-              })
-
-          } else{
-              if (that.imgUrl.length>=3){
-                  this.$toast("最多三张");
-                  that.isloadimg=0;
-                  return false;
-              }
-              var blob=this.dataURLtoBlob(file.content)
-            //FormData对象
-              var fd = new FormData();
-            //TDOD Ajax或者其他方式上传FormData对象
-            //FormData对象接受三个参数，第三个参数为文件名，通常我们只传前两个参数，
-              // 第三个参数不传则使用默认文件名，这里使用的Blob对象，所以需要一个文件名，用时间戳代替。
-              fd.append('uploadfile',blob, Date.now() + '.jpg');
-              ////uploadfile
-              that
-                  .$axios({
-                      url: "http://udb.red/User/upImg",
-                      method: "post",
-                      data: fd,
-                      headers: {
-                          "Content-Type": "multipart/form-data"
-                      }
-                  })
-                  //then里面跟一个成功回调函数
-                  .then(function(resp) {
-                      //that.loginfo=resp;
-                      if (resp.data.status == 1) {
-                          that.imgString.push(resp.data.result);
-                          console.log(that.imgString,'图片真正返回地址');
-                          that.isloadimg=0;
-                          //that.$toast(that.loadsuccesstip, "text");
-                      } else {
-                          that.$toast(resp.data.message, "text");
-                      }
-                  })
-                  // catch中跟一个失败回调函数
-                  .catch(function(error) {
-                      //that.loginfo=error;
-                      console.log(error);
-                  });
-              that.imgUrl.push(file.content);
-          }
-
-          console.log(file);
-          console.log(that.imgUrl.length,'baocimg')
-      },
-      dataURLtoBlob(base64string) {
-          var base64String = base64string;
-          //这里对base64串进行操作，去掉url头，并转换为byte
-          var bytes = window.atob(base64String.split(',')[1]);
-          //处理异常，将ASCII码小于0的转换为大于0
-          var ab = new ArrayBuffer(bytes.length);
-          var ia = new Uint8Array(ab);
-          for(var i = 0; i < bytes.length; i++){
-              ia[i] = bytes.charCodeAt(i); //这里有点疑惑，ia是怎么改变ab的？注：①
-          }
-          //Blob对象
-          var blob = new Blob([ab], {type: 'image/jpeg'}); //type为图片的格式
-          return blob;
-        },
-    rule() {
-      this.$router.push({ path: "/Rule" ,query:{state:1}});
-
-    },
-    copy() {
-      var Url = document.getElementById("hidden");
-      Url.select(); // 选择对象
-      document.execCommand("Copy");
-      this.$toast("复制成功");
-
-      // 
-    },
-    submit() {
-      this.$api
-        .addmoney({
-          pzimg: this.imgString.toString(),
-          comment: this.content,
-          moneynum: this.moneynum,
-            type:this.isactive
-        })
-        .then(res => {
-          if (res.status == 1) {
-            this.$toast("提交成功");
-          }
-        });
-    },
-    // 删除图片
-    del(index) {
-      //  this.$toast("index"+index);
-      this.imgUrl.splice(index,1);
-      this.imgString.splice(index,1);
-        console.log(this.imgString,'当前图片地址');
-    },
-    open(arr) {
-      // this.show = !this.show;
-      // console.log(1);
-      ImagePreview(arr);
-    },
-    toDetail(id) {
-      this.$router.push({ path: "/zhiboDetail", query: { id: id } });
-    },
     tab(index) {
       this.tabIndex = index;
       if (index == 1) {
@@ -277,23 +100,9 @@ export default {
         this.noteList = [];
       }
     },
-    next() {
-      this.show = !this.show;
-    },
-    init() {
-      this.$api.getmoneyaddress().then(res=> {
-        if(res.status == 1) {
-          this.address = res.result
-        }
-      })
-    }
   },
   mounted() {
     document.title = this.$t('alltitle.topup');
-      let gettype=this.$route.params.type;
-      this.isactive=gettype;
-      console.log(gettype,'传来到gettype')
-    this.init()
   }
 };
 </script>
@@ -698,6 +507,25 @@ export default {
           color: rgba(255, 255, 255, 1);
         }
       }
+          .no {
+              width: 100%;
+              display: flex;
+              flex-direction: column;
+              justify-content: flex-start;
+          img {
+              margin-top: 1.52rem;
+              width: 1rem;
+          }
+          span {
+              display: block;
+              margin-top: 0.18rem;
+              font-size: 0.14rem;
+              font-family: SourceHanSansSC-Regular;
+              font-weight: 400;
+              color: rgba(153, 153, 153, 1);
+
+          }
+          }
     }
   }
 }

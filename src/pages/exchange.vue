@@ -35,16 +35,16 @@
             </div>
             <div class="c2c" v-if="tabIndex==2">
                 <van-popup v-model="show" class="pop" :close-on-click-overlay="isclose">
-                    <span class="tiptitle">温馨提示</span>
+                    <span class="tiptitle">{{$t('exchange.toasktitle')}}</span>
                     <div class="showpopup">
                         <div class="popupcontent">
                             <div class="maincontent">
-                                <div class="maintitle">交易待处理</div>
-                                <div class="maintitle2">“复制钱包地址”购买通证 记得上传交易凭证哦</div>
+                                <div class="maintitle">{{$t('exchange.toaskname')}}</div>
+                                <div class="maintitle2">{{$t('exchange.toaskcontent')}}</div>
                                 <!--<span>{{toastaddress}}</span>-->
                                 <input  id="hidden" style="width: 100%" type="text" v-model="toastaddress">
-                                <div class="copybt" @click.stop="copyaddress({toastaddress})" id="qbaddress">复制钱包地址</div>
-                                <div class="golist" @click="goc2clist()">查看我的交易</div>
+                                <div class="copybt" @click.stop="copyaddress({toastaddress})" id="qbaddress">{{$t('exchange.toaskbtcopy')}}</div>
+                                <div class="golist" @click="goc2clist()">{{$t('exchange.toaskbtlook')}}</div>
                             </div>
                         </div>
                     </div>
@@ -53,47 +53,47 @@
                     </div>
                 </van-popup>
                 <div class="changetype">
-                    <span>交易类型</span>
+                    <span>{{$t('exchange.selltype')}}</span>
                     <div class="changetyperedio">
                         <van-radio-group v-model="radio">
                             <div style="display: flex;">
-                                <van-radio name="1" clickable @click="ischoose(1)" style="margin-right: 0.2rem;">UDB通证</van-radio>
-                                <van-radio name="2" clickable @click="ischoose(2)">AKFL通证</van-radio>
+                                <van-radio name="1" clickable @click="ischoose(1)" style="margin-right: 0.2rem;">{{$t('exchange.udb')}}</van-radio>
+                                <van-radio name="2" clickable @click="ischoose(2)">{{$t('exchange.akfl')}}</van-radio>
                             </div>
                         </van-radio-group>
                     </div>
                 </div>
                 <div class="c2ccenter">
                     <div class="inp">
-                        <span>实时单价：$&nbsp;</span>
+                        <span>{{$t('exchange.timeprice')}}：$&nbsp;</span>
                         <input type="text" disabled="disabled"  v-model="selloneprice" value="selloneprice">
                     </div>
                 </div>
                 <div class="c2ccenter">
                     <div class="inp">
-                        <span>交易数量：</span>
+                        <span>{{$t('exchange.changenum')}}：</span>
                         <input type="text"  v-model="udbnum">
                     </div>
                 </div>
                 <div class="c2ccenter">
                     <div class="inp">
-                        <span>钱包地址：</span>
+                        <span>{{$t('exchange.address')}}：</span>
                         <input type="text"  v-model="moneyaddress" style="width: 80%">
                     </div>
                 </div>
                 <div class="sellbt">
-                    <div class="dosellbt df" @click="dosell">卖出</div>
+                    <div class="dosellbt df" @click="dosell">{{$t('exchange.sellbt')}}</div>
                 </div>
             </div>
             <div class="getlist" v-if="tabIndex==2">
                 <div class="list_title">
                     <ul>
-                        <li>UID</li>
-                        <li>通证</li>
-                        <li>单价</li>
-                        <li>数量</li>
-                        <li>金额</li>
-                        <li>操作</li>
+                        <li>{{$t('exchange.titleuid')}}</li>
+                        <li>{{$t('exchange.titleudb')}}</li>
+                        <li>{{$t('exchange.price')}}</li>
+                        <li>{{$t('exchange.titleudbnum')}}</li>
+                        <li>{{$t('exchange.titlemoney')}}</li>
+                        <li>{{$t('exchange.titleaction')}}</li>
                     </ul>
                 </div>
                 <div class="contlist">
@@ -103,11 +103,11 @@
                         <li>{{item.oneprice}}</li>
                         <li>{{item.tznum}}</li>
                         <li>{{item.money}}</li>
-                        <li><span @click="showsell(item.id,item.moneyadress,item.tznum,item.money,item.type)">买入</span></li>
+                        <li><span @click="showsell(item.id,item.moneyadress,item.tznum,item.money,item.type)">{{$t('exchange.getbt')}}</span></li>
                     </ul>
                     <div class="no df" v-if='noteList.length == 0'>
                         <img src="@/assets/image/kong.png" alt="">
-                        <div>暂无任何交易数据</div>
+                        <div>{{$t('morecatlist.nodata')}}</div>
                     </div>
                 </div>
             </div>

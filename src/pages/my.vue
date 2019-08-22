@@ -143,6 +143,15 @@
           ></div>
         </div>
       </div>
+      <div class="item" @click='myc2c'>
+        <div class="itemContent">
+          <div class="lt">
+            <img src="@/assets/image/myc2c.png" alt="">
+            <span>{{$t('my.myc2c')}}</span>
+          </div>
+          <div class="rt"><img src="@/assets/image/jiantou.png" alt=""></div>
+        </div>
+      </div>
       <div
         class="item"
         @click='zxlist'
@@ -330,6 +339,9 @@ export default {
     },
     chongzhi() {
         this.$router.push({ path: "/chongzhiNote",name:'chongzhiNote',params:{type:0} });
+    },
+    myc2c(){
+      this.$router.push({ path: "/c2crecord" });
     },
     myTeam() {
       this.$router.push({ path: "/team" });
