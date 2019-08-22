@@ -319,6 +319,7 @@ module.exports = {
         lookpz:'look',
         istrue:'Ok',
         waittrue:'Wait',
+        waitupLoad:'WaitupLoad',
         Refused:'Refused',
         instructions:'instructions',
         money:'amount',
@@ -328,6 +329,7 @@ module.exports = {
         address:'Platform address',
         upload:'Upload vouchers',
         imgupload:'Upload success',
+        backtotryagain:'No id,back to try again',
     },
     my:{
         zxlist:'ask record',

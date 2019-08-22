@@ -195,9 +195,23 @@
                     title: '买入确认',
                     message: '您将购买'+num+'个'+type+'<br/>一共 $'+money+'<br/>'
                 }).then(() => {
-                    console.log('id='+id,' 地址：'+address)
-                    t.toastaddress=address;
-                    t.show=true;
+                    this.$api
+                        .c2cbuy({
+                            id: id
+                        })
+                        .then(res => {
+                            if (res.status == 1) {
+                                t.toastaddress=address;
+                                t.show=true;
+                                console.log('id='+id,' 地址：'+address)
+                                t.$api.c2cselllist({}).then(res => {
+                                    this.noteList = res.result;
+                                });
+                            } else {
+                                //console.log(333);
+                            }
+                        });
+
                 }).catch(() => {
                     //this.$toast('取消');
                 });

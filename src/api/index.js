@@ -251,9 +251,21 @@ getc2coneprice = params => {
     c2cselllist=params => {
         return http.post("MyApi/c2cselllist", params);
     };
+    //c2c买入列表
+    c2cbuylist=params => {
+        return http.post("MyApi/c2cbuylist", params);
+    };
+    //c2c上传凭证
+    c2cuploadpz=params => {
+        return http.post("MyApi/c2cuploadpz", params);
+    };
     //c2c卖出
     c2csell=params => {
         return http.post("User/c2csell", params);
+    };
+    //c2c买入
+    c2cbuy=params => {
+        return http.post("User/c2cbuy", params);
     };
 }
 

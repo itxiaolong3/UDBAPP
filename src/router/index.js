@@ -79,6 +79,7 @@ import ztlist from '@/pages/ztlist' //直推奖励记录列表
 import dowithdraw from '@/pages/dowithdraw' //提现直推奖励
 import futoulist from '@/pages/futoulist' //复投记录列表
 import c2crecord from '@/pages/c2crecord' //交易记录
+import c2cuploadpz from '@/pages/c2cuploadpz' //c2c上传凭证
 Vue.use(Router)
 
 const router =new Router({
@@ -93,6 +94,11 @@ const router =new Router({
       path: '/login',
       name: 'login',
       component: login
+    },
+    {
+      path: '/c2cuploadpz',
+      name: 'c2cuploadpz',
+      component: c2cuploadpz
     },
     {
       path: '/c2crecord',
