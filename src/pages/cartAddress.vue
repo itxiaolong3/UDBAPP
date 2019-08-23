@@ -1,5 +1,10 @@
 <template>
   <div class="login">
+    <van-nav-bar
+            :left-text="$t('alltitle.back')"
+            left-arrow
+            @click-left="onClickLeft"
+    />
     <div class="content">
       <div class="df">{{$t('cartAddress.title')}}</div>
       <input disabled="disabled"  id="hidden"  type="text" :placeholder= "$t('cartAddress.address')"  v-model="content">
@@ -26,6 +31,10 @@ export default {
     }
   },
   methods: {
+    onClickLeft() {
+      //this.$toast('返回');
+      this.$router.go(-1)
+    },
     choose() {
       this.$router.push({ path: "/chooseAddress",query:{address:this.content} });
 

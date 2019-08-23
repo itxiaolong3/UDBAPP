@@ -1,5 +1,10 @@
 <template>
   <div class="login">
+    <van-nav-bar
+            :left-text="$t('alltitle.back')"
+            left-arrow
+            @click-left="onClickLeft"
+    />
     <div class="content">
       <input type="text" placeholder="请输入地址" v-model="content">
       <img src="@/assets/image/delName.png" alt v-if="content!=''" @click="del">
@@ -25,6 +30,10 @@ export default {
     }
   },
   methods: {
+    onClickLeft() {
+      //this.$toast('返回');
+      this.$router.go(-1)
+    },
     del() {
       this.content = ''
     },

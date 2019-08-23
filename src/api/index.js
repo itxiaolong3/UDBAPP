@@ -259,6 +259,10 @@ getc2coneprice = params => {
     c2cuploadpz=params => {
         return http.post("MyApi/c2cuploadpz", params);
     };
+  //所有c2c记录
+  c2crecord=params => {
+    return http.post("MyApi/c2crecord", params);
+  };
     //c2c卖出
     c2csell=params => {
         return http.post("User/c2csell", params);
@@ -267,6 +271,14 @@ getc2coneprice = params => {
     c2cbuy=params => {
         return http.post("User/c2cbuy", params);
     };
+  //c2c详细
+  getc2cdetail=params => {
+    return http.post("MyApi/getc2cdetail", params);
+  };
+  //c2c凭证
+  getc2cpz=params => {
+    return http.post("MyApi/getc2cpz", params);
+  };
 }
 
 export default new API();

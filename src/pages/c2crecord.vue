@@ -31,7 +31,7 @@
           <div class="money" :class="[item.state ==0 && 'active']">{{item.money}}</div>
           <div>{{$t('topup.waitupLoad')}}</div>
           <!--<div>{{item.status == 0?$t('topup.waittrue'):(item.status == 1?$t('topup.istrue'):$t('topup.Refused'))}}</div>-->
-          <div class="open df" @click="gotoupload(item.id,item.moneyadress)">{{$t('topup.upload')}}</div>
+          <div class="open df" @click="gotoupload(item.id,item.selluid,item.type,item.tznum,item.money,item.moneyadress)">{{$t('topup.detail')}}</div>
         </div>
           <div class="no df" v-if='waitnoteList.length == 0'>
               <img src="@/assets/image/kong.png" alt="">
@@ -44,13 +44,26 @@
         <div class="item df" v-for="(item,index) in $t('topup.c2cnoteTab')" :key="index">{{item.name}}</div>
       </div>
       <div class="content">
-        <div class="item" v-for="(item,index) in noteList" :key="index">
-          <div>{{item.addtime}}</div>
-          <div class="money" :class="[item.state ==0 && 'active']">{{item.moneynum}}</div>
-          <div>{{item.status == 0?$t('topup.waittrue'):(item.status == 1?$t('topup.istrue'):$t('topup.Refused'))}}</div>
-          <div class="open df" @click="open(item.pzimgarr)">{{$t('topup.lookpz')}}</div>
+        <div class="item" v-for="(item,index) in buyrecord" :key="index">
+          <div style="font-size: 0.13rem;">{{item.remark}}</div>
+          <div class="money" :class="[item.state ==0 && 'active']">${{item.money}}</div>
+          <div>{{item.state == 2?$t('topup.waittrue'):(item.status == 3?$t('topup.istrue'):$t('topup.cancel'))}}</div>
+          <div class="open df" @click="todetail(item.id,0)">{{$t('topup.detail')}}</div>
         </div>
-          <div class="no df" v-if='noteList.length == 0'>
+        <div class="item" v-for="(item,index) in sellrecord" :key="index">
+          <div style="font-size: 0.13rem;">{{item.remark}}</div>
+          <div class="money" :class="[item.state ==0 && 'active']">{{item.money}}</div>
+          <div>
+            <span v-if="item.state==1">{{$t('topup.WAITCONFIRM')}}</span>
+            <span v-if="item.state==2">{{$t('topup.waittransaction')}}</span>
+            <span v-if="item.state==3">{{$t('topup.waitupLoad')}}</span>
+            <span v-if="item.state==4">{{$t('topup.waittrue')}}</span>
+            <span v-if="item.state==5">{{$t('topup.complete')}}</span>
+            <span v-if="item.state==6">{{$t('topup.Refused')}}</span>
+          </div>
+          <div class="open df" @click="todetail(item.id,1)">{{$t('topup.detail')}}</div>
+        </div>
+          <div class="no df" v-if='buyrecord.length == 0 && sellrecord.length == 0'>
               <img src="@/assets/image/kong.png" alt="">
               <div>{{$t('morecatlist.nodata')}}</div>
           </div>
@@ -65,7 +78,7 @@ import info from "../components/info";
 import { ImagePreview } from "vant";
 import Vue from 'vue';
 import { Uploader } from 'vant';
-
+import { Dialog } from 'vant';
 Vue.use(Uploader);
 export default {
   components: { Tab, info },
@@ -78,6 +91,9 @@ export default {
       noteTab: [],
       noteList: [],
       waitnoteList: [],
+      upbt:this.$t('topup.upload'),
+      buyrecord:[],
+      sellrecord:[]
     };
   },
   created() {},
@@ -86,11 +102,16 @@ export default {
           //this.$toast('返回');
           this.$router.go(-1)
       },
+    todetail(id,type){
+      this.$router.push({ name: "c2cdetail", query: { id:id,type: type} });
+    },
     tab(index) {
       this.tabIndex = index;
       if (index == 1) {
-        this.$api.addrecordlist({}).then(res => {
-          this.noteList = res.result;
+        this.$api.c2crecord({}).then(res => {
+          this.buyrecord=res.result.buylist,
+          this.sellrecord=res.result.selllist,
+          console.log(res.result,'返回');
         });
       } else {
           this.$api.c2cbuylist({}).then(res => {
@@ -98,9 +119,20 @@ export default {
           });
       }
     },
-      gotoupload(id,moneyadress){
+      gotoupload(id,selluid,type,tznum,money,moneyadress){
           console.log('id=='+id+'address='+moneyadress)
+        Dialog.confirm({
+          title: '购买详细',
+          confirmButtonText:this.upbt,
+          message: '出售用户ID：'+selluid+'<br/>'+
+          '交易类型：'+type+'<br/>'+
+          '数量：'+tznum+'<br/>'+'需要$'+money+''
+        }).then(() => {
           this.$router.push({ path: "/c2cuploadpz",name:'c2cuploadpz',params:{id:id,moneyadress:moneyadress} });
+      }).catch(() => {
+          //this.$toast('取消');
+        });
+
       }
   },
   mounted() {
