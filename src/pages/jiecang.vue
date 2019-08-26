@@ -3,7 +3,7 @@
     <div class="tabs">
       <div
         class="item df"
-        v-for="(item,index) in noteTab"
+        v-for="(item,index) in $t('jiacang.noteTab')"
         :key="index"
       >{{item.name}}</div>
     </div>
@@ -20,7 +20,7 @@
           class="state df"
           @click="open(item.ispasstime,item.id)"
         >
-          {{item.ispasstime == 0?'锁仓中':'解仓'}}
+          {{item.ispasstime == 0?$t('jiacang.closeing'):$t("udb.open")}}
         </div>
       </div>
     </div>

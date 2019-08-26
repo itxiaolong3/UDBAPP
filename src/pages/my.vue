@@ -98,15 +98,15 @@
     </div>
     <div class="contents">
         <!--正规地址隐藏-->
-      <!--<div class="item" @click='address'>-->
-            <!--<div class="itemContent">-->
-                <!--<div class="lt">-->
-                    <!--<img src="@/assets/image/myaddress.png" alt="">-->
-                    <!--<span>{{$t('my.myaddress')}}</span>-->
-                <!--</div>-->
-                <!--<div class="rt"><img src="@/assets/image/jiantou.png" alt=""></div>-->
-            <!--</div>-->
-        <!--</div>-->
+      <div class="item" @click='address'>
+            <div class="itemContent">
+                <div class="lt">
+                    <img src="@/assets/image/myaddress.png" alt="">
+                    <span>{{$t('my.myaddress')}}</span>
+                </div>
+                <div class="rt"><img src="@/assets/image/jiantou.png" alt=""></div>
+            </div>
+        </div>
       <div
               class="item"
               @click='myTeam'

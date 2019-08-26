@@ -23,8 +23,11 @@
 
     <div class="tab">
       <div class="item" v-for='(item,index) in $t("message.tabsList")' :key='index' @click='toDetail(index)'>
-        <div class="top">{{item.name}}</div>
-        <div class="top">{{item.num == null?'0.000':item.num}}</div>
+        <div class="top">{{item.name}}
+        </div>
+        <div class="top">
+          {{item.num == null?'0.000':item.num}}
+        </div>
       </div>
     </div>
     <div class="natifi" v-if="this.notifilist.length">

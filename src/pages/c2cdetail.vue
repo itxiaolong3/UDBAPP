@@ -47,7 +47,7 @@
           </li>
           <li>
             <span class="leftspan">交易凭证</span>
-            <span class="look" v-if="info.state!=4" @click="open(info.pzimg)">查看</span>
+            <span class="look" v-if="info.state!=4" @click="open(info.pzimg,info.id,info.state)">查看</span>
             <span class="look" v-if="type==1&&info.state==4" @click="open2(info.id)">查看对方凭证</span>
           </li>
         </ul>
@@ -69,7 +69,8 @@ export default {
       id: 0,
       type:0,
       info:[],
-      sellpz:[]
+      sellpz:[],
+        waittip:this.$t("topup.waittransaction"),
     };
   },
   created() {
@@ -94,21 +95,47 @@ export default {
         title: '温馨提示',
         message: '请确认对方已转账再点击完成交易，该操作不可撤回，是否继续？'
       }).then(() => {
-        this.$toast('确定了'+id);
+        //this.$toast('确定了'+id);
+          this.$api.c2ctruesell({id:id}).then(res => {
+              t.$toast(res.message);
+              setTimeout(function () {
+                  t.$router.go(-1)
+              },900)
+          });
     }).catch(() => {});
     },
     cancel(id){
+        let t=this;
       Dialog.confirm({
         title: '温馨提示',
         message: '撤回卖出？确定后将删除该记录，是否继续？'
       }).then(() => {
-        this.$toast('确定了'+id);
+        //this.$toast('确定了'+id);
+          this.$api.c2cdel({id:id}).then(res => {
+              t.$toast(res.message);
+              setTimeout(function () {
+                  t.$router.go(-1)
+              },900)
+          });
     }).catch(() => {});
     },
-    open(arr) {
+    open(arr,id,state) {
       // this.show = !this.show;
-      // console.log(1);
-      ImagePreview(arr);
+      console.log(arr);
+      if (arr==undefined&&this.type==1&&state!=5){
+          this.$toast(this.waittip);
+          return false;
+      }
+        if (arr==undefined){
+            this.$api.getc2cpz({id:this.id,type:this.type}).then(res => {
+                this.sellpz=res.result
+                ImagePreview(res.result);
+                console.log(res.result,'返回凭证');
+            });
+        } else{
+            ImagePreview(arr);
+        }
+
     },
     open2(id) {
       this.$api.getc2cpz({id:this.id,type:this.type}).then(res => {

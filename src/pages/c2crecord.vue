@@ -30,6 +30,7 @@
           <div>{{item.type}}</div>
           <div class="money" :class="[item.state ==0 && 'active']">{{item.money}}</div>
           <div>{{$t('topup.waitupLoad')}}</div>
+          <div style="font-size: 0.10rem;">{{item.addtime}}</div>
           <!--<div>{{item.status == 0?$t('topup.waittrue'):(item.status == 1?$t('topup.istrue'):$t('topup.Refused'))}}</div>-->
           <div class="open df" @click="gotoupload(item.id,item.selluid,item.type,item.tznum,item.money,item.moneyadress)">{{$t('topup.detail')}}</div>
         </div>
@@ -47,7 +48,8 @@
         <div class="item" v-for="(item,index) in buyrecord" :key="index">
           <div style="font-size: 0.13rem;">{{item.remark}}</div>
           <div class="money" :class="[item.state ==0 && 'active']">${{item.money}}</div>
-          <div>{{item.state == 2?$t('topup.waittrue'):(item.status == 3?$t('topup.istrue'):$t('topup.cancel'))}}</div>
+          <div>{{item.state == 2?$t('topup.waittrue'):(item.state == 3?$t('topup.istrue'):$t('topup.cancel'))}}</div>
+          <div style="font-size: 0.10rem;">{{item.addtime}}</div>
           <div class="open df" @click="todetail(item.id,0)">{{$t('topup.detail')}}</div>
         </div>
         <div class="item" v-for="(item,index) in sellrecord" :key="index">
@@ -61,6 +63,7 @@
             <span v-if="item.state==5">{{$t('topup.complete')}}</span>
             <span v-if="item.state==6">{{$t('topup.Refused')}}</span>
           </div>
+          <div style="font-size: 0.10rem;">{{item.addtime}}</div>
           <div class="open df" @click="todetail(item.id,1)">{{$t('topup.detail')}}</div>
         </div>
           <div class="no df" v-if='buyrecord.length == 0 && sellrecord.length == 0'>

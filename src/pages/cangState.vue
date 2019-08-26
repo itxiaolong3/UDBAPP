@@ -1,27 +1,27 @@
 <template lang="html">
   <div class="content">
     <img src="@/assets/image/cangIng.png" alt="">
-    <span>锁仓中</span>
+    <span>{{$t('cangState.title')}}</span>
     <div class="info">
       <div class="item">
-        <p class='p1'>当前状态</p>
-        <p class='p2'>锁仓中</p>
+        <p class='p1'>{{$t('cangState.nowstate')}}</p>
+        <p class='p2'>{{$t('cangState.title')}}</p>
       </div>
       <div class="item">
-        <p class='p1'>锁仓通证</p>
+        <p class='p1'>{{$t('cangState.closetype')}}</p>
         <p class='p2'>{{obj.money}}</p>
       </div>
       <div class="item">
-        <p class='p1'>锁仓时间</p>
+        <p class='p1'>{{$t('cangState.closetime')}}</p>
         <p class='p2'>{{obj.time}}</p>
       </div>
       <div class="item">
-        <p class='p1'>锁仓期限</p>
-        <p class='p2'>{{obj.date == 1?"三个月":'六个月'}}</p>
+        <p class='p1'>{{$t('cangState.closeendtime')}}</p>
+        <p class='p2'>{{obj.date == 1?$t('cangState.three'):$t('cangState.six')}}</p>
       </div>
     </div>
     <div class="btn df" @click="open()">
-      解仓
+      {{$t('cangState.back')}}
     </div>
   </div>
 </template>
@@ -35,7 +35,8 @@ export default {
   },
   methods: {
     open() {
-      this.$toast("解仓成功");
+        this.$router.go(-1)
+      //this.$toast("解仓成功");
     }
   },
   mounted() {

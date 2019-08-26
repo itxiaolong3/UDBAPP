@@ -1,9 +1,12 @@
 <template>
   <div class="login">
     <div class="title">
-      <span class="number">锁仓通证数</span>
-      <span class="rule" @click="rule">锁仓规则</span>
+      <span class="number">{{$t('position.title')}}
+         <span v-if="isclosenum">({{$t('udb.closeing')}}:<span style="font-size: 0.15rem;font-weight: bold;">{{isclosenum}}</span>)</span>
+      </span>
+      <span class="rule" @click="rule">{{$t('position.closerule')}}</span>
     </div>
+    <div class="title" v-if="enable" style="font-size: 0.15rem;font-weight: bold;margin-top: 0.2rem;">{{$t('position.enableclose')}}：{{enable}}</div>
     <div class="inp">
       <div class="left">
         <img
@@ -15,12 +18,12 @@
         <input
           type="text"
           v-model="number"
-          placeholder="最低买入101"
+          :placeholder="$t('position.placetext')"
         >
       </div>
     </div>
     <div class="select">
-      <div class="tit">选择锁仓期限</div>
+      <div class="tit">{{$t('position.choosetype')}}</div>
       <div class="content">
         <div
           class="item"
@@ -45,7 +48,7 @@
     <div
       class="btn df"
       @click="btn"
-    >提交锁仓</div>
+    >{{$t('position.postbt')}}</div>
   </div>
 </template>
 <script>
@@ -53,6 +56,8 @@ export default {
   name: "login",
   data() {
     return {
+        isclosenum:0,
+        enable:0,
       number: "",
       list: [{ name: "3个月", state: false }, { name: "6个月", state: false }],
       closetype: ""
@@ -90,6 +95,8 @@ export default {
   mounted() {
     document.title = "设置";
     this.http = localStorage.getItem("http");
+      this.isclosenum=this.$route.query.isclosenum
+      this.enable=this.$route.query.enable
   }
 };
 </script>

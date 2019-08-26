@@ -193,7 +193,7 @@
                 let t=this;
                 Dialog.confirm({
                     title: '买入确认',
-                    message: '您将购买'+num+'个'+type+'<br/>一共 $'+money+'<br/>'
+                    message: '您将购买'+num+'个'+type+'<br/>一共 $'+money+'<br/>'+'认购后请2小时之内上传凭证'
                 }).then(() => {
                     this.$api
                         .c2cbuy({
@@ -280,10 +280,12 @@
             });
             },
             dosell(){
-                if (this.udbnum==''||this.udbnum<0){
+                var udbnum=this.moneyaddress;
+                var num=this.udbnum;
+                if (num==''||this.udbnum<0){
                     this.$toast(this.numtip);
                     return false;
-                }else if (this.moneyaddress==''){
+                }else if (udbnum==''){
                     this.$toast(this.addresstip);
                     return false;
                 }

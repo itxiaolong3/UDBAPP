@@ -258,9 +258,29 @@ module.exports = {
                 name: "record"
             },
         ],
+        tablist: [
+            {
+                name: "Num"
+            },
+            {
+                name: "EarningTime"
+            },
+            {
+                name: "Remark"
+            },
+        ],
         udbtz:'UDB',
         close:'close',
+        closeing:'closeing',
         open:'open',
+    },
+    position:{
+        title:'Close UDB',
+        choosetype:'Choose type',
+        closerule:'Rule',
+        placetext:'Please enter the amount',
+        enableclose:'Enable Num',
+        postbt:'Post',
     },
     doubles:{
         okbt:'OK',
@@ -268,6 +288,26 @@ module.exports = {
         tip2:'Please enter an integer',
         tip3:'Tip: this operation converts the balance into assets',
     },
+    jiacang:{
+        noteTab: [
+            {
+                name: "Time"
+            }
+            ,
+            {
+                name: "Num"
+            }
+            ,
+            {
+                name: "Deadline"
+            },
+            {
+                name: "State"
+            }
+        ],
+        closeing:'closeing'
+    }
+    ,
     topup:{
       title:'Explanation of recharge',
         activationadd:'Activate the top-up',
@@ -310,6 +350,9 @@ module.exports = {
             },
             {
                 name: "state"
+            },
+            {
+                name: "time"
             },
             {
                 name: "Action"
@@ -355,6 +398,16 @@ module.exports = {
       content:'(Click here to copy the link address)',
       address:'Please enter your address.',
       do:'edit'
+    },
+    cangState:{
+        title:'Closeing',
+        nowstate:'NowState',
+        closetype:'CloseType',
+        closetime:'CloseTime',
+        closeendtime:'CloseEndTime',
+        three:'Threemonth',
+        six:'Sixmonth',
+        back:'Back',
     },
     team:{
       title:"My direct pusher",

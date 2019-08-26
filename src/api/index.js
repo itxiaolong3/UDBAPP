@@ -279,6 +279,15 @@ getc2coneprice = params => {
   getc2cpz=params => {
     return http.post("MyApi/getc2cpz", params);
   };
+  //c2c确认
+    c2ctruesell=params => {
+    return http.post("MyApi/c2ctruesell", params);
+  };
+  //c2c删除记录
+    c2cdel=params => {
+      return http.post("MyApi/c2cdel", params);
+    };
+
 }
 
 export default new API();

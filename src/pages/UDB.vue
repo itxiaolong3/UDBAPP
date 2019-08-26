@@ -19,7 +19,10 @@
       <div class="duihuan" v-if="tabIndex==0">
         <div class="content">
           <div class="left">
-            <div class="top">{{$t('udb.udbtz')}}</div>
+            <div class="top">
+              {{$t('udb.udbtz')}}
+              <span v-if="isclosenum">({{$t('udb.closeing')}}:<span style="font-size: 0.15rem;font-weight: bold;">{{isclosenum}}</span>)</span>
+            </div>
             <div class="bottom">{{money}}</div>
           </div>
           <div class="right">
@@ -29,18 +32,25 @@
         </div>
       </div>
       <div class="note" v-if="tabIndex==1">
-        <scroller :on-infinite="infinite">
+          <van-list
+                  v-model="loading"
+                  :finished="finished"
+                  finished-text="没有更多了"
+                  :offset="80"
+                  :immediate-check="false"
+                  @load="getMore"
+          >
           <div class="tabs">
             <div class="item df" v-for="(item,index) in noteTab" :key="index">{{item.name}}</div>
           </div>
           <div class="content">
             <div class="item" v-for="(item,index) in noteList" :key="index">
               <div style="color:#F90101">{{item.getnum}}</div>
-              <div>{{item.time}}</div>
+              <div style="font-size: 0.13rem;">{{item.addtime}}</div>
               <div>{{item.remark}}</div>
             </div>
           </div>
-        </scroller>
+          </van-list>
       </div>
     </div>
   </div>
@@ -48,13 +58,17 @@
 
 <script>
 import { clearInterval } from "timers";
+import VueScroller from 'vue-scroller'
 // import qs from 'qs'
 export default {
   name: "login",
   data() {
     return {
       money: "",
+        isclosenum:0,
       num: 0,
+        finished: false,
+        loading: false,
       timeArr: [],
       arr: ["product"],
       list: [
@@ -113,13 +127,14 @@ export default {
         //   } else {
         //   }
         // });
-        this.$router.push({ path: "/Position" });
+        this.$router.push({ path: "/Position" , query: {isclosenum:this.isclosenum,enable:(this.money-this.isclosenum).toFixed(4)}});
       }
     },
     init() {
       this.$api.indexinfo({}).then(res => {
         if (res.status == 1) {
           this.money = res.result.basemoney.tongzheng;
+          this.isclosenum=res.result.closemoney;
         } else {
         }
       });
@@ -131,6 +146,7 @@ export default {
         })
         .then(res => {
           if (res.status == 1) {
+              this.loading = false;
             this.noteList =this.noteList.concat(res.result);
           } else {
           }
@@ -139,25 +155,8 @@ export default {
     tab(index) {
       this.tabIndex = index;
     },
-
-    onScroll() {
-      //可滚动容器的高度
-      let innerHeight = document.querySelector("#app").clientHeight;
-      //屏幕尺寸高度
-      let outerHeight = document.documentElement.clientHeight;
-      //可滚动容器超出当前窗口显示范围的高度
-      let scrollTop = document.documentElement.scrollTop;
-      //scrollTop在页面为滚动时为0，开始滚动后，慢慢增加，滚动到页面底部时，出现innerHeight < (outerHeight + scrollTop)的情况，严格来讲，是接近底部。
-      // console.log(innerHeight + " " + outerHeight + " " + scrollTop);
-      this.getList(++this.num);
-      if (innerHeight < outerHeight + scrollTop) {
-        //加载更多操作
-        console.log("loadmore", "jjjjjj");
-        // this.num += 1;
-      }
-    },
     drawLine(arrs) {
-      console.log(222);
+      //console.log(222);
       let t=this;
       // 基于准备好的dom，初始化echarts实例
       var colors = ["#5793f3", "#d14a61", "#675bba"];
@@ -215,7 +214,7 @@ export default {
           d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds()
         );
       }
-      console.log(this.arr.concat(dateArray));
+      //console.log(this.arr.concat(dateArray));
       this.drawLine(this.arr.concat(dateArray));
     },
 
@@ -244,7 +243,7 @@ export default {
         hour = "0" + hour;
       }
       var currentdate = hour + seperator2 + minu + seperator2 + sec;
-      console.log(currentdate);
+      //console.log(currentdate);
 
       this.timeArr = [
         currentdate,
@@ -279,7 +278,7 @@ export default {
       // if (this.timeArr.length>5) {
       //   this.timeArr.shift()
       // }
-      console.log(this.timeArr);
+      //console.log(this.timeArr);
     },
 
     getNowFormatDate() {
@@ -326,14 +325,15 @@ export default {
       if (this.timeArr.length > 5) {
         this.timeArr.shift();
       }
-      console.log(this.timeArr);
+      //console.log(this.timeArr);
 
       return currentdate;
     },
-    infinite(done) {
-      this.getList(++this.num);
-      done(true);
-      console.log(11111);
+    getMore() {
+          console.log('getMore')
+        this.finished = false;
+        this.getList(++this.num);
+
     }
   },
   created() {
@@ -488,6 +488,7 @@ i {
           }
         }
       }
+
     }
   }
 }

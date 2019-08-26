@@ -2,22 +2,22 @@
   <div class="login">
     <div class="title">{{$t('shenqing.baseinfo')}}</div>
     <!--地址-->
-    <!--<div class="noaddress" v-if="addressinfo==''">-->
-      <!--<span>{{$t('shenqing.addaddress')}}</span>-->
-    <!--</div>-->
-    <!--<div class="address" v-if="addressinfo" @click="gotoaddresslist">-->
-      <!--<span class="nameandphone">收货人：{{addressinfo.name}}&nbsp;&nbsp;&nbsp;&nbsp;手机号：{{addressinfo.tel}}</span>-->
-      <!--<div class="addre">地址：{{addressinfo.province}}&nbsp;{{addressinfo.city}}&nbsp;{{addressinfo.county}}&nbsp;{{addressinfo.addressDetail}}</div>-->
-      <!--<img src="@/assets/image/addbottom.png" alt="" class="bottimg">-->
-      <!--<div class="leftimg"><img src="@/assets/image/jiantou.png" alt=""></div>-->
-    <!--</div>-->
-
-    <div class="item">
-      <div class="left">{{$t('shenqing.address')}}</div>
-      <div class="right">
-        <input type="text" :placeholder="$t('shenqing.address')" v-model="address">
-      </div>
+    <div class="noaddress" v-if="addressinfo==''">
+      <span @click="gotoaddresslist">{{$t('shenqing.addaddress')}}</span>
     </div>
+    <div class="address" v-if="addressinfo" @click="gotoaddresslist">
+      <span class="nameandphone">收货人：{{addressinfo.name}}&nbsp;&nbsp;&nbsp;&nbsp;手机号：{{addressinfo.tel}}</span>
+      <div class="addre">地址：{{addressinfo.province}}&nbsp;{{addressinfo.city}}&nbsp;{{addressinfo.county}}&nbsp;{{addressinfo.addressDetail}}</div>
+      <img src="@/assets/image/addbottom.png" alt="" class="bottimg">
+      <div class="leftimg"><img src="@/assets/image/jiantou.png" alt=""></div>
+    </div>
+
+    <!--<div class="item">-->
+      <!--<div class="left">{{$t('shenqing.address')}}</div>-->
+      <!--<div class="right">-->
+        <!--<input type="text" :placeholder="$t('shenqing.address')" v-model="address">-->
+      <!--</div>-->
+    <!--</div>-->
     <div class="item">
       <div class="left">{{$t('shenqing.name')}}</div>
       <div class="right">
@@ -320,6 +320,7 @@ export default {
       isloadimg8:0,
       isloadimg9:0,
       isloadimg10:0,
+        noaddrestip: this.$t("cartAddress.address"),
     };
   },
   created() {},
@@ -337,7 +338,10 @@ export default {
           this.$router.push({ path: "/addresslist" });
       },
     submit() {
-        console.log(this.username,'de')
+        if (this.address=='') {
+            this.$toast(this.noaddrestip);
+            return false;
+        }
       this.$api
         .postaskinfo({
           type:this.posttype,address:this.address,askid:this.objid,
@@ -402,7 +406,7 @@ export default {
         console.log(this.result);
         console.log(that.allimg[type], that.imgInfo);
         const formd = new FormData();
-        formd.append("uploadfile", that.imgInfo[that.imgInfo.length - 1]);
+        formd.append("uploadfile", that.imgInfo[that.imgInfo.length - 1], Date.now() + '.jpg');
           console.log(formd,'ddddd');
         that
           .$axios({
@@ -463,6 +467,8 @@ export default {
                     if (res.result){
                         this.addressinfo=res.result;
                         this.addressid=res.result.id;
+                        this.address=res.result.province+res.result.city+res.result.county+
+                            res.result.addressDetail;
                     }
                     console.log(res.result,'指定单一返回');
                 }
@@ -473,6 +479,8 @@ export default {
                     if (res.result){
                         this.addressinfo=res.result;
                         this.addressid=res.result.id;
+                        this.address=res.result.province+res.result.city+res.result.county+
+                            res.result.addressDetail;
                     }
                     console.log(res.result,'默认地址返回');
                 }

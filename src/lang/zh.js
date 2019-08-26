@@ -264,9 +264,48 @@ module.exports = {
                 name: "收益记录"
             },
         ],
+        tablist: [
+            {
+                name: "数量"
+            },
+            {
+                name: "收益时间"
+            },
+            {
+                name: "备注"
+            },
+        ],
         udbtz:'UDB通证',
         close:'锁仓',
+        closeing:'锁仓中',
         open:'解仓',
+    },
+    position:{
+      title:'锁仓通证数',
+        choosetype:'选择锁仓期限',
+        closerule:'锁仓规则',
+        placetext:'输入购买数量',
+        enableclose:'可锁仓数',
+        postbt:'提交锁仓',
+    },
+    jiacang:{
+        noteTab: [
+            {
+                name: "锁仓时间"
+            }
+            ,
+            {
+                name: "数量"
+            }
+            ,
+            {
+                name: "锁仓期限"
+            },
+            {
+                name: "状态"
+            }
+        ],
+        closeing:'锁仓中'
     }
     ,
     doubles:{
@@ -319,6 +358,9 @@ module.exports = {
                 name: "状态"
             },
             {
+                name: "时间"
+            },
+            {
                 name: "操作"
             }
         ],
@@ -362,6 +404,16 @@ module.exports = {
       content:'（点击此处 复制链接地址）',
       address:'请输入地址',
       do:'修改'
+    },
+    cangState:{
+      title:'锁仓中',
+      nowstate:'当前状态',
+      closetype:'锁仓通证',
+      closetime:'锁仓时间',
+      closeendtime:'锁仓期限',
+      three:'三个月',
+      six:'六个月',
+      back:'返回',
     },
     team:{
       title:"我的直推人",
