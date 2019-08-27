@@ -170,7 +170,8 @@
                 addresstip: this.$t("exchange.ctoctip2"),
                 udbtimeprice:0,
                 aktimeprice:0,
-                posttype:0
+                posttype:0,
+                gotodetail:this.$t('exchange.toaskbtlook'),
 
             };
         },
@@ -191,30 +192,61 @@
             },
             showsell(id,address,num,money,type){
                 let t=this;
-                Dialog.confirm({
-                    title: '买入确认',
-                    message: '您将购买'+num+'个'+type+'<br/>一共 $'+money+'<br/>'+'认购后请2小时之内上传凭证'
-                }).then(() => {
-                    this.$api
-                        .c2cbuy({
-                            id: id
-                        })
-                        .then(res => {
-                            if (res.status == 1) {
-                                t.toastaddress=address;
-                                t.show=true;
-                                console.log('id='+id,' 地址：'+address)
-                                t.$api.c2cselllist({}).then(res => {
-                                    this.noteList = res.result;
+                this.$api
+                    .todayisorder({})
+                    .then(res => {
+                        if (res.status == 1) {
+                            console.log(res.result,'返回数据')
+                            if(res.result==1){
+                            //confirmButtonText:this.gotodetail,
+                                Dialog.confirm({
+                                    title: '温馨提示',
+                                    confirmButtonText:this.gotodetail,
+                                    message: '已有待上传凭证订单，请继续完成再购买'
+                                }).then(() => {
+                                    t.$router.push({ path: "/c2crecord" });
+                                }).catch(() => {
+                                    //this.$toast('取消');
                                 });
-                            } else {
-                                //console.log(333);
-                            }
-                        });
+                            }else if(res.result==4){
+                                Dialog.alert({
+                                    title: '限制提示',
+                                    message: '今日已有取消购买订单记录，明天才方可继续购买',
+                                }).then(() => {
+                                    // on close
+                                });
+                            }else{
+                                Dialog.confirm({
+                                    title: '买入确认',
+                                    message: '您将购买'+num+'个'+type+'<br/>一共 $'+money+'<br/>'+'认购后请2小时之内上传凭证'
+                                }).then(() => {
+                                    this.$api
+                                        .c2cbuy({
+                                            id: id
+                                        })
+                                        .then(res => {
+                                            if (res.status == 1) {
+                                                t.toastaddress=address;
+                                                t.show=true;
+                                                console.log('id='+id,' 地址：'+address)
+                                                t.$api.c2cselllist({}).then(res => {
+                                                    this.noteList = res.result;
+                                                });
+                                            } else {
+                                                //console.log(333);
+                                            }
+                                        });
 
-                }).catch(() => {
-                    //this.$toast('取消');
-                });
+                                }).catch(() => {
+                                    //this.$toast('取消');
+                                });
+                            }
+                            return false;
+                        } else {
+                            //console.log(333);
+                        }
+                    });
+
 
             },
             closebt(){

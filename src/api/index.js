@@ -287,7 +287,14 @@ getc2coneprice = params => {
     c2cdel=params => {
       return http.post("MyApi/c2cdel", params);
     };
-
+    //判断今日是否有待交易或者取消单
+    todayisorder=params => {
+        return http.post("MyApi/todayisorder", params);
+    };
+    //取消待上传凭证订单
+    cancelnoload=params => {
+        return http.post("MyApi/cancelnoload", params);
+    };
 }
 
 export default new API();

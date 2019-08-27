@@ -32,7 +32,14 @@
           <div>{{$t('topup.waitupLoad')}}</div>
           <div style="font-size: 0.10rem;">{{item.addtime}}</div>
           <!--<div>{{item.status == 0?$t('topup.waittrue'):(item.status == 1?$t('topup.istrue'):$t('topup.Refused'))}}</div>-->
-          <div class="open df" @click="gotoupload(item.id,item.selluid,item.type,item.tznum,item.money,item.moneyadress)">{{$t('topup.detail')}}</div>
+          <div style="display: block;">
+            <div class="open df" @click="gotoupload(item.id,item.selluid,item.type,item.tznum,item.money,item.moneyadress)">
+              {{$t('topup.detail')}}
+            </div>
+            <div class="open df" @click="deletes(item.id,item.oid)" style="margin-top: 0.05rem;">删除</div>
+          </div>
+
+
         </div>
           <div class="no df" v-if='waitnoteList.length == 0'>
               <img src="@/assets/image/kong.png" alt="">
@@ -105,6 +112,20 @@ export default {
           //this.$toast('返回');
           this.$router.go(-1)
       },
+      deletes(id,oid){
+          let t=this;
+          Dialog.confirm({
+              title: '温馨提示',
+              message: '每日只能取消一次，当日将不可再购买，是否确定取消？'
+          }).then(() => {
+              //this.$toast('确定'+id+'oid='+oid);
+              this.$api.cancelnoload({id:id,oid:oid}).then(res => {
+                  t.getwaitlist();
+              });
+          }).catch(() => {
+              //this.$toast('取消');
+          });
+      },
     todetail(id,type){
       this.$router.push({ name: "c2cdetail", query: { id:id,type: type} });
     },
@@ -136,13 +157,16 @@ export default {
           //this.$toast('取消');
         });
 
+      },
+      getwaitlist(){
+          this.$api.c2cbuylist({}).then(res => {
+              this.waitnoteList = res.result;
+          });
       }
   },
   mounted() {
     document.title = this.$t('alltitle.topup');
-      this.$api.c2cbuylist({}).then(res => {
-          this.waitnoteList = res.result;
-      });
+      this.getwaitlist();
   }
 };
 </script>
@@ -511,6 +535,7 @@ export default {
         display: flex;
         justify-content: space-between;
         align-items: center;
+        padding: 0.04rem 0rem;
         div {
           display: flex;
           justify-content: center;
@@ -532,8 +557,8 @@ export default {
           color: #008000;
         }
         .open {
-          width: 0.8rem;
-          height: 0.24rem;
+          width: 0.7rem;
+          height: 0.20rem;
           background: linear-gradient(
             90deg,
             rgba(58, 48, 207, 1),
