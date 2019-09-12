@@ -41,7 +41,7 @@
       <input type="text" :placeholder="p4" v-model="money"  v-if="isudbtixian">
       <input type="text" :placeholder="p5" disabled="disabled" v-model="sduimoney" v-if="!isudbtixian">
       <div class="tip">{{$t('myShareInfo.tip3')}}</div>
-      <div class="btn df" @click="txudb">{{$t('myShareInfo.ok')}}</div>
+      <div class="btn df" @click="txudb">{{$t('myShareInfo.dopost')}}</div>
     </div>
 
     <div class="note" v-if="tabIndex==3" id="app">

@@ -109,6 +109,7 @@ module.exports = {
     tip1: '(Note: The minimum amount of exchange is 100)',
     tip2: '(Note: The minimum amount of exchange is 100)',
     ok: 'Confirmation of Exchange',
+      dopost: 'Post',
     p1: 'Please enter the number of UDB passes to be converted',
     p2: 'Please enter the number of AKFL passes to be converted',
     p3: 'Please enter the address of the wallet for withdrawal.',
