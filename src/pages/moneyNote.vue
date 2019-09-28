@@ -1,5 +1,12 @@
 <template>
   <div class="login">
+    <van-list
+            v-model="loading"
+            :finished="finished"
+            finished-text="没有更多了"
+            :offset="100"
+            @load="getMore"
+    >
     <div class="tabs">
       <div
         class="item df"
@@ -23,6 +30,7 @@
         </div>
       </div>
     </div>
+    </van-list>
   </div>
 </template>
 
@@ -33,6 +41,9 @@ export default {
   data() {
     return {
         recordtype:0,
+        finished: false,
+        loading: false,
+        num:0,
       noteTab: [
         {
           name: "金额"
@@ -53,14 +64,29 @@ export default {
   },
   created() {},
   methods: {
-
+      getMore: function() {
+          this.finished = false;
+          this.getList(++this.num);
+      },
+      getList:function(num){
+          this.$api.zclist({page:num}).then(res => {
+              if (res.status == 1) {
+                  if (res.result.length <= 0) {
+                      this.loading = false;
+                      this.finished = true; // 没有数据了暂停
+                  } else {
+                      //否则合并数组
+                      this.noteList = this.noteList.concat(res.result);
+                      this.loading = false;
+                  }
+              } else if (res.status != 1) {
+                  this.finished = true;
+                  this.loading = false;
+              }
+          });
+      },
     init() {
-        this.$api.zclist({}).then(res => {
-            if (res.status == 1) {
-                this.noteList = res.result
-            } else {
-            }
-        });
+        this.getList(this.num);
     }
   },
   mounted() {
@@ -116,6 +142,7 @@ i {
       }
       .num {
         color: #ff0000;
+        font-size: 0.12rem;
       }
       .state {
         width: 0.8rem;

@@ -85,7 +85,15 @@
                     <div class="dosellbt df" @click="dosell">{{$t('exchange.sellbt')}}</div>
                 </div>
             </div>
+
             <div class="getlist" v-if="tabIndex==2">
+                <van-list
+                        v-model="loading"
+                        :finished="finished"
+                        finished-text=""
+                        :offset="100"
+                        @load="getMore"
+                >
                 <div class="list_title">
                     <ul>
                         <li>{{$t('exchange.titleuid')}}</li>
@@ -96,6 +104,7 @@
                         <li>{{$t('exchange.titleaction')}}</li>
                     </ul>
                 </div>
+
                 <div class="contlist">
                     <ul v-for="(item,index) in noteList" :key="index">
                         <li>{{item.uid}}</li>
@@ -110,6 +119,7 @@
                         <div>{{$t('morecatlist.nodata')}}</div>
                     </div>
                 </div>
+                </van-list>
             </div>
         </div>
     </div>
@@ -123,6 +133,9 @@
         name: "login",
         data() {
             return {
+                finished: false,
+                loading: false,
+                num:0,
                 show: false,
                 isclose:false,
                 radio: "1",
@@ -178,6 +191,31 @@
         created() {
         },
         methods: {
+            getMore: function() {
+                this.finished = false;
+                this.getList(++this.num);
+            },
+            getList:function(num){
+                // this.$api.c2cselllist({}).then(res => {
+                //     this.noteList = res.result;
+                // });
+                this.$api.c2cselllist({page:num}).then(res => {
+                    if (res.status == 1) {
+                        if (res.result.length <= 0) {
+                            this.loading = false;
+                            this.finished = true; // 没有数据了暂停
+                        } else {
+                            //否则合并数组
+                            this.noteList = this.noteList.concat(res.result);
+                            this.loading = false;
+                        }
+                    } else if (res.status != 1) {
+                        this.finished = true;
+                        this.loading = false;
+                    }
+                });
+
+            },
             getaddress(){
                 this.$api.getInfo({}).then(res => {
                     if (res.status == 1) {
@@ -401,9 +439,7 @@
                     }
                 });
                 this.getaddress()
-                this.$api.c2cselllist({}).then(res => {
-                    this.noteList = res.result;
-                });
+                this.getList(this.num);
             },
             tab(index) {
 
@@ -412,9 +448,10 @@
                     this.$toast(this.$t('postcg.nokf'));
                     return false;
                 }else if(index==2){
-                    this.$api.c2cselllist({}).then(res => {
-                        this.noteList = res.result;
-                    });
+                    this.getList(this.num);
+                    // this.$api.c2cselllist({}).then(res => {
+                    //     this.noteList = res.result;
+                    // });
                 }
                 this.tabIndex = index;
                 let t = this;
@@ -678,6 +715,7 @@
             }
         }
         .contlist{
+
             ul li{
                 width: 16%;
                 float: left;
@@ -697,6 +735,9 @@
                         rgba(65, 104, 238, 1)
                 );
             }
+        }
+        .van-list__finished-text{
+            color: red;
         }
     }
 

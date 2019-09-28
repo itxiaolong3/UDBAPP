@@ -140,15 +140,26 @@ export default {
       });
     },
     getList(num) {
+          console.log(num,'当前的page')
       this.$api
         .udbearninglist({
           page: num
         })
         .then(res => {
           if (res.status == 1) {
+              //this.loading = false;
+              if (res.result.length <= 0) {
+                  this.loading = false;
+                  this.finished = true; // 没有数据了暂停
+              } else {
+                  //否则合并数组
+                  this.noteList = this.noteList.concat(res.result);
+                  this.loading = false;
+              }
+            //this.noteList =this.noteList.concat(res.result);
+          }else if (res.status != 1) {
+              this.finished = true;
               this.loading = false;
-            this.noteList =this.noteList.concat(res.result);
-          } else {
           }
         });
     },
