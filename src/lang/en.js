@@ -228,7 +228,7 @@ module.exports = {
         tip1:'the number of UDB',
         tip2:'the number of AKFL',
         Confirm:'Confirm',
-        Tip:'Tip: the minimum exchange multiple of 100',
+        Tip:'Tip: the minimum exchange multiple of 50',
         ctoctip1:'Please enter number',
         ctoctip2:'Please enter money address',
         selltype:'Do Type',

@@ -4,6 +4,7 @@
             v-model="loading"
             :finished="finished"
             finished-text="没有更多了"
+            :immediate-check='ischeck'
             :offset="100"
             @load="getMore"
     >
@@ -40,6 +41,7 @@ export default {
   name: "login",
   data() {
     return {
+        ischeck:false,//是否一开始就加载
         finished: false,
         loading: false,
         num:0,
@@ -101,7 +103,7 @@ export default {
     }
   },
   mounted() {
-    document.title = "解仓";
+    document.title = "余额明显";
     this.init();
   }
 };

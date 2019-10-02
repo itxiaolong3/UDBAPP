@@ -4,6 +4,7 @@
             v-model="loading"
             :finished="finished"
             finished-text="没有更多了"
+            :immediate-check='ischeck'
             :offset="100"
             @load="getMore"
     >
@@ -43,6 +44,7 @@ export default {
         recordtype:0,
         finished: false,
         loading: false,
+        ischeck:false,//是否一开始就加载
         num:0,
       noteTab: [
         {
@@ -76,7 +78,9 @@ export default {
                       this.finished = true; // 没有数据了暂停
                   } else {
                       //否则合并数组
+                      console.log(this.num,'当前页数')
                       this.noteList = this.noteList.concat(res.result);
+                      console.log(this.noteList,'dedao');
                       this.loading = false;
                   }
               } else if (res.status != 1) {
@@ -92,6 +96,7 @@ export default {
   mounted() {
     document.title = "资产记录";
       this.recordtype=this.$route.params.type;
+      console.log(this.num,'当前的数量')
     this.init();
   }
 };

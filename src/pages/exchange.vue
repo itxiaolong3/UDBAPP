@@ -390,7 +390,7 @@
             },
             duiHuan() {
                 if (this.tabIndex == 0) {
-                    if (this.UDB<10) {
+                    if (this.UDB<50) {
                         this.$toast(this.p2);
                         return false;
                     }

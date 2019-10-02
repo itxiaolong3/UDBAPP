@@ -209,7 +209,7 @@ module.exports = {
         tip1:'请输入需要兑换的UDB通证数',
         tip2:'请输入需要兑换的AKFL通证数',
         Confirm:'确认兑换',
-        Tip:'提示：最低的兑换数量是10',
+        Tip:'提示：最低的兑换数量是50',
         ctoctip1:'请输入交易数量',
         ctoctip2:'请输入钱包地址',
         selltype:'交易类型',
